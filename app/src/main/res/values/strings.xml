@@ -1,0 +1,34 @@
+<resources>
+    <string name="s_menu_home">홈</string>
+    <string name="s_menu_order">주문하기</string>
+    <string name="s_menu_favorite">즐겨찾기</string>
+    <string name="s_menu_add">상품추가 요청</string>
+    <string name="s_menu_graph">통계</string>
+    <string name="s_menu_history">주문히스토리</string>
+    <string name="s_menu_board">게시판</string>
+    <string name="s_menu_noti">공지사항</string>
+    <string name="s_menu_report">월간리포트</string>
+    <string name="s_menu_setting">설정</string>
+    <string name="s_menu_logout">로그아웃하기</string>
+
+    <string name="s_confirm">확인</string>
+    <string name="s_yes">예</string>
+    <string name="s_no">아니오</string>
+
+    <string name="s_menu_notice">공지사항</string>
+    <string name="s_menu_setting_modify_information">내 정보 수정</string>
+    <string name="s_empty_text">내역이 없습니다.</string>
+    <string name="s_modify_password_title">비밀번호 재설정</string>
+    <string name="s_current_password_hint">현재 비밀번호</string>
+    <string name="s_new_password_hint">새로운 비밀번호</string>
+    <string name="s_ack_password_hint">비밀번호 확인</string>
+    <string name="s_password_modify_success">비밀번호가 재설정 되었습니다.</string>
+    <string name="s_info_update_success">회원정보 수정이 완료되었습니다.</string>
+    <string name="s_ask_logout">로그아웃 하시겠습니까?</string>
+    <string name="s_terms">이용약관</string>
+
+    <string name="s_menu_request_add_product">상품 추가요청</string>
+    <string name="s_menu_request_add_product_edit">상품 추가요청 수정</string>
+    <string name="s_menu_board_add">게시글 등록</string>
+    <string name="s_menu_board_edit">게시글 수정</string>
+</resources>

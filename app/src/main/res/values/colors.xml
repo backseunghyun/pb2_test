@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="c_7f7a7a">#7f7a7a</color>
+    <color name="c_f33b2d">#f33b2d</color>
+    <color name="c_ffffff">#ffffff</color>
+    <color name="c_fefefe">#fefefe</color>
+    <color name="c_8c8d81">#8c8d81</color>
+    <color name="c_636567">#636567</color>
+    <color name="c_333333">#333333</color>
+    <color name="c_999999">#999999</color>
+    <color name="c_cecece">#cecece</color>
+    <color name="c_000000">#000000</color>
+    <color name="c_cccccc_70">#B3cccccc</color>
+    <color name="c_000000_70">#B3000000</color>
+    <color name="c_b03c33">#b03c33</color>
+    <color name="c_ef8f7c">#ef8f7c</color>
+    <color name="c_f33b2d_50">#80f33b2d</color>
+    <color name="c_edc7b1">#edc7b1</color>
+    <color name="c_d79183">#d79183</color>
+    <color name="c_e6d1c8">#e6d1c8</color>
+    <color name="c_666666">#666666</color>
+    <color name="c_ff0000">#ff0000</color>
+    <color name="c_ffdfdf">#ffdfdf</color>
+    <color name="c_f4f4f4">#f4f4f4</color>
+    <color name="c_d62418">#d62418</color>
+    <color name="c_ffdede">#ffdede</color>
+    <color name="c_ed145b">#ed145b</color>
+    <color name="c_d62417">#d62417</color>
+    <color name="c_fddbd8">#fddbd8</color>
+
+</resources>

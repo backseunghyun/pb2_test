@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ListView
+        android:id="@+id/lv_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/c_ffffff"
+        android:divider="@color/c_cecece"
+        android:dividerHeight="0.6dp"
+        android:listSelector="@android:color/transparent">
+    </ListView>
+    <ImageButton
+        android:id="@+id/ib_add"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:background="@drawable/btn_bookmark_add"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="22dp"
+        android:layout_marginBottom="40dp"/>
+</RelativeLayout>
