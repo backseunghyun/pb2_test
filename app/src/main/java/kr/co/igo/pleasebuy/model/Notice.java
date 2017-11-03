@@ -10,6 +10,8 @@ public class Notice {
     private String type;
     private String fromDate;
     private String toDate;
+    private String witer;
+    private String userID;
 
     public String getTitle() {return title;}
     public String getContents() {return contents;}
@@ -58,5 +60,21 @@ public class Notice {
 
     public void setBoardId(int boardId) {
         this.boardId = boardId;
+    }
+
+    public String getWiter() {
+        return witer;
+    }
+
+    public void setWiter(String witer) {
+        this.witer = witer;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 }

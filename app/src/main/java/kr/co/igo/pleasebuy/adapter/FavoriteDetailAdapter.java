@@ -1,6 +1,7 @@
 package kr.co.igo.pleasebuy.adapter;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +15,11 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import kr.co.igo.pleasebuy.R;
 import kr.co.igo.pleasebuy.model.Product;
+import kr.co.igo.pleasebuy.ui.MainActivity;
+import kr.co.igo.pleasebuy.util.CommonUtils;
 
 /**
  * Created by Back on 2017-02-27.
@@ -61,6 +65,11 @@ public class FavoriteDetailAdapter extends BaseAdapter {
 
         m = mList.get(position);
 
+        holder.tv_name.setText(m.getProductName());
+        holder.tv_price.setText(CommonUtils.getNumberThreeEachFormatWithWon(m.getPrice()));
+        holder.tv_etc.setText(m.getOrigin() + "/" + m.getUnit());
+
+        holder.iv_check.setSelected(m.isSelected());
 
         holder.vPosition = position;
 
@@ -84,7 +93,17 @@ public class FavoriteDetailAdapter extends BaseAdapter {
             vActivity = c;
             vList = list;
         }
-
+        @OnClick({R.id.iv_check})
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.iv_check:
+                    Product m = vList.get(vPosition);
+                    Log.d("click", m.getProductName() + " - " + m.getProductId());
+                    m.setSelected(!m.isSelected());
+                    notifyDataSetChanged();
+                    break;
+            }
+        }
 
     }
 }

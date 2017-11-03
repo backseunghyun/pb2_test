@@ -6,85 +6,98 @@
     android:layout_height="match_parent">
 
     <include layout="@layout/toobar"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:fillViewport="true">
+
         <LinearLayout
             android:id="@+id/ll_rootlayout"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            >
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
             <ImageView
                 android:id="@+id/iv_image"
                 android:layout_width="match_parent"
-                android:layout_height="198dp" 
-                android:layout_marginTop="20dp"/>
+                android:layout_height="198dp"
+                android:layout_marginTop="20dp"
+                android:visibility="gone"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp">
+
                 <TextView
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:textSize="13dp"
+                    android:text="상호명"
                     android:textColor="@color/c_999999"
-                    app:font="custom1"
-                    android:text="상호명"/>
+                    android:textSize="13dp"
+                    app:font="custom1" />
+
                 <TextView
                     android:id="@+id/tv_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="13dp"
                     android:textColor="@color/c_333333"
-                    app:font="custom1"/>
+                    android:textSize="13dp"
+                    app:font="custom1" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp">
+
                 <TextView
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:textSize="13dp"
+                    android:text="단위"
                     android:textColor="@color/c_999999"
-                    app:font="custom1"
-                    android:text="단위"/>
+                    android:textSize="13dp"
+                    app:font="custom1" />
+
                 <TextView
                     android:id="@+id/tv_unit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="13dp"
                     android:textColor="@color/c_333333"
-                    app:font="custom1"/>
+                    android:textSize="13dp"
+                    app:font="custom1" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp">
+
                 <TextView
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:textSize="13dp"
+                    android:text="기타"
                     android:textColor="@color/c_999999"
-                    app:font="custom1"
-                    android:text="기타"/>
+                    android:textSize="13dp"
+                    app:font="custom1" />
+
                 <TextView
                     android:id="@+id/tv_etc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="13dp"
                     android:textColor="@color/c_333333"
-                    app:font="custom1"/>
+                    android:textSize="13dp"
+                    app:font="custom1" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

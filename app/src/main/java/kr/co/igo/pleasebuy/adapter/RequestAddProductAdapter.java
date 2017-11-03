@@ -14,7 +14,10 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import kr.co.igo.pleasebuy.R;
+import kr.co.igo.pleasebuy.model.Favorite;
 import kr.co.igo.pleasebuy.model.Notice;
+import kr.co.igo.pleasebuy.model.RequestAddProduct;
+import kr.co.igo.pleasebuy.util.CommonUtils;
 
 /**
  * Created by Back on 2017-02-27.
@@ -22,12 +25,12 @@ import kr.co.igo.pleasebuy.model.Notice;
 public class RequestAddProductAdapter extends BaseAdapter {
     private Activity activity;
     private LayoutInflater layoutInflater;
-    private List<Notice> mList = new ArrayList<Notice>();
-    private Notice m;
+    private List<RequestAddProduct> mList = new ArrayList<RequestAddProduct>();
+    private RequestAddProduct m;
     private ViewHolder holder;
 
 
-    public RequestAddProductAdapter(Activity c, List<Notice> list) {
+    public RequestAddProductAdapter(Activity c, List<RequestAddProduct> list) {
         this.activity = c;
         this.layoutInflater = LayoutInflater.from(c);
         this.mList = list;
@@ -60,6 +63,10 @@ public class RequestAddProductAdapter extends BaseAdapter {
 
         m = mList.get(position);
 
+        holder.tv_date.setText(CommonUtils.ConvertDate(m.getRegDate()));
+        holder.tv_title.setText(m.getName());
+        holder.tv_etc.setText(m.getEtc());
+
         holder.vPosition = position;
 
 
@@ -74,9 +81,9 @@ public class RequestAddProductAdapter extends BaseAdapter {
 
         private int vPosition;
         private Activity vActivity;
-        private List<Notice> vList = new ArrayList<Notice>();
+        private List<RequestAddProduct> vList = new ArrayList<RequestAddProduct>();
 
-        public ViewHolder(View view, Activity c, List<Notice> list) {
+        public ViewHolder(View view, Activity c, List<RequestAddProduct> list) {
             ButterKnife.bind(this, view);
             vActivity = c;
             vList = list;

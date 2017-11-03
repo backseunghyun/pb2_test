@@ -75,6 +75,7 @@ public class LoginActivity extends BaseActivity {
                 super.onSuccess(statusCode, headers, response);
                 if (response != null && response.optInt("code") == 0) {
                     preference.setStringPreference(Preference.PREFS_KEY.ENC_USER_ID, response.optString("encUserId"));
+                    preference.setStringPreference(Preference.PREFS_KEY.USER_ID, response.optJSONObject("user").optString("userId"));
                     moveMain();
                 }
             }

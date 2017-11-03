@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/c_ffffff">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/c_ffffff"
+    android:orientation="vertical">
+
     <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@color/c_f33b2d">
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/c_f33b2d">
+
         <LinearLayout
             android:id="@+id/rl_login_ok"
             android:layout_width="match_parent"
@@ -22,292 +24,326 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:textSize="16dp"
                 android:textColor="@color/c_ffffff"
-                android:textStyle="bold"
-                />
+                android:textSize="16dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center_vertical"
-                android:textSize="15dp"
-                android:textColor="@color/c_ffffff"
+                android:layout_weight="1"
                 android:text="님"
-                />
+                android:textColor="@color/c_ffffff"
+                android:textSize="15dp" />
+
             <FrameLayout
                 android:id="@+id/fl_close"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_gravity="center_vertical">
+
                 <ImageView
                     android:layout_width="19dp"
                     android:layout_height="19dp"
                     android:layout_gravity="center_vertical|right"
-                    android:background="@drawable/btn_close"/>
+                    android:background="@drawable/btn_close" />
             </FrameLayout>
 
         </LinearLayout>
     </RelativeLayout>
 
-    <LinearLayout
-            android:id="@+id/ll_home"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/slidingmenu_height"
-            android:paddingLeft="@dimen/slidingmenu_item_left_padding"
-            android:orientation="horizontal"
-            android:background="@color/c_ffffff"
-            android:gravity="center_vertical"
-    >
-        <ImageView
-                android:layout_width="23dp"
-                android:layout_height="23dp"
-                android:background="@drawable/ic_home"
-                android:layout_marginRight="10dp"
-        />
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/s_menu_home"
-                android:textSize="15dp"
-                android:textColor="@color/c_636567"
-        />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_order"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/slidingmenu_height"
-        android:paddingLeft="@dimen/slidingmenu_item_left_padding"
-        android:orientation="horizontal"
-        android:background="@color/c_ffffff"
-        android:gravity="center_vertical"
-        >
-        <ImageView
-            android:layout_width="23dp"
-            android:layout_height="23dp"
-            android:background="@drawable/main_ic_order"
-            android:layout_marginRight="10dp"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/s_menu_order"
-            android:textSize="15dp"
-            android:textColor="@color/c_636567"
-            />
-    </LinearLayout>
+            android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/ll_favorite"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/slidingmenu_height"
-        android:paddingLeft="@dimen/slidingmenu_item_left_padding"
-        android:orientation="horizontal"
-        android:background="@color/c_ffffff"
-        android:gravity="center_vertical"
-        >
-        <ImageView
-            android:layout_width="23dp"
-            android:layout_height="23dp"
-            android:background="@drawable/main_ic_favorite"
-            android:layout_marginRight="10dp"
-            />
+            <LinearLayout
+                android:id="@+id/ll_home"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/slidingmenu_height"
+                android:background="@color/c_ffffff"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/slidingmenu_item_left_padding">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/s_menu_favorite"
-            android:textSize="15dp"
-            android:textColor="@color/c_636567"
-            />
-    </LinearLayout>
+                <ImageView
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/ic_home" />
 
-    <LinearLayout
-        android:id="@+id/ll_add"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/slidingmenu_height"
-        android:paddingLeft="@dimen/slidingmenu_item_left_padding"
-        android:orientation="horizontal"
-        android:background="@color/c_ffffff"
-        android:gravity="center_vertical"
-        >
-        <ImageView
-            android:layout_width="23dp"
-            android:layout_height="23dp"
-            android:background="@drawable/main_ic_add"
-            android:layout_marginRight="10dp"
-            />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/s_menu_home"
+                    android:textColor="@color/c_636567"
+                    android:textSize="15dp" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:background="@color/c_cecece"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/s_menu_add"
-            android:textSize="15dp"
-            android:textColor="@color/c_636567"
-            />
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_order"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/slidingmenu_height"
+                android:background="@color/c_ffffff"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/slidingmenu_item_left_padding">
 
-    <LinearLayout
-        android:id="@+id/ll_graph"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/slidingmenu_height"
-        android:paddingLeft="@dimen/slidingmenu_item_left_padding"
-        android:orientation="horizontal"
-        android:background="@color/c_ffffff"
-        android:gravity="center_vertical"
-        >
-        <ImageView
-            android:layout_width="23dp"
-            android:layout_height="23dp"
-            android:background="@drawable/main_ic_graph"
-            android:layout_marginRight="10dp"
-            />
+                <ImageView
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/main_ic_order" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/s_menu_graph"
-            android:textSize="15dp"
-            android:textColor="@color/c_636567"
-            />
-    </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/s_menu_order"
+                    android:textColor="@color/c_636567"
+                    android:textSize="15dp" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:background="@color/c_cecece"/>
 
-    <LinearLayout
-        android:id="@+id/ll_history"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/slidingmenu_height"
-        android:paddingLeft="@dimen/slidingmenu_item_left_padding"
-        android:orientation="horizontal"
-        android:background="@color/c_ffffff"
-        android:gravity="center_vertical"
-        >
-        <ImageView
-            android:layout_width="23dp"
-            android:layout_height="23dp"
-            android:background="@drawable/main_ic_history"
-            android:layout_marginRight="10dp"
-            />
+            <LinearLayout
+                android:id="@+id/ll_favorite"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/slidingmenu_height"
+                android:background="@color/c_ffffff"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/slidingmenu_item_left_padding">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/s_menu_history"
-            android:textSize="15dp"
-            android:textColor="@color/c_636567"
-            />
-    </LinearLayout>
+                <ImageView
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/main_ic_favorite" />
 
-    <LinearLayout
-        android:id="@+id/ll_board"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/slidingmenu_height"
-        android:paddingLeft="@dimen/slidingmenu_item_left_padding"
-        android:orientation="horizontal"
-        android:background="@color/c_ffffff"
-        android:gravity="center_vertical"
-        >
-        <ImageView
-            android:layout_width="23dp"
-            android:layout_height="23dp"
-            android:background="@drawable/main_ic_board"
-            android:layout_marginRight="10dp"
-            />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/s_menu_favorite"
+                    android:textColor="@color/c_636567"
+                    android:textSize="15dp" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:background="@color/c_cecece"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/s_menu_board"
-            android:textSize="15dp"
-            android:textColor="@color/c_636567"
-            />
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_add"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/slidingmenu_height"
+                android:background="@color/c_ffffff"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/slidingmenu_item_left_padding">
 
-    <LinearLayout
-        android:id="@+id/ll_noti"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/slidingmenu_height"
-        android:paddingLeft="@dimen/slidingmenu_item_left_padding"
-        android:orientation="horizontal"
-        android:background="@color/c_ffffff"
-        android:gravity="center_vertical"
-        >
-        <ImageView
-            android:layout_width="23dp"
-            android:layout_height="23dp"
-            android:background="@drawable/main_ic_noti"
-            android:layout_marginRight="10dp"
-            />
+                <ImageView
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/main_ic_add" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/s_menu_noti"
-            android:textSize="15dp"
-            android:textColor="@color/c_636567"
-            />
-    </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/s_menu_add"
+                    android:textColor="@color/c_636567"
+                    android:textSize="15dp" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:background="@color/c_cecece"/>
 
-    <LinearLayout
-        android:id="@+id/ll_report"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/slidingmenu_height"
-        android:paddingLeft="@dimen/slidingmenu_item_left_padding"
-        android:orientation="horizontal"
-        android:background="@color/c_ffffff"
-        android:gravity="center_vertical"
-        >
-        <ImageView
-            android:layout_width="23dp"
-            android:layout_height="23dp"
-            android:background="@drawable/main_ic_pna"
-            android:layout_marginRight="10dp"
-            />
+            <LinearLayout
+                android:id="@+id/ll_graph"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/slidingmenu_height"
+                android:background="@color/c_ffffff"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/slidingmenu_item_left_padding">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/s_menu_report"
-            android:textSize="15dp"
-            android:textColor="@color/c_636567"
-            />
-    </LinearLayout>
+                <ImageView
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/main_ic_graph" />
 
-    <LinearLayout
-        android:id="@+id/ll_setting"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/slidingmenu_height"
-        android:paddingLeft="@dimen/slidingmenu_item_left_padding"
-        android:orientation="horizontal"
-        android:background="@color/c_ffffff"
-        android:gravity="center_vertical"
-        >
-        <ImageView
-            android:layout_width="23dp"
-            android:layout_height="23dp"
-            android:background="@drawable/main_ic_setting"
-            android:layout_marginRight="10dp"
-            />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/s_menu_graph"
+                    android:textColor="@color/c_636567"
+                    android:textSize="15dp" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:background="@color/c_cecece"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/s_menu_setting"
-            android:textSize="15dp"
-            android:textColor="@color/c_636567"
-            />
-    </LinearLayout>
-    <TextView
-        android:id="@+id/tv_logout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/slidingmenu_height"
-        android:paddingLeft="30dp"
-        android:textSize="13dp"
-        android:textColor="@color/c_999999"
-        android:text="@string/s_menu_logout"/>
+            <LinearLayout
+                android:id="@+id/ll_history"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/slidingmenu_height"
+                android:background="@color/c_ffffff"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/slidingmenu_item_left_padding">
 
+                <ImageView
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/main_ic_history" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/s_menu_history"
+                    android:textColor="@color/c_636567"
+                    android:textSize="15dp" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:background="@color/c_cecece"/>
+
+            <LinearLayout
+                android:id="@+id/ll_board"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/slidingmenu_height"
+                android:background="@color/c_ffffff"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/slidingmenu_item_left_padding">
+
+                <ImageView
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/main_ic_board" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/s_menu_board"
+                    android:textColor="@color/c_636567"
+                    android:textSize="15dp" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:background="@color/c_cecece"/>
+
+            <LinearLayout
+                android:id="@+id/ll_noti"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/slidingmenu_height"
+                android:background="@color/c_ffffff"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/slidingmenu_item_left_padding">
+
+                <ImageView
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/main_ic_noti" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/s_menu_noti"
+                    android:textColor="@color/c_636567"
+                    android:textSize="15dp" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:background="@color/c_cecece"/>
+
+            <LinearLayout
+                android:id="@+id/ll_report"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/slidingmenu_height"
+                android:background="@color/c_ffffff"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/slidingmenu_item_left_padding">
+
+                <ImageView
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/main_ic_pna" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/s_menu_report"
+                    android:textColor="@color/c_636567"
+                    android:textSize="15dp" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:background="@color/c_cecece"/>
+
+            <LinearLayout
+                android:id="@+id/ll_setting"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/slidingmenu_height"
+                android:background="@color/c_ffffff"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/slidingmenu_item_left_padding">
+
+                <ImageView
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/main_ic_setting" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/s_menu_setting"
+                    android:textColor="@color/c_636567"
+                    android:textSize="15dp" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:background="@color/c_cecece"/>
+
+            <TextView
+                android:id="@+id/tv_logout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/slidingmenu_height"
+                android:layout_marginTop="22dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="30dp"
+                android:text="@string/s_menu_logout"
+                android:textColor="@color/c_999999"
+                android:textSize="13dp" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

@@ -23,6 +23,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cz.msebera.android.httpclient.Header;
+import es.voghdev.pdfviewpager.library.PDFViewPager;
+import es.voghdev.pdfviewpager.library.RemotePDFViewPager;
+import es.voghdev.pdfviewpager.library.remote.DownloadFile;
 import kr.co.igo.pleasebuy.R;
 import kr.co.igo.pleasebuy.adapter.FavoriteAdapter;
 import kr.co.igo.pleasebuy.model.Product;
@@ -37,9 +40,9 @@ import kr.co.igo.pleasebuy.util.FragmentName;
 /**
  * Created by Back on 2016-09-29.
  */
-public class ReportFragment extends BaseFragment {
+public class ReportFragment extends BaseFragment implements DownloadFile.Listener {
     @Bind(R.id.tv_mon)      TextView tv_mon;
-    @Bind(R.id.iv_report)   ImageView iv_report;
+    @Bind(R.id.pdfViewPager) PDFViewPager pdfViewPager;
 
     public ReportFragment()  {
 
@@ -70,7 +73,14 @@ public class ReportFragment extends BaseFragment {
         super.onResume();
         if(getActivity() instanceof MainActivity) {
             ((MainActivity)getActivity()).setHederTitle(FragmentName.REPORT.tag());
+            getData();
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+//        adapter.close();
     }
 
     @OnClick({R.id.ib_left, R.id.ib_right, R.id.tv_mon})
@@ -86,5 +96,26 @@ public class ReportFragment extends BaseFragment {
     }
 
 
+    @Override
+    public void onSuccess(String url, String destinationPath) {
+//        adapter = new PDFPagerAdapter(this, "AdobeXMLFormsSamples.pdf");
+//        remotePDFViewPager.setAdapter(adapter);
+//        setContentView(remotePDFViewPager);
+    }
 
+    @Override
+    public void onFailure(Exception e) {
+
+    }
+
+    @Override
+    public void onProgressUpdate(int progress, int total) {
+
+    }
+
+    private void getData(){
+
+        RemotePDFViewPager remotePDFViewPager =
+                new RemotePDFViewPager(getActivity(), "http://partners.adobe.com/public/developer/en/xml/AdobeXMLFormsSamples.pdf", this);
+    }
 }

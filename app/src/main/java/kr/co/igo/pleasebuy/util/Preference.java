@@ -16,7 +16,9 @@ public class Preference {
         DEVICE_ID,
         PUSH_DEVICE_ID,
         ENC_USER_ID,
-        IS_LIST_VISIBLE
+        IS_LIST_VISIBLE,
+        USER_ID,
+        CNT_PRODUCT_IN_CART
     }
 
     public static void setStringPreference(PREFS_KEY key, String value) {

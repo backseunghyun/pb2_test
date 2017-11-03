@@ -88,7 +88,7 @@ public class ModifyInformationActivity extends BaseActivity {
 
     @OnTouch({R.id.ll_rootlayout})
     public boolean onTouch(View view) {
-        hideSoftKeyboard();
+//        hideSoftKeyboard();
         return false;
     }
 
@@ -154,6 +154,12 @@ public class ModifyInformationActivity extends BaseActivity {
 //        notiPopup.setCancelable(false);
         popup.setTitle(getResources().getString(R.string.s_confirm));
         popup.setContent(getResources().getString(R.string.s_info_update_success));
+        popup.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                finish();
+            }
+        });
         popup.show();
 
     }

@@ -84,7 +84,7 @@
                     app:font="custom1"
                     android:text="기타"/>
                 <EditText
-                    android:id="@+id/et_unit"
+                    android:id="@+id/et_etc"
                     android:layout_width="295dp"
                     android:layout_height="98dp"
                     android:paddingTop="7dp"

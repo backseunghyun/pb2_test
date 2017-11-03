@@ -78,9 +78,20 @@ public enum APIUrl {
 
     // v2.0
     MAIN("/main"),                          // 메인
-    PRODUCT_LIST("/product/list"),          // 상품 리스트
+    PRODUCT_LIST("/product"),               // 상품 리스트
     CART_ADD_PRODUCT("/cart/add/product"),  // 장바구니 추가
     CART_LIST("/cart/list"),                // 장바구니 리스트
+    BOARD_BBS("/board/bbs"),                // 게시판 리스트
+    BOARD_BBS_ADD("/board/bbs/add"),        // 게시판 등록
+    BOARD_BBS_DETAIL("/board/bbs/detail"),  // 게시판 상제
+    BOARD_BBS_UPDATE("/board/bbs/update"),  // 게시판 수정
+    BOARD_BBS_REMOVE("/board/bbs/remove"),  // 게시판 삭제
+    BOARD_NOTICE("/board/notice"),          // 공지사항
+    FAVORITE_GROUP("/favorite-group"),      // 즐겨찾기 그룹
+    FAVORITE_GROUP_DETAILS("/favorite-group/details"),      // 즐겨찾기 그룹 상세
+
+    BOARD_NOTICE_DETAIL("/board/notice/detail"),    // 공지사항 상세
+
     ;
 
     private String url;

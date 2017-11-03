@@ -19,6 +19,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import kr.co.igo.pleasebuy.R;
+import kr.co.igo.pleasebuy.model.Favorite;
 import kr.co.igo.pleasebuy.model.Product;
 import kr.co.igo.pleasebuy.util.CommonUtils;
 
@@ -28,12 +29,12 @@ import kr.co.igo.pleasebuy.util.CommonUtils;
 public class FavoriteAdapter extends BaseAdapter {
     private Activity activity;
     private LayoutInflater layoutInflater;
-    private List<Product> mList = new ArrayList<Product>();
-    private Product m;
+    private List<Favorite> mList = new ArrayList<Favorite>();
+    private Favorite m;
     private ViewHolder holder;
 
 
-    public FavoriteAdapter(Activity c, List<Product> list) {
+    public FavoriteAdapter(Activity c, List<Favorite> list) {
         this.activity = c;
         this.layoutInflater = LayoutInflater.from(c);
         this.mList = list;
@@ -66,12 +67,12 @@ public class FavoriteAdapter extends BaseAdapter {
 
         m = mList.get(position);
 
-
-
-        holder.tv_count.setText(m.getSelectedCount() + "");
+        holder.tv_date.setText(CommonUtils.ConvertDate(m.getUpdateDate()));
+        holder.tv_title.setText(m.getName());
+        holder.tv_products.setText(m.getProductNames());
+        holder.tv_count.setText("총 " + 6 +"개 품목");
 
         holder.vPosition = position;
-
 
         return convertView;
     }
@@ -85,9 +86,9 @@ public class FavoriteAdapter extends BaseAdapter {
 
         private int vPosition;
         private Activity vActivity;
-        private List<Product> vList = new ArrayList<Product>();
+        private List<Favorite> vList = new ArrayList<Favorite>();
 
-        public ViewHolder(View view, Activity c, List<Product> list) {
+        public ViewHolder(View view, Activity c, List<Favorite> list) {
             ButterKnife.bind(this, view);
             vActivity = c;
             vList = list;

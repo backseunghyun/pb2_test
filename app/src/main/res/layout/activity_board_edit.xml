@@ -27,9 +27,10 @@
                 android:layout_marginTop="33dp">
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:textSize="13dp"
+                    android:paddingTop="3dp"
                     android:textColor="@color/c_999999"
                     app:font="custom1"
                     android:text="제목"/>
@@ -54,6 +55,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:paddingTop="3dp"
                     android:textSize="13dp"
                     android:textColor="@color/c_999999"
                     app:font="custom1"

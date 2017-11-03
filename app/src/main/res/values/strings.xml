@@ -31,4 +31,14 @@
     <string name="s_menu_request_add_product_edit">상품 추가요청 수정</string>
     <string name="s_menu_board_add">게시글 등록</string>
     <string name="s_menu_board_edit">게시글 수정</string>
+    <string name="s_ask_board_bbs_add">게시글을 등록 하시겠습니까?</string>
+    <string name="s_ask_board_bbs_edit">게시글을 수정 하시겠습니까?</string>
+    <string name="s_ask_board_bbs_delete">게시글을 삭제 하시겠습니까?</string>
+
+    <string name="s_cart_add_validation">상품을 선택해주세요.</string>
+    <string name="s_cart_add_success">%d개 품목이 장바구니에 추가되었습니다.</string>
+
+    <string name="s_ask_request_add_finish">변경된 내용이 있습니다.\n저장하지 않고 나가시겠습니까?</string>
+    <string name="s_request_add_success">요청되었습니다.</string>
+    <string name="s_request_update_success">수정되었습니다.</string>
 </resources>

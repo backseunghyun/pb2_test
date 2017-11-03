@@ -23,6 +23,7 @@ import butterknife.OnClick;
 import cz.msebera.android.httpclient.Header;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import kr.co.igo.pleasebuy.R;
+import kr.co.igo.pleasebuy.fragment.BoardFragment;
 import kr.co.igo.pleasebuy.fragment.FavoriteFragment;
 import kr.co.igo.pleasebuy.fragment.HomeFragment;
 import kr.co.igo.pleasebuy.fragment.NoticeFragment;
@@ -81,6 +82,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public RequestAddProductFragment requestAddProductFragment = new RequestAddProductFragment();
     public StatisticsFragment statisticsFragment = new StatisticsFragment();
     public OrderHistoryFragment orderHistoryFragment = new OrderHistoryFragment();
+    public BoardFragment boardFragment = new BoardFragment();
     public NoticeFragment noticeFragment = new NoticeFragment();
     public ReportFragment reportFragment = new ReportFragment();
     public SettingFragment settingFragment = new SettingFragment();
@@ -292,10 +294,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             .commit();
                     break;
                 case BOARD: // 게시판
-//                    ft.replace(R.id.fl_container, familyFragment)
-//                            .setBreadCrumbTitle(index.value())
-//                            .addToBackStack(null)
-//                            .commit();
+                    ft.replace(R.id.fl_container, boardFragment)
+                            .setBreadCrumbTitle(index.value())
+                            .addToBackStack(null)
+                            .commit();
                     break;
                 case NOTI: // 공지사항
                     ft.replace(R.id.fl_container, noticeFragment)
@@ -330,11 +332,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             tv_count.setText("");
             rl_cart_check.setEnabled(false);
         }
+
+        preference.setIntPreference(Preference.PREFS_KEY.CNT_PRODUCT_IN_CART, num);
     }
 
     public void cartAddProduct(int productId) {
         RequestParams param = new RequestParams();
-        param.put("productId", productId);
+        param.put("productIds", productId);
 
 
         APIManager.getInstance().callAPI(APIUrl.CART_ADD_PRODUCT, param, new RequestHandler(this, uuid) {
