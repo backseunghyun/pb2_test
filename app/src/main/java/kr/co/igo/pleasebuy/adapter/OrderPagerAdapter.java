@@ -102,17 +102,6 @@ public class OrderPagerAdapter extends PagerAdapter {
         container.removeView((View) object);
     }
 
-//    @Override
-//    public int getItemPosition(Object object) {
-//        TextView textView = (TextView) object;
-//        String text = textView.getText().toString();
-//        int index = mDataList.indexOf(text);
-//        if (index >= 0) {
-//            return index;
-//        }
-//        return POSITION_NONE;
-//    }
-
     @Override
     public CharSequence getPageTitle(int position) {
         return mDataList.get(position);

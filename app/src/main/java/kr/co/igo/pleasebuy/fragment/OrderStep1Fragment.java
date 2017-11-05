@@ -29,8 +29,10 @@ import kr.co.igo.pleasebuy.trunk.BaseFragment;
 import kr.co.igo.pleasebuy.trunk.api.APIManager;
 import kr.co.igo.pleasebuy.trunk.api.APIUrl;
 import kr.co.igo.pleasebuy.trunk.api.RequestHandler;
+import kr.co.igo.pleasebuy.ui.OrderActivity;
 import kr.co.igo.pleasebuy.util.ApplicationData;
 import kr.co.igo.pleasebuy.util.CommonUtils;
+import kr.co.igo.pleasebuy.util.FragmentName;
 
 /**
  * Created by baekseunghyun on 09/10/2017.
@@ -63,7 +65,7 @@ public class OrderStep1Fragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_order_step_1, container, false);
         ButterKnife.bind(this, view);
 
-        mAdapter = new OrderStep1Adapter(getActivity(), mList);
+        mAdapter = new OrderStep1Adapter(getActivity(), mList, tv_totalOfOrderPrice);
         lv_list.setAdapter(mAdapter);
 
         return view;
@@ -78,6 +80,7 @@ public class OrderStep1Fragment extends BaseFragment {
     public void OnClick(View v){
         switch (v.getId()) {
             case R.id.rl_next:
+                update();
                 break;
 
         }
@@ -105,6 +108,7 @@ public class OrderStep1Fragment extends BaseFragment {
                             JSONObject obj = jsonArray.getJSONObject(i);
                             if (obj != null) {
                                 Product item = new Product();
+                                item.setCartId(obj.optString("cartId"));
                                 item.setProductId(obj.optString("productId"));
                                 item.setProductName(obj.optString("productName"));
                                 item.setUnit(obj.optString("unit"));
@@ -130,6 +134,38 @@ public class OrderStep1Fragment extends BaseFragment {
 
                         tv_cntProductInCart.setText(cntProductInCart + "개");
                         tv_totalOfOrderPrice.setText(CommonUtils.getNumberThreeEachFormatWithWon(totalOfOrderPrice));
+                    }
+                } catch (JSONException ignored) {
+                } finally {
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+    }
+
+    private void update(){
+        StringBuilder cartIds = new StringBuilder();
+        StringBuilder quantitys = new StringBuilder();
+
+        for(int i=0; i < mList.size(); i++){
+            Product m = mList.get(i);
+            cartIds.append(cartIds.toString().equals("") ? m.getCartId() : "," + m.getCartId());
+            quantitys.append(quantitys.toString().equals("") ? m.getSelectedCount() : "," + m.getSelectedCount());
+        }
+
+        RequestParams param = new RequestParams();
+        param.put("cartIds", cartIds.toString());
+        param.put("quantitys", quantitys.toString());
+
+        APIManager.getInstance().callAPI(APIUrl.CART_UPDATE, param, new RequestHandler(getActivity(), uuid) {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    if (response.getInt("code") == 0) {
+                        if(getActivity() instanceof OrderActivity) {
+                            ((OrderActivity)getActivity()).mainFragmentReplace(FragmentName.ORDER_STEP_2);
+                        }
                     }
                 } catch (JSONException ignored) {
                 } finally {

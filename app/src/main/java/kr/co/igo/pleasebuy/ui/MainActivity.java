@@ -1,6 +1,8 @@
 package kr.co.igo.pleasebuy.ui;
 
 
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -181,9 +183,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 menu.showMenu();
                 break;
             case R.id.rl_cart:
+                startActivityForResult(new Intent(this, OrderActivity.class), 100);
                 break;
             case R.id.rl_cart_check:
-                startActivity(new Intent(this, OrderActivity.class));
+                startActivityForResult(new Intent(this, OrderActivity.class), 100);
                 break;
             case R.id.fl_close:
                 menu.showContent();
@@ -248,6 +251,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     public void mainFragmentReplace(FragmentName index) {
+        currentFragment = index;
         menu.showContent();
 
         initHeader();
@@ -319,7 +323,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     break;
 
 //            }
-
 //            currentFragment = index;
         }
     }
@@ -353,5 +356,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 100) {
+            if(resultCode == -1) {
+                if (currentFragment != FragmentName.ORDER) {
+                    mainFragmentReplace(FragmentName.ORDER);
+                }
+            }
+        }
+
     }
 }

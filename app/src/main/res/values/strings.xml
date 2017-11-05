@@ -41,4 +41,6 @@
     <string name="s_ask_request_add_finish">변경된 내용이 있습니다.\n저장하지 않고 나가시겠습니까?</string>
     <string name="s_request_add_success">요청되었습니다.</string>
     <string name="s_request_update_success">수정되었습니다.</string>
+
+    <string name="s_ask_order">주문하시겠습니까?</string>
 </resources>

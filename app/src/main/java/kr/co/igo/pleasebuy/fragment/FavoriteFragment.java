@@ -34,6 +34,8 @@ import kr.co.igo.pleasebuy.trunk.api.APIManager;
 import kr.co.igo.pleasebuy.trunk.api.APIUrl;
 import kr.co.igo.pleasebuy.trunk.api.RequestHandler;
 import kr.co.igo.pleasebuy.ui.FavoriteDetailActivity;
+import kr.co.igo.pleasebuy.ui.FavoriteEditActivity;
+import kr.co.igo.pleasebuy.ui.FavoriteEditAddActivity;
 import kr.co.igo.pleasebuy.ui.MainActivity;
 import kr.co.igo.pleasebuy.util.ApplicationData;
 import kr.co.igo.pleasebuy.util.FragmentName;
@@ -90,6 +92,7 @@ public class FavoriteFragment extends BaseFragment {
     public void OnClick(View v){
         switch (v.getId()) {
             case R.id.ib_add:
+                startActivity(new Intent(getActivity(), FavoriteEditAddActivity.class));
                 break;
 
         }
@@ -103,7 +106,6 @@ public class FavoriteFragment extends BaseFragment {
             ((MainActivity)getActivity()).setHederTitle(FragmentName.FAVORITE.tag());
             ((MainActivity)getActivity()).setCartCount(preference.getIntPreference(Preference.PREFS_KEY.CNT_PRODUCT_IN_CART));
         }
-
 
     }
 
@@ -125,7 +127,7 @@ public class FavoriteFragment extends BaseFragment {
                                 Favorite item = new Favorite();
                                 item.setFavoriteGroupId(obj.optInt("favoriteGroupId"));
                                 item.setName(obj.optString("name"));
-                                item.setProductNames(obj.optString("productNames"));
+                                item.setProductNames(obj.optString("productNames").equals("null") ? "" : obj.optString("productNames"));
                                 item.setRegDate(obj.optLong("regDate"));
                                 item.setUpdateDate(obj.optLong("updateDate"));
 

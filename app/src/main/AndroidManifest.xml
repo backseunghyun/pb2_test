@@ -79,6 +79,8 @@
         <activity android:name=".ui.ModifyInformationActivity"/>
         <activity android:name=".ui.ModifyPasswordActivity"/>
         <activity android:name=".ui.FavoriteDetailActivity"/>
+        <activity android:name=".ui.FavoriteEditActivity"/>
+        <activity android:name=".ui.FavoriteEditAddActivity"/>
         <activity android:name=".ui.RequestAddProductDetailActivity"/>
         <activity android:name=".ui.RequestAddProductEditActivity"/>
     </application>

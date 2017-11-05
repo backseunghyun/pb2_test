@@ -93,13 +93,13 @@
                 app:font="custom1"
                 android:text="총 수량:"/>
             <TextView
+                android:id="@+id/tv_cntProductInCart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="14dp"
                 android:textSize="17dp"
                 android:textColor="@color/c_333333"
-                app:font="custom1"
-                android:text="40개"/>
+                app:font="custom1"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -113,14 +113,14 @@
                 app:font="custom1"
                 android:text="총 금액:"/>
             <TextView
+                android:id="@+id/tv_totalOfOrderPrice"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="17dp"
                 android:textColor="@color/c_f33b2d"
                 app:font="custom1"
-                android:gravity="right"
-                android:text="25,000원"/>
+                android:gravity="right"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -147,6 +147,7 @@
                 app:font="custom1"
                 android:text="배송요청일"/>
             <TextView
+                android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="13dp"
@@ -176,20 +177,20 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/tv_storeName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="13dp"
                     android:textColor="@color/c_333333"
-                    app:font="custom1"
-                    android:text="123"/>
+                    app:font="custom1"/>
                 <TextView
+                    android:id="@+id/tv_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:textSize="11dp"
                     android:textColor="@color/c_999999"
                     app:font="custom1"
-                    android:text="asdfasdfasdfasf"
                     />
             </LinearLayout>
         </LinearLayout>
@@ -212,6 +213,7 @@
                 app:font="custom1"
                 android:text="배송요청사항"/>
             <TextView
+                android:id="@+id/tv_etc"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="7dp"
@@ -219,7 +221,6 @@
                 android:textColor="@color/c_333333"
                 app:font="custom1"
                 android:gravity="center_vertical"
-                android:text="가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타"
                 android:maxLength="38"
                 android:maxLines="2"
                 />

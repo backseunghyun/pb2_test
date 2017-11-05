@@ -35,7 +35,6 @@ public class DeliveryMemoPopup extends Dialog {
         setContentView(view);
         ButterKnife.bind(this);
 
-
         isConfirm = false;
 
         et_contents.setText("");
@@ -56,15 +55,15 @@ public class DeliveryMemoPopup extends Dialog {
 
     @OnTextChanged({R.id.et_contents})
     public void onTextChanged(Editable s) {
-        tv_size.setText(et_contents.getText().length());
+        tv_size.setText(et_contents.getText().toString().length() + "");
     }
 
-    public void setContent(String str) {
-        et_contents.setText(str);
+    public String getContent() {
+        return et_contents.getText().toString();
     }
 
-    public void setTitle(String title) {
-        tv_title.setText(title);
+    public boolean isConfirm() {
+        return isConfirm;
     }
 }
 

@@ -24,8 +24,8 @@ public enum APIUrl {
 
     CART_INSERT("/cart/add/product"), // 장바구니 추가
     CART_ADD_PRODUCTS("/cart/add/products"), // 장바구니 여러개 추가
-    CART_UPDATE("/cart/update"), // 장바구니 수정
-    CART_REMOVE("/cart/remove"), // 장바구니 삭제
+
+
     CART_ADD_FAVORITE("/cart/add/favorite"), // 즐겨찾기 불러오기
 
     USER_HISTORY_LIST("/order/list"), // 지난내역 리스트
@@ -44,7 +44,6 @@ public enum APIUrl {
     FAVORITE_UPDATE("/favorite/update"), // 자주 찾는 상품 수정
     FAVORITE_REMOVE("/favorite/remove"), // 자주 찾는 상품 삭제
 
-    ORDER_ORDER("/order/order"), // 주문
     ORDER_ORDER_DIRECT("/order/order/direct"), // 바로주문
     ORDER_FAVORITE("/order/favorite"), // 즐겨찾기 등록 상품 가져오기
     ORDER_CANCEL("/order/cancel"), // 주문취소
@@ -80,7 +79,10 @@ public enum APIUrl {
     MAIN("/main"),                          // 메인
     PRODUCT_LIST("/product"),               // 상품 리스트
     CART_ADD_PRODUCT("/cart/add/product"),  // 장바구니 추가
-    CART_LIST("/cart/list"),                // 장바구니 리스트
+    CART_LIST("/cart"),                     // 장바구니 리스트
+    CART_UPDATE("/cart/update"),            // 장바구니 수량 수정
+    CART_REMOVE("/cart/remove"),            // 장바구니 삭제
+    ORDER_ORDER("/order/order"),            // 주문
     BOARD_BBS("/board/bbs"),                // 게시판 리스트
     BOARD_BBS_ADD("/board/bbs/add"),        // 게시판 등록
     BOARD_BBS_DETAIL("/board/bbs/detail"),  // 게시판 상제

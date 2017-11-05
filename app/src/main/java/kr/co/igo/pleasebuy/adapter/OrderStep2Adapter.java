@@ -10,13 +10,25 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import cz.msebera.android.httpclient.Header;
 import kr.co.igo.pleasebuy.R;
 import kr.co.igo.pleasebuy.model.Product;
+import kr.co.igo.pleasebuy.trunk.api.APIManager;
+import kr.co.igo.pleasebuy.trunk.api.APIUrl;
+import kr.co.igo.pleasebuy.trunk.api.RequestHandler;
+import kr.co.igo.pleasebuy.util.CommonUtils;
 
 /**
  * Created by Back on 2017-02-27.
@@ -27,12 +39,14 @@ public class OrderStep2Adapter extends BaseAdapter {
     private List<Product> mList = new ArrayList<Product>();
     private Product m;
     private ViewHolder holder;
+    private TextView mView;
 
 
-    public OrderStep2Adapter(Activity c, List<Product> list) {
+    public OrderStep2Adapter(Activity c, List<Product> list, TextView view) {
         this.activity = c;
         this.layoutInflater = LayoutInflater.from(c);
         this.mList = list;
+        this.mView = view;
     }
 
     @Override
@@ -54,7 +68,7 @@ public class OrderStep2Adapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.adapter_order_step_2_item, parent, false);
-            holder = new ViewHolder(convertView, activity, mList);
+            holder = new ViewHolder(convertView, activity, mList, mView);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder)convertView.getTag();
@@ -62,9 +76,14 @@ public class OrderStep2Adapter extends BaseAdapter {
 
         m = mList.get(position);
 
-
+        holder.tv_name.setText(m.getProductName());
+        holder.tv_price.setText(CommonUtils.getNumberThreeEachFormatWithWon(Integer.parseInt(m.getPrice()) * m.getSelectedCount()));
+        holder.tv_etc.setText(m.getOrigin() + "/" + m.getUnit());
 
         holder.tv_count.setText(m.getSelectedCount() + "");
+
+        holder.tv_count.setSelected(m.getSelectedCount() != Integer.parseInt(m.getQuantity()));
+        holder.tv_price.setSelected(m.getSelectedCount() != Integer.parseInt(m.getQuantity()));
 
         holder.vPosition = position;
 
@@ -85,10 +104,59 @@ public class OrderStep2Adapter extends BaseAdapter {
         private Activity vActivity;
         private List<Product> vList = new ArrayList<Product>();
 
-        public ViewHolder(View view, Activity c, List<Product> list) {
+        private TextView vView;
+
+        public ViewHolder(View view, Activity c, List<Product> list, TextView tv) {
             ButterKnife.bind(this, view);
             vActivity = c;
             vList = list;
+            vView = tv;
+        }
+
+        @OnClick({R.id.rl_delete, R.id.iv_minus, R.id.iv_plus})
+        public void onClick(View v) {
+            Product m;
+            m = vList.get(vPosition);
+            switch (v.getId()) {
+                case R.id.rl_delete:
+                    delete(m.getCartId(), m.getProductId(), vPosition);
+                    break;
+                case R.id.iv_minus:
+                    m.setSelectedCount(m.getSelectedCount() == 1 ? 1 : m.getSelectedCount()-1);
+                    notifyDataSetChanged();
+                    setTotalPrice();
+                    break;
+                case R.id.iv_plus:
+                    m.setSelectedCount(m.getSelectedCount()+1);
+                    notifyDataSetChanged();
+                    setTotalPrice();
+                    break;
+            }
+        }
+
+        private void setTotalPrice(){
+            int price = 0;
+            for(int i=0; i < vList.size() ;i++) {
+                price += Integer.parseInt(vList.get(i).getPrice()) * vList.get(i).getSelectedCount();
+            }
+            vView.setText(CommonUtils.getNumberThreeEachFormatWithWon(price));
+        }
+
+        private void delete(String cartIds, String productIds, final int index) {
+            RequestParams param = new RequestParams();
+            param.put("cartIds", cartIds);
+            param.put("productIds", productIds);
+
+            APIManager.getInstance().callAPI(APIUrl.CART_REMOVE, param, new RequestHandler(vActivity) {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    super.onSuccess(statusCode, headers, response);
+                    if (response != null && response.optInt("code") == 0) {
+                        vList.remove(index);
+                        notifyDataSetChanged();
+                    }
+                }
+            });
         }
 
 

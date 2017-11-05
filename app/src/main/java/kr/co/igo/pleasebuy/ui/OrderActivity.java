@@ -45,6 +45,15 @@ public class OrderActivity extends BaseActivity {
         mainFragmentReplace(FragmentName.ORDER_STEP_1);
     }
 
+    @Override
+    public void onBackPressed() {
+        if(getSupportFragmentManager().getBackStackEntryCount() == 1) {
+            finish();
+        } else {
+            getSupportFragmentManager().popBackStack();
+        }
+    }
+
     @OnClick({R.id.ib_back})
     public void onClick(View v){
         switch (v.getId()) {

@@ -1,18 +1,15 @@
 package kr.co.igo.pleasebuy.ui;
 
 
-import android.content.ContentUris;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
@@ -27,29 +24,25 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cz.msebera.android.httpclient.Header;
 import kr.co.igo.pleasebuy.R;
-import kr.co.igo.pleasebuy.adapter.FavoriteAdapter;
 import kr.co.igo.pleasebuy.adapter.FavoriteDetailAdapter;
-import kr.co.igo.pleasebuy.fragment.HomeFragment;
-import kr.co.igo.pleasebuy.model.Favorite;
+import kr.co.igo.pleasebuy.adapter.FavoriteEditAdapter;
 import kr.co.igo.pleasebuy.model.Product;
 import kr.co.igo.pleasebuy.trunk.BaseActivity;
 import kr.co.igo.pleasebuy.trunk.api.APIManager;
 import kr.co.igo.pleasebuy.trunk.api.APIUrl;
 import kr.co.igo.pleasebuy.trunk.api.RequestHandler;
-import kr.co.igo.pleasebuy.util.ApplicationData;
 import kr.co.igo.pleasebuy.util.BackPressCloseSystem;
 import kr.co.igo.pleasebuy.util.CommonUtils;
-import kr.co.igo.pleasebuy.util.FragmentName;
 import kr.co.igo.pleasebuy.util.Preference;
 
-public class FavoriteDetailActivity extends BaseActivity {
+public class FavoriteEditActivity extends BaseActivity {
     @Bind(R.id.tv_title)    TextView tv_title;
-    @Bind(R.id.tv_date)     TextView tv_date;
     @Bind(R.id.lv_list)     ListView lv_list;
     @Bind(R.id.tv_count)    TextView tv_count;
-    @Bind(R.id.rl_cart) RelativeLayout rl_cart;
+    @Bind(R.id.rl_cart)     RelativeLayout rl_cart;
+    @Bind(R.id.et_name)     EditText et_name;
 
-    private FavoriteDetailAdapter mAdapter;
+    private FavoriteEditAdapter mAdapter;
     private List<Product> mList = new ArrayList<Product>();
 
     public Preference preference;
@@ -59,14 +52,16 @@ public class FavoriteDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favorite_detail);
+        setContentView(R.layout.activity_favorite_edit);
         ButterKnife.bind(this);
 
         preference = new Preference();
         backPressCloseSystem = new BackPressCloseSystem(this);
 
-        mAdapter = new FavoriteDetailAdapter(this, mList);
+        mAdapter = new FavoriteEditAdapter(this, mList);
         lv_list.setAdapter(mAdapter);
+
+        tv_title.setText("즐겨찾기 편집");
 
         if(getIntent().hasExtra("favoriteGroupId")) {
             favoriteGroupId = getIntent().getIntExtra("favoriteGroupId",0);
@@ -74,19 +69,19 @@ public class FavoriteDetailActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.iv_back, R.id.ib_edit, R.id.tv_add, R.id.rl_cart})
+    @OnClick({R.id.iv_back, R.id.tv_cancel, R.id.tv_save, R.id.ib_add, R.id.rl_cart})
     public void onClick(View v){
         switch (v.getId()) {
             case R.id.iv_back:
                 finish();
                 break;
-            case R.id.ib_edit:
-                Intent intent = new Intent(this, FavoriteEditActivity.class);
-                intent.putExtra("favoriteGroupId", favoriteGroupId);
-                startActivity(intent);
+            case R.id.tv_cancel:
+                finish();
                 break;
-            case R.id.tv_add:
-                cartAdd();
+            case R.id.tv_save:
+                break;
+            case R.id.ib_add:
+                startActivity(new Intent(this, FavoriteEditAddActivity.class));
                 break;
             case R.id.rl_cart:
                 startActivity(new Intent(this, OrderActivity.class));
@@ -114,8 +109,7 @@ public class FavoriteDetailActivity extends BaseActivity {
                         mList.clear();
 
                         JSONObject favoriteGroup = response.getJSONObject("favoriteGroup");
-                        tv_date.setText(CommonUtils.ConvertDate(favoriteGroup.optLong("updateDate")));
-                        tv_title.setText(favoriteGroup.optString("name"));
+                        et_name.setText(favoriteGroup.optString("name"));
 
                         JSONArray jsonArray = response.getJSONArray("list");
                         for(int i = 0; i < jsonArray.length(); i++) {
@@ -156,7 +150,7 @@ public class FavoriteDetailActivity extends BaseActivity {
         }
 
         if (productIds.equals("")) {
-            Toast.makeText(FavoriteDetailActivity.this, getResources().getString(R.string.s_cart_add_validation), Toast.LENGTH_SHORT).show();
+            Toast.makeText(FavoriteEditActivity.this, getResources().getString(R.string.s_cart_add_validation), Toast.LENGTH_SHORT).show();
         } else {
             cartAddProduct(productIds, count);
         }
@@ -172,7 +166,7 @@ public class FavoriteDetailActivity extends BaseActivity {
                 super.onSuccess(statusCode, headers, response);
                 try {
                     if (response.getInt("code") == 0) {
-                        Toast.makeText(FavoriteDetailActivity.this, String.format(getResources().getString(R.string.s_cart_add_success), count), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FavoriteEditActivity.this, String.format(getResources().getString(R.string.s_cart_add_success), count), Toast.LENGTH_SHORT).show();
                         setCartCount(response.optInt("cntProductInCart", 0));
                     }
                 } catch (JSONException ignored) {
