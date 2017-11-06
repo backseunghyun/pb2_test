@@ -188,6 +188,7 @@ public class SplashActivity extends BaseActivity {
                 if (response != null && response.optInt("code") == 0) {
                     preference.setStringPreference(Preference.PREFS_KEY.ENC_USER_ID, response.optString("encUserId"));
                     preference.setStringPreference(Preference.PREFS_KEY.USER_ID, response.optJSONObject("user").optString("userId"));
+                    preference.setStringPreference(Preference.PREFS_KEY.USER_NAME, response.optJSONObject("user").optString("ownerName"));
                     moveMain();
                 }
             }

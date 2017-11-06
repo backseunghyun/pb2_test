@@ -130,6 +130,7 @@ public class FavoriteFragment extends BaseFragment {
                                 item.setProductNames(obj.optString("productNames").equals("null") ? "" : obj.optString("productNames"));
                                 item.setRegDate(obj.optLong("regDate"));
                                 item.setUpdateDate(obj.optLong("updateDate"));
+                                item.setCntOfProduct(obj.optInt("cntOfProduct", 0));
 
                                 mList.add(item);
                             }

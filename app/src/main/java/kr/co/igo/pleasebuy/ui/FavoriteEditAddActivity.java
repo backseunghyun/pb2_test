@@ -55,6 +55,7 @@ public class FavoriteEditAddActivity extends BaseActivity {
     @Bind(R.id.view_pager)  ViewPager view_pager;
 
     private List<Product> mList = new ArrayList<Product>();
+    private List<Product> fList = new ArrayList<Product>();
     private List<String> mDataList = new ArrayList<>();
     private OrderPagerAdapter mAdapter;
 
@@ -134,6 +135,24 @@ public class FavoriteEditAddActivity extends BaseActivity {
         }
     }
 
+    private void search(){
+        if (et_search.getText().toString().length() > 0){
+            fList.clear();
+
+            if(et_search.length()==0){
+                fList.addAll(mList);
+            } else {
+                for(Product item : mList){
+                    if( item.getProductName().contains(et_search.getText().toString().toLowerCase()) ) {
+                        fList.add(item);
+                    }
+                }
+            }
+            mCommonNavigator.notifyDataSetChanged();
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
     private void setListChange(){
         String b;
         Log.d(preference.getStringPreference(Preference.PREFS_KEY.IS_LIST_VISIBLE), "");
@@ -187,6 +206,7 @@ public class FavoriteEditAddActivity extends BaseActivity {
                 try {
                     if (response.getInt("code") == 0) {
                         mList.clear();
+                        fList.clear();
 
                         JSONArray jsonArray = response.getJSONArray("searchResult");
                         for(int i = 0; i < jsonArray.length(); i++) {
@@ -209,6 +229,7 @@ public class FavoriteEditAddActivity extends BaseActivity {
                                 item.setCategoryValue(obj.optString("categoryValue"));
 
                                 mList.add(item);
+                                fList.add(item);
                             }
                         }
                     }

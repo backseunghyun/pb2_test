@@ -56,7 +56,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.rl_cart)     RelativeLayout rl_cart;
     @Bind(R.id.rl_cart_check)   RelativeLayout rl_cart_check;
 
-
+    private TextView tv_name;
     private LinearLayout ll_home;
     private LinearLayout ll_order;
     private LinearLayout ll_favorite;
@@ -133,6 +133,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
         View menuView = menu.getMenu();
+        tv_name = (TextView)menuView.findViewById(R.id.tv_name);
         ll_home = (LinearLayout)menuView.findViewById(R.id.ll_home);
         ll_order = (LinearLayout)menuView.findViewById(R.id.ll_order);
         ll_favorite = (LinearLayout)menuView.findViewById(R.id.ll_favorite);
@@ -158,6 +159,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         ll_setting.setOnClickListener(this);
         tv_logout.setOnClickListener(this);
         fl_close.setOnClickListener(this);
+
+        tv_name.setText(preference.getStringPreference(Preference.PREFS_KEY.USER_NAME));
 
     }
 
@@ -224,9 +227,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.ll_setting:
                 mainFragmentReplace(FragmentName.SETTING);
                 break;
-
-
-
         }
     }
 

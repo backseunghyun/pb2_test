@@ -229,6 +229,7 @@ public class OrderStep2Fragment extends BaseFragment {
         param.put("storeEtc", store.getStoreEtc());
         param.put("etc", tv_etc.getText());
 
+        param.put("deliveryReqDate", tv_date.getText().toString());
 
         param.put("cartIds", cartIds.toString());
         param.put("quantitys", quantitys.toString());

@@ -18,7 +18,8 @@ public class Preference {
         ENC_USER_ID,
         IS_LIST_VISIBLE,
         USER_ID,
-        CNT_PRODUCT_IN_CART
+        CNT_PRODUCT_IN_CART,
+        USER_NAME
     }
 
     public static void setStringPreference(PREFS_KEY key, String value) {

@@ -10,6 +10,7 @@ public class Favorite {
     private String productNames;
     private Long regDate;
     private Long updateDate;
+    private int cntOfProduct;
 
     public int getFavoriteGroupId() {
         return favoriteGroupId;
@@ -49,5 +50,13 @@ public class Favorite {
 
     public void setUpdateDate(Long updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public int getCntOfProduct() {
+        return cntOfProduct;
+    }
+
+    public void setCntOfProduct(int cntOfProduct) {
+        this.cntOfProduct = cntOfProduct;
     }
 }

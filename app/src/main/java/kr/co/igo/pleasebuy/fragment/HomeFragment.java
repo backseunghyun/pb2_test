@@ -183,7 +183,7 @@ public class HomeFragment extends BaseFragment {
 
 
                         if (getActivity() instanceof MainActivity) {
-                            int countProductInCart = response.optInt("countProductInCart",0);
+                            int countProductInCart = response.optInt("cntOfProductInCart",0);
                             ((MainActivity)getActivity()).setCartCount(countProductInCart);
                         }
                     }

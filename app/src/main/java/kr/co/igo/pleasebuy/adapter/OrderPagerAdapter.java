@@ -40,6 +40,11 @@ public class OrderPagerAdapter extends PagerAdapter {
     }
 
     @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
+    }
+
+    @Override
     public int getCount() {
         return mDataList == null ? 0 : mDataList.size();
     }
@@ -82,7 +87,6 @@ public class OrderPagerAdapter extends PagerAdapter {
                 tList.add(item);
             }
         }
-
 
         if (isList) {
             mListAdapter = new OrderListAdapter(activity, tList);

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,7 @@ import java.util.Random;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 import cz.msebera.android.httpclient.Header;
 import kr.co.igo.pleasebuy.R;
 import kr.co.igo.pleasebuy.adapter.OrderPagerAdapter;
@@ -64,6 +66,7 @@ public class OrderFragment extends BaseFragment {
     @Bind(R.id.view_pager)  ViewPager view_pager;
 
     private List<Product> mList = new ArrayList<Product>();
+    private List<Product> fList = new ArrayList<Product>();
     private List<String> mDataList = new ArrayList<>();
     private OrderPagerAdapter mAdapter;
 
@@ -90,7 +93,7 @@ public class OrderFragment extends BaseFragment {
         ButterKnife.bind(this, view);
         preference = new Preference();
 
-        mAdapter = new OrderPagerAdapter(getActivity(), mDataList, mList);
+        mAdapter = new OrderPagerAdapter(getActivity(), mDataList, fList);
         mAdapter.setIsList(preference.getStringPreference(Preference.PREFS_KEY.IS_LIST_VISIBLE).equals(preference.TRUE));
 
         setInit();
@@ -106,6 +109,7 @@ public class OrderFragment extends BaseFragment {
     }
 
     private void setInit() {
+        et_search.setText("");
 
         view_pager.setAdapter(mAdapter);
         magic_indicator.setBackgroundColor(Color.WHITE);
@@ -157,8 +161,26 @@ public class OrderFragment extends BaseFragment {
                 setListChange();
                 break;
             case R.id.b_search:
+                search();
                 break;
+        }
+    }
 
+    private void search(){
+        if (et_search.getText().toString().length() > 0){
+            fList.clear();
+
+            if(et_search.length()==0){
+                fList.addAll(mList);
+            } else {
+                for(Product item : mList){
+                    if( item.getProductName().contains(et_search.getText().toString().toLowerCase()) ) {
+                        fList.add(item);
+                    }
+                }
+            }
+            mCommonNavigator.notifyDataSetChanged();
+            mAdapter.notifyDataSetChanged();
         }
     }
 
@@ -172,7 +194,6 @@ public class OrderFragment extends BaseFragment {
         }
         preference.setStringPreference(Preference.PREFS_KEY.IS_LIST_VISIBLE, b);
         mAdapter.setIsList(preference.getStringPreference(Preference.PREFS_KEY.IS_LIST_VISIBLE).equals(preference.TRUE));
-//        mAdapter.notifyDataSetChanged();
         setInit();
     }
 
@@ -200,8 +221,6 @@ public class OrderFragment extends BaseFragment {
                     }
                 } catch (JSONException ignored) {
                 } finally {
-//                    mCommonNavigator.notifyDataSetChanged();
-//                    mAdapter.notifyDataSetChanged();
                     getList();
                 }
             }
@@ -218,6 +237,7 @@ public class OrderFragment extends BaseFragment {
                 try {
                     if (response.getInt("code") == 0) {
                         mList.clear();
+                        fList.clear();
 
                         JSONArray jsonArray = response.getJSONArray("searchResult");
                         for(int i = 0; i < jsonArray.length(); i++) {
@@ -239,6 +259,7 @@ public class OrderFragment extends BaseFragment {
                                 item.setCategoryValue(obj.optString("categoryValue"));
 
                                 mList.add(item);
+                                fList.add(item);
                             }
                         }
                     }
