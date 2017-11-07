@@ -16,7 +16,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -29,6 +32,7 @@ import kr.co.igo.pleasebuy.adapter.OrderStep1Adapter;
 import kr.co.igo.pleasebuy.adapter.OrderStep2Adapter;
 import kr.co.igo.pleasebuy.model.Product;
 import kr.co.igo.pleasebuy.model.Store;
+import kr.co.igo.pleasebuy.popup.CalendarOnePopup;
 import kr.co.igo.pleasebuy.popup.DeliveryMemoPopup;
 import kr.co.igo.pleasebuy.popup.TwoButtonPopup;
 import kr.co.igo.pleasebuy.trunk.BaseFragment;
@@ -76,10 +80,23 @@ public class OrderStep2Fragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_order_step_2, container, false);
         ButterKnife.bind(this, view);
 
-        mAdapter = new OrderStep2Adapter(getActivity(), mList, tv_totalOfOrderPrice);
+        mAdapter = new OrderStep2Adapter(getActivity(), mList, tv_totalOfOrderPrice, tv_cntProductInCart);
         lv_list.setAdapter(mAdapter);
 
+        setInit();
+
         return view;
+    }
+
+    private void setInit() {
+        long now = System.currentTimeMillis();
+        Date cDate = new Date(now);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(cDate);
+        cal.add(Calendar.DATE, + 1);
+        cDate = cal.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+        tv_date.setText(sdf.format(cDate));
     }
 
     @Override
@@ -87,12 +104,16 @@ public class OrderStep2Fragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-    @OnClick({R.id.ib_add, R.id.rl_next, R.id.tv_etc})
+    @OnClick({R.id.ib_add, R.id.tv_date, R.id.iv_date, R.id.rl_next, R.id.tv_etc, R.id.rl_etc})
     public void OnClick(View v){
         switch (v.getId()) {
             case R.id.ib_add:
                 getActivity().setResult(-1);
                 getActivity().finish();
+                break;
+            case R.id.tv_date:
+            case R.id.iv_date:
+                showCalendar();
                 break;
             case R.id.rl_next:
                 final TwoButtonPopup popup = new TwoButtonPopup(getActivity());
@@ -103,13 +124,14 @@ public class OrderStep2Fragment extends BaseFragment {
                     @Override
                     public void onDismiss(DialogInterface dialogInterface) {
                         if(popup.isConfirm()){
-                            update();
+                            ready();
                         }
                     }
                 });
                 popup.show();
                 break;
             case R.id.tv_etc:
+            case R.id.rl_etc:
                 final DeliveryMemoPopup popup2 = new DeliveryMemoPopup(getActivity());
                 popup2.setTitle(getResources().getString(R.string.s_confirm));
                 popup2.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -155,8 +177,7 @@ public class OrderStep2Fragment extends BaseFragment {
                                 item.setPrice(obj.optString("price"));
                                 item.setCategoryId(obj.optString("categoryId"));
                                 item.setIsInCart(obj.optInt("isInCart"));
-//                                item.setImgUrl(ApplicationData.getImgPrefix() + obj.optString("imageUrl"));
-                                item.setImgUrl("http://bbaeggun100.vps.phps.kr:8080/pleasebuy/static/product/3.jpg");
+                                item.setImgUrl(ApplicationData.getImgPrefix() + obj.optString("imageUrl"));
 
                                 item.setManufacturer(obj.optString("manufacturer"));
                                 item.setOrigin(obj.optString("origin"));
@@ -211,6 +232,24 @@ public class OrderStep2Fragment extends BaseFragment {
         });
     }
 
+    private void ready(){
+        RequestParams param = new RequestParams();
+        APIManager.getInstance().callAPI(APIUrl.ORDER_READY, param, new RequestHandler(getActivity(), uuid) {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    if (response.getInt("code") == 0) {
+                        update();
+                    }
+                } catch (JSONException ignored) {
+                } finally {
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+    }
+
     private void update(){
         StringBuilder cartIds = new StringBuilder();
         StringBuilder quantitys = new StringBuilder();
@@ -229,7 +268,7 @@ public class OrderStep2Fragment extends BaseFragment {
         param.put("storeEtc", store.getStoreEtc());
         param.put("etc", tv_etc.getText());
 
-        param.put("deliveryReqDate", tv_date.getText().toString());
+        param.put("deliveryReqDate", tv_date.getText().toString().replaceAll(",", ""));
 
         param.put("cartIds", cartIds.toString());
         param.put("quantitys", quantitys.toString());
@@ -241,6 +280,8 @@ public class OrderStep2Fragment extends BaseFragment {
                 try {
                     if (response.getInt("code") == 0) {
                         if(getActivity() instanceof OrderActivity) {
+                            JSONObject obj = response.optJSONObject("orderInfo");
+                            ((OrderActivity)getActivity()).setStep3Data(obj.optInt("orderInfoId"));
                             ((OrderActivity)getActivity()).mainFragmentReplace(FragmentName.ORDER_STEP_3);
                         }
                     }
@@ -250,6 +291,22 @@ public class OrderStep2Fragment extends BaseFragment {
                 }
             }
         });
+    }
+
+
+    private void showCalendar(){
+        final CalendarOnePopup calendarPopup = new CalendarOnePopup(getActivity(), true);
+        calendarPopup.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if (calendarPopup.isOk()) {
+                    Date selectDate = calendarPopup.getSelectedDate();
+                    tv_date.setText(calendarPopup.getResult());
+                }
+            }
+        });
+        calendarPopup.show();
+
     }
 
 }

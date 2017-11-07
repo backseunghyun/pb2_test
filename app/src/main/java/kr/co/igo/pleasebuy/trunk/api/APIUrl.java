@@ -82,7 +82,9 @@ public enum APIUrl {
     CART_LIST("/cart"),                     // 장바구니 리스트
     CART_UPDATE("/cart/update"),            // 장바구니 수량 수정
     CART_REMOVE("/cart/remove"),            // 장바구니 삭제
-    ORDER_ORDER("/order/order"),            // 주문
+    ORDER_READY("/order/ready"),            // 주문 준비
+    ORDER_ORDER("/order/order"),            // 주문하기
+    ORDER_DETAIL("/order/detail"),           //  주문 상세
     BOARD_BBS("/board/bbs"),                // 게시판 리스트
     BOARD_BBS_ADD("/board/bbs/add"),        // 게시판 등록
     BOARD_BBS_DETAIL("/board/bbs/detail"),  // 게시판 상제

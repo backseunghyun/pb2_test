@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    >
+
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/c_ffffff"
+                android:gravity="center"
+                android:background="@drawable/shape_popup_top"
+                android:text="배송 요청일"
+                android:layout_width="match_parent"
+                android:layout_height="48dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:background="@color/c_ffffff"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                    android:id="@+id/cal_b"
+                    app:mcv_selectionColor="@color/c_f33b2d"
+                    app:mcv_titleAnimationOrientation="vertical"
+                    app:mcv_leftArrowMask="@drawable/btn_left"
+                    app:mcv_rightArrowMask="@drawable/btn_right"
+                    app:mcv_arrowColor="@color/c_333333"
+                    app:mcv_tileSize="25dp"
+                    android:layout_width="270dp"
+                    android:layout_height="wrap_content">
+                </com.prolificinteractive.materialcalendarview.MaterialCalendarView>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.6dp"
+            android:background="@color/c_cecece"/>
+
+        <LinearLayout
+            android:background="@drawable/shape_popup_bottom"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+            <TextView
+                    android:id="@+id/cal_b_no"
+                    android:gravity="center"
+                    android:text="취소"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+            <View
+                    android:layout_width="0.6dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/c_cecece"/>
+            <TextView
+                android:id="@+id/cal_b_ok"
+                android:gravity="center"
+                android:text="확인"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

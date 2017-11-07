@@ -12,5 +12,5 @@
 
     <dimen name="d_edittext_left_padding">8dp</dimen>
 
-
+    <dimen name="image_width">1080dp</dimen>
 </resources>

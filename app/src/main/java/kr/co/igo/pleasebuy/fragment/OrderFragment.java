@@ -112,6 +112,7 @@ public class OrderFragment extends BaseFragment {
         et_search.setText("");
 
         view_pager.setAdapter(mAdapter);
+        view_pager.setOffscreenPageLimit(1);
         magic_indicator.setBackgroundColor(Color.WHITE);
         mCommonNavigator = new CommonNavigator(getActivity());
         mCommonNavigator.setSkimOver(true);

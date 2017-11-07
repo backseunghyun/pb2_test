@@ -72,6 +72,8 @@ dependencies {
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
     compile 'com.github.hackware1993:MagicIndicator:1.5.0'
     compile 'com.github.aerdy:Android-Viger_View_Pager_PDF_OpenSource:-SNAPSHOT'
+    compile 'com.prolificinteractive:material-calendarview:1.4.2'
+    compile 'org.apache.commons:commons-lang3:3.4'
     testCompile 'junit:junit:4.12'
 }
 

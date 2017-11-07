@@ -1,5 +1,6 @@
 package kr.co.igo.pleasebuy.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -20,7 +21,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -30,6 +34,7 @@ import cz.msebera.android.httpclient.Header;
 import kr.co.igo.pleasebuy.R;
 import kr.co.igo.pleasebuy.adapter.FavoriteAdapter;
 import kr.co.igo.pleasebuy.model.Product;
+import kr.co.igo.pleasebuy.popup.CalendarTwoPopup;
 import kr.co.igo.pleasebuy.trunk.BaseFragment;
 import kr.co.igo.pleasebuy.trunk.api.APIManager;
 import kr.co.igo.pleasebuy.trunk.api.APIUrl;
@@ -49,6 +54,10 @@ public class StatisticsFragment extends BaseFragment {
     @Bind(R.id.lc_chart2)       LineChart lc_chart2;
     @Bind(R.id.tv_category)     TextView tv_category;
 
+    private List<String> mDataList = new ArrayList<>();
+
+    private String fromDate;
+    private String toDate;
 
     public StatisticsFragment()  {
 
@@ -66,10 +75,22 @@ public class StatisticsFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_statistics, container, false);
         ButterKnife.bind(this, view);
 
-
+        setInit();
         setCategoryItem();
         setChartAll();
         return view;
+    }
+
+    private void setInit() {
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat sSdf = new SimpleDateFormat("yyyy-MM");
+        SimpleDateFormat eSdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        toDate = eSdf.format(date);
+        fromDate = sSdf.format(date) + ".01";
+
+        tv_date.setText(fromDate + " ~ " + toDate);
     }
 
     @Override
@@ -119,26 +140,92 @@ public class StatisticsFragment extends BaseFragment {
     public void OnClick(View v){
         switch (v.getId()) {
             case R.id.ib_settting:
+                showCalendar();
                 break;
-
         }
     }
 
 
+    private void showCalendar(){
+        final CalendarTwoPopup calendarPopup = new CalendarTwoPopup(getActivity());
+        calendarPopup.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if (calendarPopup.getBtn_result().equals("ok")) {
+                    fromDate = calendarPopup.getStartDate();
+                    toDate = calendarPopup.getEndDate();
+                    tv_date.setText(fromDate + " ~ " + toDate);
+                    getData();
+                }
+            }
+        });
+        calendarPopup.show();
+    }
+
+
     private void setCategoryItem() {
-        gl_category.removeAllViews();
+        RequestParams param = new RequestParams();
 
-        for (int i=0; i< 8; i++) {
-            View v = getActivity().getLayoutInflater().inflate(R.layout.item_statistics_category, null);
-            LinearLayout ll_item = (LinearLayout) v.findViewById(R.id.ll_item);
-            TextView tv_title = (TextView) v.findViewById(R.id.tv_title);
-            ImageView iv_icon = (ImageView) v.findViewById(R.id.iv_icon);
-            TextView tv_percent = (TextView) v.findViewById(R.id.tv_percent);
+        APIManager.getInstance().callAPI(APIUrl.USER_CATEGORY_LIST, param, new RequestHandler(getActivity(), uuid) {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    if (response.getInt("code") == 0) {
+                        gl_category.removeAllViews();
+                        mDataList.clear();
 
-            gl_category.addView(v);
+                        JSONArray jsonArray = response.getJSONArray("categoryList");
+                        for(int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject obj = jsonArray.getJSONObject(i);
+                            if (obj != null) {
+                                View v = getActivity().getLayoutInflater().inflate(R.layout.item_statistics_category, null);
+                                LinearLayout ll_item = (LinearLayout) v.findViewById(R.id.ll_item);
+                                TextView tv_title = (TextView) v.findViewById(R.id.tv_title);
+                                ImageView iv_icon = (ImageView) v.findViewById(R.id.iv_icon);
+                                TextView tv_percent = (TextView) v.findViewById(R.id.tv_percent);
+
+                                String item = obj.optString("value");
+                                mDataList.add(item);
+
+                                tv_title.setText(item);
+                                tv_percent.setText(i + "%");
+                                iv_icon.setActivated(i%2 ==0);
+                                tv_percent.setActivated(i%2 ==0);
+
+                                ll_item.setTag(i);
+                                ll_item.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        selectedCategory((Integer) v.getTag());
+                                    }
+                                });
+                                gl_category.addView(v);
+                            }
+                        }
+
+                        selectedCategory(0);
+                    }
+                } catch (JSONException ignored) {
+                } finally {
+                }
+            }
+        });
+
+    }
+
+    private void selectedCategoryClear(){
+        for (int i=0; i<gl_category.getChildCount(); i++) {
+            gl_category.getChildAt(i).setSelected(false);
         }
+    }
 
+    private void selectedCategory(int pos) {
+        selectedCategoryClear();
+        gl_category.getChildAt(pos).setSelected(true);
+    }
 
+    private void getData(){
 
     }
 

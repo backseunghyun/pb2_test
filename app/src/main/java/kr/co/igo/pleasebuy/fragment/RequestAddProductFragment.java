@@ -102,6 +102,7 @@ public class RequestAddProductFragment extends BaseFragment {
     public void onClick(View v){
         switch (v.getId()){
             case R.id.ib_add:
+                getActivity().startActivity(new Intent(getActivity(), RequestAddProductEditActivity.class));
                 break;
         }
     }

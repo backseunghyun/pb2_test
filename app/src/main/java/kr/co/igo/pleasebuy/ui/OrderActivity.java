@@ -47,10 +47,10 @@ public class OrderActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if(getSupportFragmentManager().getBackStackEntryCount() == 1) {
-            finish();
-        } else {
+        if(getSupportFragmentManager().getBackStackEntryCount() == 2) {
             getSupportFragmentManager().popBackStack();
+        } else {
+            finish();
         }
     }
 
@@ -86,5 +86,9 @@ public class OrderActivity extends BaseActivity {
                 break;
 
         }
+    }
+
+    public void setStep3Data(int id){
+        orderStep3Fragment.setDate(id);
     }
 }

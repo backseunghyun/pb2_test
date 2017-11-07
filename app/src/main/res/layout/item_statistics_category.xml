@@ -3,14 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/ll_item"
+    android:background="@drawable/selector_item_statistics_bg">
     <LinearLayout
-        android:id="@+id/ll_item"
+
         android:layout_width="93dp"
-        android:layout_height="29dp"
+        android:layout_height="33dp"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:background="@drawable/selector_item_statistics_bg">
+        android:duplicateParentState="true"
+        >
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="0dp"
@@ -18,23 +21,23 @@
             android:layout_weight="1"
             android:layout_marginLeft="9dp"
             android:textSize="12dp"
-            android:textColor="@color/c_333333"
+            android:textColor="@drawable/selector_statistics_text"
             app:font="custom1"
-            android:text="신선"/>
+            android:duplicateParentState="true"
+            />
         <ImageView
             android:id="@+id/iv_icon"
             android:layout_width="7dp"
             android:layout_height="6dp"
-            android:background="@drawable/ic_up"/>
+            android:background="@drawable/selector_ic_up_down"/>
         <TextView
             android:id="@+id/tv_percent"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="9dp"
             android:textSize="11dp"
-            android:textColor="@color/c_ed145b"
+            android:textColor="@drawable/selector_statistics_percent_text"
             app:font="custom1"
             android:text="10%"/>
     </LinearLayout>

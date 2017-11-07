@@ -330,9 +330,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void setCartCount(int num){
         if (num > 0) {
             tv_count.setText(num + "");
+            tv_count.setVisibility(View.VISIBLE);
             rl_cart_check.setEnabled(true);
         } else {
             tv_count.setText("");
+            tv_count.setVisibility(View.GONE);
             rl_cart_check.setEnabled(false);
         }
 
@@ -342,7 +344,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void cartAddProduct(int productId) {
         RequestParams param = new RequestParams();
         param.put("productIds", productId);
-
 
         APIManager.getInstance().callAPI(APIUrl.CART_ADD_PRODUCT, param, new RequestHandler(this, uuid) {
             @Override

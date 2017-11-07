@@ -40,13 +40,15 @@ public class OrderStep2Adapter extends BaseAdapter {
     private Product m;
     private ViewHolder holder;
     private TextView mView;
+    private TextView mView2;
 
 
-    public OrderStep2Adapter(Activity c, List<Product> list, TextView view) {
+    public OrderStep2Adapter(Activity c, List<Product> list, TextView view, TextView view2) {
         this.activity = c;
         this.layoutInflater = LayoutInflater.from(c);
         this.mList = list;
         this.mView = view;
+        this.mView2 = view2;
     }
 
     @Override
@@ -68,7 +70,7 @@ public class OrderStep2Adapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.adapter_order_step_2_item, parent, false);
-            holder = new ViewHolder(convertView, activity, mList, mView);
+            holder = new ViewHolder(convertView, activity, mList, mView, mView2);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder)convertView.getTag();
@@ -105,12 +107,14 @@ public class OrderStep2Adapter extends BaseAdapter {
         private List<Product> vList = new ArrayList<Product>();
 
         private TextView vView;
+        private TextView vView2;
 
-        public ViewHolder(View view, Activity c, List<Product> list, TextView tv) {
+        public ViewHolder(View view, Activity c, List<Product> list, TextView tv, TextView tv2) {
             ButterKnife.bind(this, view);
             vActivity = c;
             vList = list;
             vView = tv;
+            vView2 = tv2;
         }
 
         @OnClick({R.id.rl_delete, R.id.iv_minus, R.id.iv_plus})
@@ -140,6 +144,7 @@ public class OrderStep2Adapter extends BaseAdapter {
                 price += Integer.parseInt(vList.get(i).getPrice()) * vList.get(i).getSelectedCount();
             }
             vView.setText(CommonUtils.getNumberThreeEachFormatWithWon(price));
+            vView2.setText(vList.size() + "개");
         }
 
         private void delete(String cartIds, String productIds, final int index) {
@@ -154,6 +159,7 @@ public class OrderStep2Adapter extends BaseAdapter {
                     if (response != null && response.optInt("code") == 0) {
                         vList.remove(index);
                         notifyDataSetChanged();
+                        setTotalPrice();
                     }
                 }
             });
