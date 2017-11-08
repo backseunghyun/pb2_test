@@ -47,6 +47,7 @@ public class OrderStep3Fragment extends BaseFragment {
 
     private OrderStep3Adapter mAdapter;
     private List<Product> mList = new ArrayList<Product>();
+    public int orderInfoId;
 
     public OrderStep3Fragment()  {
 
@@ -87,9 +88,10 @@ public class OrderStep3Fragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        setData();
     }
 
-    public void setDate(int orderInfoId) {
+    public void setData() {
         RequestParams param = new RequestParams();
         param.put("orderInfoId", orderInfoId);
 

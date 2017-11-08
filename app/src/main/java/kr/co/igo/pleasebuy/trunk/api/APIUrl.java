@@ -46,7 +46,6 @@ public enum APIUrl {
 
     ORDER_ORDER_DIRECT("/order/order/direct"), // 바로주문
     ORDER_FAVORITE("/order/favorite"), // 즐겨찾기 등록 상품 가져오기
-    ORDER_CANCEL("/order/cancel"), // 주문취소
 
     STORE_INFO("/store/info"), // 가게 정보
     MODIFY_INFORMATION("/store/update"),   // 내정보 수정
@@ -84,7 +83,8 @@ public enum APIUrl {
     CART_REMOVE("/cart/remove"),            // 장바구니 삭제
     ORDER_READY("/order/ready"),            // 주문 준비
     ORDER_ORDER("/order/order"),            // 주문하기
-    ORDER_DETAIL("/order/detail"),           //  주문 상세
+    ORDER_DETAIL("/order/detail"),          // 주문 상세
+    ORDER_CANCEL("/order/cancel"),          // 주문 취소
     BOARD_BBS("/board/bbs"),                // 게시판 리스트
     BOARD_BBS_ADD("/board/bbs/add"),        // 게시판 등록
     BOARD_BBS_DETAIL("/board/bbs/detail"),  // 게시판 상제

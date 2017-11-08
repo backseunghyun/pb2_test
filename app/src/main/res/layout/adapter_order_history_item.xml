@@ -50,7 +50,7 @@
                 android:id="@+id/tv_count"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="right"
                 android:textSize="16dp"
                 android:textColor="@color/c_666666"
                 android:textStyle="bold"/>

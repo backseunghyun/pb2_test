@@ -1,5 +1,7 @@
 package kr.co.igo.pleasebuy.trunk.api;
 
+import android.util.Log;
+
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -46,7 +48,7 @@ public class APIManager {
         param.put("appVersion", ApplicationData.APP_VERSION);
         param.put("deviceId", ApplicationData.DEVICE_ID);
 
-//        Log.wtf("callAPI", ApplicationData.SERVER_PREFIX + url.getUrl() + "&" + param.toString());
+        Log.wtf("callAPI", ApplicationData.SERVER_PREFIX + url.getUrl() + "&" + param.toString());
         client.post(ApplicationData.SERVER_PREFIX + url.getUrl(), param, responseHandler);
     }
 

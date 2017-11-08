@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import kr.co.igo.pleasebuy.R;
 import kr.co.igo.pleasebuy.model.Product;
+import kr.co.igo.pleasebuy.util.CommonUtils;
 
 /**
  * Created by Back on 2017-02-27.
@@ -61,9 +64,21 @@ public class OrderHistoryAdapter extends BaseAdapter {
 
         m = mList.get(position);
 
+        holder.tv_name.setText(m.getProductName());
+        holder.tv_price.setText(CommonUtils.getNumberThreeEachFormatWithWon(Integer.parseInt(m.getPrice()) * m.getSelectedCount()));
+        holder.tv_etc.setText(m.getOrigin() + "/" + m.getUnit());
 
+        Glide.with(activity)
+                .load( m.getImgUrl())
+                .centerCrop()
+//                .fallback(activity.getResources().getDrawable(R.drawable.img_park_default))
+//                .error(activity.getResources().getDrawable(R.drawable.img_park_default))
+                .into(holder.iv_image);
 
-        holder.tv_count.setText(m.getSelectedCount() + "");
+        holder.tv_count.setText(m.getSelectedCount() + "개");
+
+        holder.tv_count.setSelected(m.getSelectedCount() != Integer.parseInt(m.getQuantity()));
+        holder.tv_price.setSelected(m.getSelectedCount() != Integer.parseInt(m.getQuantity()));
 
         holder.vPosition = position;
 

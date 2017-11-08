@@ -89,6 +89,6 @@ public class OrderActivity extends BaseActivity {
     }
 
     public void setStep3Data(int id){
-        orderStep3Fragment.setDate(id);
+        orderStep3Fragment.orderInfoId = id;
     }
 }

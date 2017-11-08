@@ -15,8 +15,11 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import kr.co.igo.pleasebuy.R;
+import kr.co.igo.pleasebuy.model.OrderHistoryDate;
 import kr.co.igo.pleasebuy.model.Product;
+import kr.co.igo.pleasebuy.ui.MainActivity;
 
 /**
  * Created by Back on 2017-02-27.
@@ -24,12 +27,11 @@ import kr.co.igo.pleasebuy.model.Product;
 public class OrderHistoryDateAdapter extends RecyclerView.Adapter<OrderHistoryDateAdapter.ViewHolder> {
     private Activity activity;
     private LayoutInflater layoutInflater;
-    private List<Product> mList = new ArrayList<Product>();
-    private Product m;
-    private ViewHolder holder;
+    private List<OrderHistoryDate> mList = new ArrayList<OrderHistoryDate>();
+    private OrderHistoryDate m;
 
 
-    public OrderHistoryDateAdapter(Activity c, List<Product> list) {
+    public OrderHistoryDateAdapter(Activity c, List<OrderHistoryDate> list) {
         this.activity = c;
         this.layoutInflater = LayoutInflater.from(c);
         this.mList = list;
@@ -40,7 +42,7 @@ public class OrderHistoryDateAdapter extends RecyclerView.Adapter<OrderHistoryDa
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.adapter_order_history_date_item, parent, false);
 
-        ViewHolder holder = new ViewHolder(view);
+        ViewHolder holder = new ViewHolder(view, activity, mList);
 
         return holder;
     }
@@ -49,7 +51,12 @@ public class OrderHistoryDateAdapter extends RecyclerView.Adapter<OrderHistoryDa
     public void onBindViewHolder(ViewHolder holder, int position) {
         m = mList.get(position);
 
-        holder.tv_date.setText("01");
+        holder.tv_date.setText(m.getDate());
+        holder.tv_satus.setText(m.getStatus());
+
+        holder.ll_bg.setSelected(m.isSelected());
+        holder.ll_bg.setActivated(m.isActivated());
+        holder.vPosition = position;
     }
 
     @Override
@@ -68,12 +75,37 @@ public class OrderHistoryDateAdapter extends RecyclerView.Adapter<OrderHistoryDa
         @Bind(R.id.tv_date)         TextView tv_date;
         @Bind(R.id.tv_satus)        TextView tv_satus;
 
+        private int vPosition;
+        private Activity vActivity;
+        private List<OrderHistoryDate> vList = new ArrayList<OrderHistoryDate>();
 
-        public ViewHolder(View view) {
+        public ViewHolder(View view, Activity c, List<OrderHistoryDate> list) {
             super(view);
             ButterKnife.bind(this, view);
+            vActivity = c;
+            vList = list;
         }
 
+        @OnClick({R.id.ll_bg})
+        public void onClick(View v) {
+            OrderHistoryDate m = vList.get(vPosition);
+            switch (v.getId()) {
+                case R.id.ll_bg:
+                    clear();
+                    m.setSelected(true);
+                    if(vActivity instanceof MainActivity) {
+                        ((MainActivity)vActivity).orderHistoryChangeData(m.getOrderInfoId());
+                    }
+                    notifyDataSetChanged();
+                    break;
+            }
+        }
+
+        public void clear(){
+            for (int i=0; i<vList.size(); i++) {
+                vList.get(i).setSelected(false);
+            }
+        }
 
     }
 }

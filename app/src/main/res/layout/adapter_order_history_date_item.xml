@@ -4,32 +4,37 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
+
     <LinearLayout
         android:id="@+id/ll_bg"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:orientation="vertical"
+        android:background="@drawable/selector_order_history_date_bg_color"
         android:gravity="center"
-        android:background="@drawable/selector_order_history_date_bg_color">
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/tv_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16dp"
-            android:textColor="@drawable/selector_order_history_date_color"
-            appd:font="custom1"
             android:gravity="center"
-            android:text="01"/>
+            android:text="01"
+            android:textColor="@drawable/selector_order_history_date_text_color"
+            android:textSize="16dp"
+            appd:font="custom1"
+            android:duplicateParentState="true"/>
+
         <TextView
             android:id="@+id/tv_satus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="11dp"
             android:layout_marginTop="3dp"
-            android:textColor="@drawable/selector_order_history_date_color"
-            appd:font="custom1"
             android:gravity="center"
-            android:text="배송중"/>
+            android:text="배송중"
+            android:textColor="@drawable/selector_order_history_date_text_color"
+            android:textSize="11dp"
+            appd:font="custom1"
+            android:duplicateParentState="true"/>
     </LinearLayout>
 
 </LinearLayout>

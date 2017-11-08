@@ -369,6 +369,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
             }
         }
+    }
 
+    public void orderHistoryChangeData(int id){
+        orderHistoryFragment.orderHistoryChangeData(id);
     }
 }

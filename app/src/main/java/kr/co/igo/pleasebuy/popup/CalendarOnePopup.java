@@ -79,12 +79,12 @@ public class CalendarOnePopup extends Dialog {
             cal.add(Calendar.DATE, +1);
             cDate = cal.getTime();
         }
-        sdf = new SimpleDateFormat("yyyy.MM.dd");
+        sdf = new SimpleDateFormat("yyyy-MM-dd");
         sdf1 = new SimpleDateFormat("yyyyMMdd");
         selectedDate = cDate;
 
         Date today = new Date();
-        select_day = CommonUtils.getTimeStampString(today, "yyyy.MM.dd");
+        select_day = CommonUtils.getTimeStampString(today, "yyyy-MM-dd");
 
         DateFormat format = new SimpleDateFormat("yyyy년 MM월");
         TitleFormatter DEFAULT_TITLE_FORMATTER = new DateFormatTitleFormatter(format);

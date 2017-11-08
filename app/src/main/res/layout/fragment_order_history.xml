@@ -6,17 +6,38 @@
     android:layout_height="match_parent"
     android:background="@color/c_f4f4f4">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_date_list"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@color/c_ffffff"
-        android:dividerHeight="0.6dp"
-        android:divider="@color/c_cecece"
-        android:listSelector="@android:color/transparent"
-        android:scrollbars="none"
-        >
-    </android.support.v7.widget.RecyclerView>
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:orientation="vertical"
+            android:background="@color/c_333333"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/tv_month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13dp"
+                android:textColor="@color/c_ffffff"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_date_list"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/c_ffffff"
+            android:dividerHeight="0.6dp"
+            android:divider="@color/c_cecece"
+            android:listSelector="@android:color/transparent"
+            android:scrollbars="none"
+            >
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
 
 
     <LinearLayout
@@ -26,19 +47,24 @@
         android:background="@color/c_f33b2d"
         android:gravity="center_vertical">
         <ImageView
+            android:id="@+id/iv_date"
             android:layout_width="14dp"
             android:layout_height="14dp"
-            android:background="@drawable/btn_w_left_arrow"
+            android:background="@drawable/btn_date"
             android:layout_marginLeft="22dp"/>
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/tv_reference_date"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="6dp"
             android:textSize="13dp"
-            android:textColor="@color/c_ffffff"
-            android:text="2017.09.09"/>
+            android:textColor="@color/c_ffffff"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
         <RadioButton
+            android:id="@+id/rb_order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="주문"
@@ -47,6 +73,7 @@
             app:font="custom1"
             android:buttonTint="@color/c_ffffff"/>
         <RadioButton
+            android:id="@+id/rb_delivery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="28dp"
@@ -101,13 +128,13 @@
                 app:font="custom1"
                 android:text="총 수량:"/>
             <TextView
+                android:id="@+id/tv_cntProductInCart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="14dp"
                 android:textSize="17dp"
                 android:textColor="@color/c_333333"
-                app:font="custom1"
-                android:text="40개"/>
+                app:font="custom1"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -121,116 +148,126 @@
                 app:font="custom1"
                 android:text="총 금액:"/>
             <TextView
+                android:id="@+id/tv_totalOfOrderPrice"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="17dp"
                 android:textColor="@color/c_f33b2d"
                 app:font="custom1"
-                android:gravity="right"
-                android:text="25,000원"/>
+                android:gravity="right"/>
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="25dp"
         android:layout_marginLeft="23dp"
         android:layout_marginRight="23dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/shape_round_10dp_ffffff"
+        android:orientation="vertical"
         android:paddingLeft="18dp"
         android:paddingRight="18dp"
-        android:paddingTop="21dp"
-        android:background="@drawable/shape_round_10dp_ffffff">
+        android:paddingTop="21dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:textSize="13dp"
+                android:text="배송요청일"
                 android:textColor="@color/c_999999"
-                app:font="custom1"
-                android:text="배송요청일"/>
+                android:textSize="13dp"
+                app:font="custom1" />
+
             <TextView
+                android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="13dp"
                 android:textColor="@color/c_333333"
-                app:font="custom1"
-                android:text="2017.09.09"/>
+                android:textSize="13dp"
+                app:font="custom1" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="14dp">
+            android:layout_marginTop="14dp"
+            android:orientation="horizontal">
+
             <TextView
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:textSize="13dp"
+                android:text="배송지"
                 android:textColor="@color/c_999999"
-                app:font="custom1"
-                android:text="배송지"/>
+                android:textSize="13dp"
+                app:font="custom1" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
+                    android:id="@+id/tv_storeName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="13dp"
                     android:textColor="@color/c_333333"
-                    app:font="custom1"
-                    android:text="123"/>
+                    android:textSize="13dp"
+                    app:font="custom1" />
+
                 <TextView
+                    android:id="@+id/tv_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
-                    android:textSize="11dp"
                     android:textColor="@color/c_999999"
-                    app:font="custom1"
-                    android:text="asdfasdfasdfasf"
-                    />
+                    android:textSize="11dp"
+                    app:font="custom1" />
             </LinearLayout>
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.3dp"
-            android:background="@color/c_cecece"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp"
+            android:background="@color/c_cecece" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="42dp"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:paddingRight="20dp">
+
             <TextView
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:textSize="13dp"
+                android:text="배송요청사항"
                 android:textColor="@color/c_999999"
-                app:font="custom1"
-                android:text="배송요청사항"/>
+                android:textSize="13dp"
+                app:font="custom1" />
+
             <TextView
+                android:id="@+id/tv_etc"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="7dp"
-                android:textSize="13dp"
-                android:textColor="@color/c_333333"
-                app:font="custom1"
                 android:gravity="center_vertical"
-                android:text="가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타"
                 android:maxLength="38"
                 android:maxLines="2"
-                />
+                android:textColor="@color/c_333333"
+                android:textSize="13dp"
+                app:font="custom1" />
 
         </LinearLayout>
 
     </LinearLayout>
-    
+
     <RelativeLayout
         android:id="@+id/rl_order_cancel"
         android:layout_width="212dp"

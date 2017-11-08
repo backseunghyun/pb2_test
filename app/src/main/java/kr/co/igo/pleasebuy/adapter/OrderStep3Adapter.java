@@ -16,6 +16,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import kr.co.igo.pleasebuy.R;
 import kr.co.igo.pleasebuy.model.Product;
+import kr.co.igo.pleasebuy.util.CommonUtils;
 
 /**
  * Created by Back on 2017-02-27.
@@ -61,12 +62,13 @@ public class OrderStep3Adapter extends BaseAdapter {
 
         m = mList.get(position);
 
-
+        holder.tv_name.setText(m.getProductName());
+        holder.tv_price.setText(CommonUtils.getNumberThreeEachFormatWithWon(Integer.parseInt(m.getPrice()) * m.getSelectedCount()));
+        holder.tv_etc.setText(m.getOrigin() + "/" + m.getUnit());
 
         holder.tv_count.setText(m.getSelectedCount() + "");
 
         holder.vPosition = position;
-
 
         return convertView;
     }

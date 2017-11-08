@@ -95,7 +95,7 @@ public class OrderStep2Fragment extends BaseFragment {
         cal.setTime(cDate);
         cal.add(Calendar.DATE, + 1);
         cDate = cal.getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         tv_date.setText(sdf.format(cDate));
     }
 
