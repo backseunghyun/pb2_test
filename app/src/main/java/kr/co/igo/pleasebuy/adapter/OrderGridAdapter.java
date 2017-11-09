@@ -20,6 +20,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import kr.co.igo.pleasebuy.R;
 import kr.co.igo.pleasebuy.model.Product;
+import kr.co.igo.pleasebuy.ui.FavoriteEditAddActivity;
 import kr.co.igo.pleasebuy.ui.MainActivity;
 import kr.co.igo.pleasebuy.util.CommonUtils;
 
@@ -115,6 +116,10 @@ public class OrderGridAdapter extends RecyclerView.Adapter<OrderGridAdapter.View
                         Log.d("check", "main");
                         m.setIsInCart(1);
                         ((MainActivity)vActivity).cartAddProduct(Integer.parseInt(m.getProductId()));
+                        notifyDataSetChanged();
+                    } else if (vActivity instanceof FavoriteEditAddActivity){
+                        m.setIsInCart(1);
+                        ((FavoriteEditAddActivity)vActivity).cartAddProduct(Integer.parseInt(m.getProductId()));
                         notifyDataSetChanged();
                     }
                     break;

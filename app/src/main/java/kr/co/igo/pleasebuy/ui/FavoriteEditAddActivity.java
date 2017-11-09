@@ -1,13 +1,17 @@
 package kr.co.igo.pleasebuy.ui;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.loopj.android.http.RequestParams;
@@ -46,16 +50,18 @@ import kr.co.igo.pleasebuy.util.Preference;
  */
 
 public class FavoriteEditAddActivity extends BaseActivity {
-    @Bind(R.id.rl_back)     RelativeLayout rl_back;
+    @Bind(R.id.rl_back)          RelativeLayout rl_back;
     @Bind(R.id.rl_cart_check)   RelativeLayout rl_cart_check;
     @Bind(R.id.rl_change)   RelativeLayout rl_change;
     @Bind(R.id.et_search)   EditText et_search;
     @Bind(R.id.b_search)    Button b_search;
     @Bind(R.id.magic_indicator)     MagicIndicator magic_indicator;
     @Bind(R.id.view_pager)  ViewPager view_pager;
+    @Bind(R.id.iv_complete)     ImageView iv_complete;
 
     private List<Product> mList = new ArrayList<Product>();
     private List<Product> fList = new ArrayList<Product>();
+    private List<Product> tList = new ArrayList<Product>();
     private List<String> mDataList = new ArrayList<>();
     private OrderPagerAdapter mAdapter;
 
@@ -70,6 +76,11 @@ public class FavoriteEditAddActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         preference = new Preference();
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null && bundle.getParcelableArrayList("productIds") != null) {
+            tList = bundle.getParcelableArrayList("productIds");
+        }
 
         mAdapter = new OrderPagerAdapter(this, mDataList, mList);
         mAdapter.setIsList(preference.getStringPreference(Preference.PREFS_KEY.IS_LIST_VISIBLE).equals(preference.TRUE));
@@ -123,16 +134,44 @@ public class FavoriteEditAddActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.rl_change, R.id.b_search})
+    @OnClick({R.id.rl_back, R.id.rl_change, R.id.b_search, R.id.rl_cart_check})
     public void OnClick(View v){
         switch (v.getId()) {
+            case R.id.rl_back:
+                cancel();
+                break;
             case R.id.rl_change:
                 setListChange();
                 break;
             case R.id.b_search:
+                search();
                 break;
-
+            case R.id.rl_cart_check:
+                if (tList.size() == 0) {
+                    Intent intent2 = new Intent(this, FavoriteEditActivity.class);
+                    intent2.putParcelableArrayListExtra("productIds", (ArrayList<? extends Parcelable>) mList);
+                    startActivity(intent2);
+                    finish();
+                } else {
+                    Intent intent = new Intent();
+                    intent.putParcelableArrayListExtra("productIds", (ArrayList<? extends Parcelable>) mList);
+                    setResult(Activity.RESULT_OK, intent);
+                    finish();
+                }
+                break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        cancel();
+    }
+
+    private void cancel(){
+        Intent intent = new Intent();
+        intent.putParcelableArrayListExtra("productIds", (ArrayList<? extends Parcelable>) fList);
+        setResult(Activity.RESULT_OK, intent);
+        finish();
     }
 
     private void search(){
@@ -221,6 +260,13 @@ public class FavoriteEditAddActivity extends BaseActivity {
 
                                 item.setIsInCart(0);
 
+                                for (int j=0; j<tList.size(); j++) {
+                                    if (tList.get(j).getProductId().equals(item.getProductId())){
+                                        item.setIsInCart(1);
+                                        break;
+                                    }
+                                }
+
                                 item.setImgUrl(ApplicationData.getImgPrefix() + obj.optString("imageUrl"));
 
                                 item.setManufacturer(obj.optString("manufacturer"));
@@ -242,13 +288,14 @@ public class FavoriteEditAddActivity extends BaseActivity {
         });
     }
 
-    public void setCartCheck(){
-        for (int i=0; i < mList.size(); i++) {
+    public void cartAddProduct(int productId) {
+        rl_cart_check.setEnabled(false);
+
+        for(int i=0; i<mList.size(); i++) {
             if (mList.get(i).getIsInCart() > 0) {
                 rl_cart_check.setEnabled(true);
                 break;
             }
         }
-        rl_cart_check.setEnabled(false);
     }
 }

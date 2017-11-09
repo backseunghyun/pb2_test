@@ -92,7 +92,11 @@ public enum APIUrl {
     BOARD_BBS_REMOVE("/board/bbs/remove"),  // 게시판 삭제
     BOARD_NOTICE("/board/notice"),          // 공지사항
     FAVORITE_GROUP("/favorite-group"),      // 즐겨찾기 그룹
-    FAVORITE_GROUP_DETAILS("/favorite-group/details"),      // 즐겨찾기 그룹 상세
+    FAVORITE_GROUP_DETAILS("/favorite-group/details"),                  // 즐겨찾기 그룹 상세
+    FAVORITE_GROUP_ADD("/favorite-group/add"),                          // 즐겨찾기 그룹 추가
+    FAVORITE_GROUP_UPDATE("/favorite-group/update"),                    // 즐겨찾기 그룹 수정 (이름 수정)
+    FAVORITE_GROUP_UPDATE_FAVORITE("/favorite-group/update/favorite"),  // 즐겨찾기 그룹 상품 변경
+    FAVORITE_GROUP_REMOVE("/favorite-group/remove"),                    // 즐겨찾기 그룹 삭제
 
     BOARD_NOTICE_DETAIL("/board/notice/detail"),    // 공지사항 상세
 

@@ -14,14 +14,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="7dp"
             >
             <ImageButton
                 android:layout_width="14dp"
                 android:layout_height="25dp"
-                android:layout_margin="10dp"
+                android:layout_margin="15dp"
                 android:layout_centerVertical="true"
-                android:background="@drawable/btn_back"/>
+                android:background="@drawable/btn_back"
+                android:duplicateParentState="true"/>
         </RelativeLayout>
 
 
@@ -46,6 +47,7 @@
             android:layout_marginRight="12dp"
             >
             <ImageView
+                android:id="@+id/iv_complete"
                 android:layout_width="26dp"
                 android:layout_height="16dp"
                 android:layout_margin="10dp"

@@ -13,6 +13,7 @@
     <color name="c_000000">#000000</color>
     <color name="c_cccccc_70">#B3cccccc</color>
     <color name="c_000000_70">#B3000000</color>
+    <color name="c_000000_30">#32000000</color>
     <color name="c_b03c33">#b03c33</color>
     <color name="c_ef8f7c">#ef8f7c</color>
     <color name="c_f33b2d_50">#80f33b2d</color>

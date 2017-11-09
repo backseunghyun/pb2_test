@@ -55,6 +55,8 @@ public class Product implements Parcelable {
         cartId = in.readString();
         favoriteId = in.readString();
         selected = in.readInt() == 1;
+        isInCart = in.readInt();
+        categoryValue = in.readString();
     }
 
     @Override
@@ -76,6 +78,8 @@ public class Product implements Parcelable {
         dest.writeString(cartId);
         dest.writeString(favoriteId);
         dest.writeInt(selected ? 1 : 0);
+        dest.writeInt(isInCart);
+        dest.writeString(categoryValue);
 
     }
 

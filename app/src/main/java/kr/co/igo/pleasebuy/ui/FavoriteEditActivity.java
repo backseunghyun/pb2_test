@@ -1,8 +1,13 @@
 package kr.co.igo.pleasebuy.ui;
 
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -12,6 +17,7 @@ import android.widget.Toast;
 
 import com.loopj.android.http.RequestParams;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,12 +33,15 @@ import kr.co.igo.pleasebuy.R;
 import kr.co.igo.pleasebuy.adapter.FavoriteDetailAdapter;
 import kr.co.igo.pleasebuy.adapter.FavoriteEditAdapter;
 import kr.co.igo.pleasebuy.model.Product;
+import kr.co.igo.pleasebuy.popup.ConfirmPopup;
+import kr.co.igo.pleasebuy.popup.TwoButtonPopup;
 import kr.co.igo.pleasebuy.trunk.BaseActivity;
 import kr.co.igo.pleasebuy.trunk.api.APIManager;
 import kr.co.igo.pleasebuy.trunk.api.APIUrl;
 import kr.co.igo.pleasebuy.trunk.api.RequestHandler;
 import kr.co.igo.pleasebuy.util.BackPressCloseSystem;
 import kr.co.igo.pleasebuy.util.CommonUtils;
+import kr.co.igo.pleasebuy.util.Dir;
 import kr.co.igo.pleasebuy.util.Preference;
 
 public class FavoriteEditActivity extends BaseActivity {
@@ -44,10 +53,11 @@ public class FavoriteEditActivity extends BaseActivity {
 
     private FavoriteEditAdapter mAdapter;
     private List<Product> mList = new ArrayList<Product>();
+    private List<Product> nList = new ArrayList<Product>();
 
     public Preference preference;
     private BackPressCloseSystem backPressCloseSystem;
-    private int favoriteGroupId;
+    private int favoriteGroupId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,26 +75,67 @@ public class FavoriteEditActivity extends BaseActivity {
 
         if(getIntent().hasExtra("favoriteGroupId")) {
             favoriteGroupId = getIntent().getIntExtra("favoriteGroupId",0);
+            getList();
+        } else {
+            if (getIntent().hasExtra("productIds")) {
+                Bundle bundle = getIntent().getExtras();
+                List<Product> tList = new ArrayList<Product>();
+                tList = bundle.getParcelableArrayList("productIds");
+                mList.clear();
+                nList.clear();
+                for (Product aTList : tList) {
+                    if (aTList.getIsInCart() > 0) {
+                        mList.add(aTList);
+                        nList.add(aTList);
+                    }
+                }
+                mAdapter.notifyDataSetChanged();
+            }
         }
+
+
     }
 
+    @Override
+    public void onBackPressed() {
+        checkedFinish();
+    }
 
     @OnClick({R.id.iv_back, R.id.tv_cancel, R.id.tv_save, R.id.ib_add, R.id.rl_cart})
     public void onClick(View v){
         switch (v.getId()) {
             case R.id.iv_back:
-                finish();
+                checkedFinish();
                 break;
             case R.id.tv_cancel:
-                finish();
+                checkedFinish();
                 break;
             case R.id.tv_save:
-                break;
-            case R.id.ib_add:
-                startActivity(new Intent(this, FavoriteEditAddActivity.class));
+                String productIds = "";
+                for(int i=0; i<mList.size(); i++) {
+                    productIds += productIds.equals("") ? mList.get(i).getProductId() : "," + mList.get(i).getProductId();
+                }
+
+                if (et_name.getText().toString().length() == 0) {
+                    showError(getResources().getString(R.string.s_update_favorite_error_no_name));
+                } else if (productIds.equals("")) {
+                    showError(getResources().getString(R.string.s_update_favorite_error_no_products));
+                } else {
+                    if (favoriteGroupId != -1) {
+                        update(productIds);
+                    } else {
+                        add(productIds);
+                    }
+                }
                 break;
             case R.id.rl_cart:
                 startActivity(new Intent(this, OrderActivity.class));
+                break;
+
+            case R.id.ib_add:
+                Intent intent = new Intent(this,FavoriteEditAddActivity.class);
+                intent.putParcelableArrayListExtra("productIds", (ArrayList<? extends Parcelable>) mList);
+                startActivityForResult(intent, 100);
                 break;
         }
     }
@@ -92,8 +143,30 @@ public class FavoriteEditActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        setCartCount(preference.getIntPreference(Preference.PREFS_KEY.CNT_PRODUCT_IN_CART));
-        getList();
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case 100:
+                    if (data.hasExtra("productIds")) {
+                        Bundle bundle = data.getExtras();
+                        List<Product> tList = new ArrayList<Product>();
+                        tList = bundle.getParcelableArrayList("productIds");
+                        mList.clear();
+                        for (Product aTList : tList) {
+                            if (aTList.getIsInCart() > 0) {
+                                mList.add(aTList);
+                            }
+                        }
+
+                        mAdapter.notifyDataSetChanged();
+                    }
+                    break;
+            }
+        }
     }
 
     private void getList() {
@@ -107,6 +180,7 @@ public class FavoriteEditActivity extends BaseActivity {
                 try {
                     if (response.getInt("code") == 0) {
                         mList.clear();
+                        nList.clear();
 
                         JSONObject favoriteGroup = response.getJSONObject("favoriteGroup");
                         et_name.setText(favoriteGroup.optString("name"));
@@ -127,6 +201,7 @@ public class FavoriteEditActivity extends BaseActivity {
                                 item.setSelected(false);
 
                                 mList.add(item);
+                                nList.add(item);
                             }
                         }
                     }
@@ -138,36 +213,18 @@ public class FavoriteEditActivity extends BaseActivity {
         });
     }
 
-    private void cartAdd(){
-        String productIds = "";
-        int count = 0;
-
-        for(int i=0; i<mList.size(); i++) {
-            if(mList.get(i).isSelected()) {
-                count ++;
-                productIds += productIds.equals("") ? mList.get(i).getProductId() : "," + mList.get(i).getProductId();
-            }
-        }
-
-        if (productIds.equals("")) {
-            Toast.makeText(FavoriteEditActivity.this, getResources().getString(R.string.s_cart_add_validation), Toast.LENGTH_SHORT).show();
-        } else {
-            cartAddProduct(productIds, count);
-        }
-    }
-
-    public void cartAddProduct(String productIds, final int count) {
+    public void add(String productIds) {
         RequestParams param = new RequestParams();
+        param.put("name", et_name.getText().toString());
         param.put("productIds", productIds);
 
-        APIManager.getInstance().callAPI(APIUrl.CART_ADD_PRODUCT, param, new RequestHandler(this, uuid) {
+        APIManager.getInstance().callAPI(APIUrl.FAVORITE_GROUP_ADD, param, new RequestHandler(this, uuid) {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 try {
                     if (response.getInt("code") == 0) {
-                        Toast.makeText(FavoriteEditActivity.this, String.format(getResources().getString(R.string.s_cart_add_success), count), Toast.LENGTH_SHORT).show();
-                        setCartCount(response.optInt("cntProductInCart", 0));
+                        showSaveSuccess();
                     }
                 } catch (JSONException ignored) {
                 }
@@ -175,15 +232,131 @@ public class FavoriteEditActivity extends BaseActivity {
         });
     }
 
-    private void setCartCount(int num){
-        if (num > 0) {
-            tv_count.setText(num + "");
-            rl_cart.setEnabled(false);
-        } else {
-            tv_count.setText("");
-            rl_cart.setEnabled(true);
+    public void update(final String productIds) {
+        RequestParams param = new RequestParams();
+        param.put("favoriteGroupId", favoriteGroupId);
+        param.put("name", et_name.getText().toString());
+
+        APIManager.getInstance().callAPI(APIUrl.FAVORITE_GROUP_UPDATE, param, new RequestHandler(this, uuid) {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    if (response.getInt("code") == 0) {
+                        updateFavorite(productIds);
+                    }
+                } catch (JSONException ignored) {
+                }
+            }
+        });
+    }
+
+    public void updateFavorite(String productIds) {
+        RequestParams param = new RequestParams();
+        param.put("favoriteGroupId", favoriteGroupId);
+        param.put("productIds", productIds);
+
+        APIManager.getInstance().callAPI(APIUrl.FAVORITE_GROUP_UPDATE_FAVORITE, param, new RequestHandler(this, uuid) {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    if (response.getInt("code") == 0) {
+                        showSaveSuccess();
+                    }
+                } catch (JSONException ignored) {
+                }
+            }
+        });
+    }
+
+    private void deleteFavorite(String productId) {
+        for(int i=0; i<mList.size(); i++) {
+            if (mList.get(i).getProductId().equals(productId)) {
+                mList.remove(i);
+                mAdapter.notifyDataSetChanged();
+                break;
+            }
         }
-        preference.setIntPreference(Preference.PREFS_KEY.CNT_PRODUCT_IN_CART, num);
+    }
+
+    public void confirmDeletePopup(final String productId, String name){
+        final TwoButtonPopup popup = new TwoButtonPopup(this);
+        popup.setCancelable(false);
+        popup.setTitle(getResources().getString(R.string.s_confirm));
+        popup.setContent(name + getResources().getString(R.string.s_ask_delete_favorite));
+        popup.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                if(popup.isConfirm()){
+                    deleteFavorite(productId);
+                }
+            }
+        });
+        popup.show();
+    }
+
+    private void confirmFinishPopup(){
+        final TwoButtonPopup popup = new TwoButtonPopup(this);
+        popup.setCancelable(false);
+        popup.setTitle(getResources().getString(R.string.s_confirm));
+        popup.setContent(getResources().getString(R.string.s_ask_update_favorite_finish));
+        popup.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                if(popup.isConfirm()){
+                    finish();
+                }
+            }
+        });
+        popup.show();
+    }
+
+
+    private void showSaveSuccess(){
+        ConfirmPopup popup = new ConfirmPopup(this);
+        popup.setTitle(getResources().getString(R.string.s_confirm));
+        popup.setContent(getResources().getString(R.string.s_update_favorite_success));
+        popup.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                finish();
+            }
+        });
+        popup.show();
+    }
+
+    private void checkedFinish() {
+        boolean b = false;
+        if (mList.size() == nList.size()){
+            List<Product> tList = new ArrayList<Product>();
+            tList.addAll(mList);
+
+            for (int i = 0; i < nList.size(); i++) {
+                if (tList.containsAll(nList)) {
+                    tList.removeAll(nList);
+                }
+            }
+
+            if (tList.size() > 0) {
+                b = true;
+            }
+        } else {
+            b = true;
+        }
+
+        if (b) {
+            confirmFinishPopup();
+        } else {
+            finish();
+        }
+    }
+
+    private void showError(String msg){
+        ConfirmPopup popup = new ConfirmPopup(this);
+        popup.setTitle(getResources().getString(R.string.s_confirm));
+        popup.setContent(msg);
+        popup.show();
     }
 
 }
