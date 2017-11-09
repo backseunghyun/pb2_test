@@ -34,10 +34,12 @@ import kr.co.igo.pleasebuy.trunk.api.APIManager;
 import kr.co.igo.pleasebuy.trunk.api.APIUrl;
 import kr.co.igo.pleasebuy.trunk.api.RequestHandler;
 import kr.co.igo.pleasebuy.ui.FavoriteDetailActivity;
+import kr.co.igo.pleasebuy.ui.MainActivity;
 import kr.co.igo.pleasebuy.ui.RequestAddProductDetailActivity;
 import kr.co.igo.pleasebuy.ui.RequestAddProductEditActivity;
 import kr.co.igo.pleasebuy.util.ApplicationData;
 import kr.co.igo.pleasebuy.util.BackPressCloseSystem;
+import kr.co.igo.pleasebuy.util.FragmentName;
 import kr.co.igo.pleasebuy.util.Preference;
 
 /**
@@ -95,6 +97,9 @@ public class RequestAddProductFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        if(getActivity() instanceof MainActivity) {
+            ((MainActivity)getActivity()).setHederTitle(FragmentName.ADD.tag());
+        }
         getList();
     }
 

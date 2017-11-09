@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/c_ffffff"
+    >
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/rl_toolbar"
+            android:layout_width="fill_parent"
+            android:layout_height="66dp"
+            android:background="@color/c_ffffff"
+            android:orientation="horizontal"
+            >
+            <ImageButton
+                android:id="@+id/iv_back"
+                android:layout_width="14dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="22dp"
+                android:padding="10dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/btn_back"/>
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_centerInParent="true"
+                android:textSize="16dp"
+                android:textColor="@color/c_333333"
+                android:text="즐겨찾기"
+                android:textStyle="bold"
+                />
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/v_main_line"
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:background="@color/c_cecece"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:focusableInTouchMode="true"
+            android:focusable="true">
+
+            <ListView
+                android:id="@+id/lv_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/c_ffffff"
+                android:divider="@color/c_cecece"
+                android:dividerHeight="0.6dp"
+                android:listSelector="@android:color/transparent">
+            </ListView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="19dp"
+                android:layout_marginBottom="27dp"
+                android:paddingLeft="33dp"
+                android:paddingRight="33dp">
+                <TextView
+                    android:id="@+id/tv_cancel"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/shape_round_5dp_cecece"
+                    android:gravity="center"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:textSize="16dp"
+                    android:text="취소"
+                    />
+                <TextView
+                    android:id="@+id/tv_save"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="0.5"
+                    android:layout_marginLeft="24dp"
+                    android:background="@drawable/shape_round_5dp_333333"
+                    android:gravity="center"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:textSize="16dp"
+                    android:text="저장"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>
+

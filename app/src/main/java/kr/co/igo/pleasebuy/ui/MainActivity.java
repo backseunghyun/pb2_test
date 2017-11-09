@@ -3,6 +3,7 @@ package kr.co.igo.pleasebuy.ui;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -35,6 +36,7 @@ import kr.co.igo.pleasebuy.fragment.ReportFragment;
 import kr.co.igo.pleasebuy.fragment.RequestAddProductFragment;
 import kr.co.igo.pleasebuy.fragment.SettingFragment;
 import kr.co.igo.pleasebuy.fragment.StatisticsFragment;
+import kr.co.igo.pleasebuy.popup.TwoButtonPopup;
 import kr.co.igo.pleasebuy.trunk.BaseActivity;
 import kr.co.igo.pleasebuy.trunk.api.APIManager;
 import kr.co.igo.pleasebuy.trunk.api.APIUrl;
@@ -54,7 +56,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.v_main_line) View v_main_line;
     @Bind(R.id.tv_count)    TextView tv_count;
     @Bind(R.id.rl_cart)     RelativeLayout rl_cart;
-    @Bind(R.id.rl_cart_check)   RelativeLayout rl_cart_check;
+    @Bind(R.id.rl_cart_check)       RelativeLayout rl_cart_check;
+    @Bind(R.id.rl_favorite_edit)    RelativeLayout rl_favorite_edit;
 
     private TextView tv_name;
     private LinearLayout ll_home;
@@ -179,7 +182,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    @OnClick({R.id.rl_menu, R.id.rl_cart, R.id.rl_cart_check})
+    @OnClick({R.id.rl_menu, R.id.rl_cart, R.id.rl_cart_check, R.id.rl_favorite_edit})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_menu:
@@ -191,11 +194,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.rl_cart_check:
                 startActivityForResult(new Intent(this, OrderActivity.class), 100);
                 break;
+            case R.id.rl_favorite_edit:
+                startActivity(new Intent(this, FavoriteDeleteActivity.class));
+                break;
             case R.id.fl_close:
                 menu.showContent();
                 break;
             case R.id.tv_logout:
-
+                logoutPopup();
                 break;
             case R.id.ll_home:
                 mainFragmentReplace(FragmentName.HOME);
@@ -235,6 +241,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         tv_title.setVisibility(View.GONE);
         rl_cart.setVisibility(View.VISIBLE);
         rl_cart_check.setVisibility(View.GONE);
+        rl_favorite_edit.setVisibility(View.GONE);
     }
 
     public void setHeaderHome(){
@@ -242,6 +249,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         tv_title.setVisibility(View.VISIBLE);
         rl_cart.setVisibility(View.GONE);
         rl_cart_check.setVisibility(View.VISIBLE);
+        rl_favorite_edit.setVisibility(View.GONE);
+    }
+
+    public void setHeaderFavorite(){
+        iv_title.setVisibility(View.GONE);
+        tv_title.setVisibility(View.VISIBLE);
+        rl_cart.setVisibility(View.GONE);
+        rl_cart_check.setVisibility(View.GONE);
+        rl_favorite_edit.setVisibility(View.VISIBLE);
     }
 
     public void setHederTitle(String name){
@@ -278,6 +294,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             .setBreadCrumbTitle(index.value())
                             .addToBackStack(null)
                             .commit();
+                    setHeaderFavorite();
                     break;
                 case ADD: // 상품추가 요청
                     ft.replace(R.id.fl_container, requestAddProductFragment)
@@ -373,5 +390,38 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     public void orderHistoryChangeData(int id){
         orderHistoryFragment.orderHistoryChangeData(id);
+    }
+
+    public void logoutPopup() {
+        final TwoButtonPopup popup = new TwoButtonPopup(this);
+        popup.setCancelable(false);
+        popup.setTitle(getResources().getString(R.string.s_confirm));
+        popup.setContent(getResources().getString(R.string.s_ask_logout));
+        popup.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                if(popup.isConfirm()){
+                    logout();
+                }
+            }
+        });
+        popup.show();
+    }
+
+    private void logout() {
+        RequestParams param = new RequestParams();
+
+        APIManager.getInstance().callAPI(APIUrl.PUBLIC_LOGOUT, param, new RequestHandler(this, uuid) {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                if (response != null && response.optInt("code") == 0) {
+
+                    preference.removeValuePreference(Preference.PREFS_KEY.ENC_USER_ID);
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    finish();
+                }
+            }
+        });
     }
 }

@@ -157,7 +157,7 @@ public class HomeFragment extends BaseFragment {
         SimpleDateFormat eSdf = new SimpleDateFormat("yyyy-MM-dd");
 
         tv_mon.setText(date.getMonth() + "월내역");
-        tv_dateFul.setText(sSdf.format(date) + "01 ~ " + eSdf.format(date));
+        tv_dateFul.setText(sSdf.format(date) + ".01 ~ " + eSdf.format(date));
     }
 
 
@@ -179,8 +179,6 @@ public class HomeFragment extends BaseFragment {
 
                         tv_preOrderDate.setText("2017-01-01");
                         tv_preOrderPrice.setText(CommonUtils.getNumberThreeEachFormat(30000));
-
-
 
                         if (getActivity() instanceof MainActivity) {
                             int countProductInCart = response.optInt("cntOfProductInCart",0);

@@ -104,43 +104,11 @@ public class SettingFragment extends BaseFragment {
 //                startActivity(new Intent(getActivity(), TermsActivity.class));
                 break;
             case R.id.rl_logout:
-                logoutPopup();
+                if(getActivity() instanceof MainActivity) {
+                    ((MainActivity)getActivity()).logoutPopup();
+                }
                 break;
         }
-    }
-
-    private void logoutPopup() {
-
-        final TwoButtonPopup popup = new TwoButtonPopup(getActivity());
-        popup.setCancelable(false);
-        popup.setTitle(getResources().getString(R.string.s_confirm));
-        popup.setContent(getResources().getString(R.string.s_ask_logout));
-        popup.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                if(popup.isConfirm()){
-                    logout();
-                }
-            }
-        });
-        popup.show();
-    }
-
-    private void logout() {
-        RequestParams param = new RequestParams();
-
-        APIManager.getInstance().callAPI(APIUrl.PUBLIC_LOGOUT, param, new RequestHandler(getActivity(), uuid) {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-                if (response != null && response.optInt("code") == 0) {
-
-                    preference.removeValuePreference(Preference.PREFS_KEY.ENC_USER_ID);
-                    startActivity(new Intent(getActivity(), LoginActivity.class));
-                    getActivity().finish();
-                }
-            }
-        });
     }
 
 

@@ -82,7 +82,7 @@ public class FavoriteEditAddActivity extends BaseActivity {
             tList = bundle.getParcelableArrayList("productIds");
         }
 
-        mAdapter = new OrderPagerAdapter(this, mDataList, mList);
+        mAdapter = new OrderPagerAdapter(this, mDataList, fList);
         mAdapter.setIsList(preference.getStringPreference(Preference.PREFS_KEY.IS_LIST_VISIBLE).equals(preference.TRUE));
 
         setInit();
@@ -175,21 +175,19 @@ public class FavoriteEditAddActivity extends BaseActivity {
     }
 
     private void search(){
-        if (et_search.getText().toString().length() > 0){
-            fList.clear();
+        fList.clear();
 
-            if(et_search.length()==0){
-                fList.addAll(mList);
-            } else {
-                for(Product item : mList){
-                    if( item.getProductName().contains(et_search.getText().toString().toLowerCase()) ) {
-                        fList.add(item);
-                    }
+        if(et_search.getText().toString().length()==0){
+            fList.addAll(mList);
+        } else {
+            for(Product item : mList){
+                if( item.getProductName().contains(et_search.getText().toString().toLowerCase()) ) {
+                    fList.add(item);
                 }
             }
-            mCommonNavigator.notifyDataSetChanged();
-            mAdapter.notifyDataSetChanged();
         }
+        mCommonNavigator.notifyDataSetChanged();
+        mAdapter.notifyDataSetChanged();
     }
 
     private void setListChange(){

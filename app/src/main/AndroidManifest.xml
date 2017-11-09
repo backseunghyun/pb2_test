@@ -81,8 +81,11 @@
         <activity android:name=".ui.FavoriteDetailActivity"/>
         <activity android:name=".ui.FavoriteEditActivity"/>
         <activity android:name=".ui.FavoriteEditAddActivity"/>
+        <activity android:name=".ui.FavoriteDeleteActivity"/>
         <activity android:name=".ui.RequestAddProductDetailActivity"/>
         <activity android:name=".ui.RequestAddProductEditActivity"/>
+        <activity android:name=".ui.StatisticsDetailAllActivity"/>
+        <activity android:name=".ui.StatisticsDetailCategoryActivity"/>
     </application>
 
 </manifest>

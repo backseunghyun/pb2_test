@@ -1,6 +1,7 @@
 package kr.co.igo.pleasebuy.fragment;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.drawable.Drawable;
@@ -52,6 +53,8 @@ import kr.co.igo.pleasebuy.trunk.api.APIManager;
 import kr.co.igo.pleasebuy.trunk.api.APIUrl;
 import kr.co.igo.pleasebuy.trunk.api.RequestHandler;
 import kr.co.igo.pleasebuy.ui.MainActivity;
+import kr.co.igo.pleasebuy.ui.StatisticsDetailAllActivity;
+import kr.co.igo.pleasebuy.ui.StatisticsDetailCategoryActivity;
 import kr.co.igo.pleasebuy.util.ApplicationData;
 import kr.co.igo.pleasebuy.util.FragmentName;
 
@@ -89,7 +92,8 @@ public class StatisticsFragment extends BaseFragment {
 
         setInit();
         setCategoryItem();
-        setChartAll();
+        setChart(lc_chart1);
+        setChart(lc_chart2);
         return view;
     }
 
@@ -113,46 +117,46 @@ public class StatisticsFragment extends BaseFragment {
         }
     }
 
-    private void setChartAll() {
+    private void setChart(LineChart chart) {
 //        lc_chart1.setOnChartValueSelectedListener(getActivity());
 
-        lc_chart1.setDrawGridBackground(false);
-        lc_chart1.getDescription().setEnabled(false);
-        lc_chart1.setDrawBorders(false);
+        chart.setDrawGridBackground(false);
+        chart.getDescription().setEnabled(false);
+        chart.setDrawBorders(false);
 
-        lc_chart1.getAxisLeft().setEnabled(false);
-        lc_chart1.getAxisRight().setDrawAxisLine(false);
-        lc_chart1.getAxisRight().setDrawGridLines(false);
-        lc_chart1.getXAxis().setDrawAxisLine(false);
-        lc_chart1.getXAxis().setDrawGridLines(false);
+        chart.getAxisLeft().setEnabled(false);
+        chart.getAxisRight().setDrawAxisLine(false);
+        chart.getAxisRight().setDrawGridLines(false);
+        chart.getXAxis().setDrawAxisLine(false);
+        chart.getXAxis().setDrawGridLines(false);
 
         // enable touch gestures
-        lc_chart1.setTouchEnabled(true);
+        chart.setTouchEnabled(true);
 
         // enable scaling and dragging
-        lc_chart1.setDragEnabled(false);
-        lc_chart1.setScaleEnabled(false);
+        chart.setDragEnabled(false);
+        chart.setScaleEnabled(false);
 
         // if disabled, scaling can be done on x- and y-axis separately
-        lc_chart1.setPinchZoom(false);
+        chart.setPinchZoom(false);
 
-        Legend l = lc_chart1.getLegend();
+        Legend l = chart.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
         l.setOrientation(Legend.LegendOrientation.VERTICAL);
         l.setDrawInside(false);
 
         // x-axis limit line
-        LimitLine llXAxis = new LimitLine(10f, "");
-        llXAxis.setLineWidth(0.6f);
-        llXAxis.enableDashedLine(10f, 10f, 0f);
-        llXAxis.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
-        llXAxis.setTextSize(10f);
-        llXAxis.setLineColor(getResources().getColor(R.color.c_cecece));
+        XAxis xAxis = chart.getXAxis();
+        for (int i=1; i<6; i++) {
+            LimitLine llXAxis = new LimitLine(5f*i, "");
+            llXAxis.setLineWidth(0.6f);
+            llXAxis.enableDashedLine(10f, 10f, 0f);
+            llXAxis.setLineColor(getResources().getColor(R.color.c_cecece));
 
-        XAxis xAxis = lc_chart1.getXAxis();
-//        xAxis.enableGridDashedLine(10f, 10f, 0f);
-        xAxis.addLimitLine(llXAxis);
+            xAxis.addLimitLine(llXAxis);
+        }
+
 
         LimitLine ll1 = new LimitLine(150f, "Upper Limit");
         ll1.setLineWidth(4f);
@@ -167,9 +171,9 @@ public class StatisticsFragment extends BaseFragment {
         ll2.setTextSize(10f);
 
 
-        YAxis leftAxis = lc_chart1.getAxisLeft();
+        YAxis leftAxis = chart.getAxisLeft();
         leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
-        leftAxis.addLimitLine(ll1);
+//        leftAxis.addLimitLine(ll1);
 //        leftAxis.addLimitLine(ll2);
         leftAxis.setAxisMaximum(200f);
         leftAxis.setAxisMinimum(-50f);
@@ -180,58 +184,34 @@ public class StatisticsFragment extends BaseFragment {
         // limit lines are drawn behind data (and not on top)
         leftAxis.setDrawLimitLinesBehindData(true);
 
-        lc_chart1.getAxisRight().setEnabled(false);
-
-        //mChart.getViewPortHandler().setMaximumScaleY(2f);
-        //mChart.getViewPortHandler().setMaximumScaleX(2f);
+        chart.getAxisRight().setEnabled(false);
 
         // add data
-        setData(31, 100);
+        setData(chart, 31, 100);
 
-//        mChart.setVisibleXRange(20);
-//        mChart.setVisibleYRange(20f, AxisDependency.LEFT);
-//        mChart.centerViewTo(20, 50, AxisDependency.LEFT);
+        chart.animateX(2500);
 
-        lc_chart1.animateX(2500);
-        //mChart.invalidate();
-
-        // get the legend (only possible after setting data)
-//        Legend l = lc_chart1.getLegend();
-
-        // modify the legend ...
         l.setForm(Legend.LegendForm.LINE);
-
-        // // dont forget to refresh the drawing
-        // mChart.invalidate();
     }
 
 
-    private void setData(int count, float range) {
+    private void setData(LineChart chart, int count, float range) {
         ArrayList<Entry> values = new ArrayList<Entry>();
         for (int i = 0; i < count; i++) {
             float val = (float) (Math.random() * range) + 3;
-//            values.add(new Entry(i, val, getResources().getDrawable(R.drawable.ic_noti)));
             values.add(new Entry(i, val));
         }
 
         LineDataSet set1;
 
-        if (lc_chart1.getData() != null &&
-                lc_chart1.getData().getDataSetCount() > 0) {
-            set1 = (LineDataSet)lc_chart1.getData().getDataSetByIndex(0);
+        if (chart.getData() != null && chart.getData().getDataSetCount() > 0) {
+            set1 = (LineDataSet)chart.getData().getDataSetByIndex(0);
             set1.setValues(values);
-            lc_chart1.getData().notifyDataChanged();
-            lc_chart1.notifyDataSetChanged();
+            chart.getData().notifyDataChanged();
+            chart.notifyDataSetChanged();
         } else {
-            // create a dataset and give it a type
-//            set1 = new LineDataSet(values, "DataSet 1");
             set1 = new LineDataSet(values, "");
-
             set1.setDrawIcons(false);
-
-            // set the line to be drawn like this "- - - - - -"
-//            set1.enableDashedLine(10f, 5f, 0f);
-//            set1.enableDashedHighlightLine(10f, 5f, 0f);
             set1.setColor(Color.RED);
             set1.setCircleColor(Color.RED);
             set1.setLineWidth(1f);
@@ -239,27 +219,62 @@ public class StatisticsFragment extends BaseFragment {
             set1.setDrawCircleHole(true);
             set1.setValueTextSize(0f);
             set1.setDrawFilled(true);
-//            set1.setFormLineWidth(1f);
-//            set1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
             set1.setFormSize(0.f);
 
             if (Utils.getSDKInt() >= 18) {
-                // fill drawable only supported on api level 18 and above
                 Drawable drawable = ContextCompat.getDrawable(getActivity(), R.drawable.fade_red);
                 set1.setFillDrawable(drawable);
-            }
-            else {
+            } else {
                 set1.setFillColor(Color.BLACK);
             }
 
             ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
-            dataSets.add(set1); // add the datasets
+            dataSets.add(set1);
 
-            // create a data object with the datasets
             LineData data = new LineData(dataSets);
 
-            // set data
-            lc_chart1.setData(data);
+            chart.setData(data);
+        }
+
+
+        ArrayList<Entry> values2 = new ArrayList<Entry>();
+        for (int i = 0; i < count; i++) {
+            float val = (float) (Math.random() * range) + 3;
+            values2.add(new Entry(i, val));
+        }
+
+        LineDataSet set2;
+
+        if (chart.getData() != null && chart.getData().getDataSetCount() > 0) {
+            set2 = (LineDataSet)chart.getData().getDataSetByIndex(0);
+            set2.setValues(values2);
+            chart.getData().notifyDataChanged();
+            chart.notifyDataSetChanged();
+        } else {
+            set2 = new LineDataSet(values2, "");
+            set2.setDrawIcons(false);
+            set2.setColor(Color.BLUE);
+            set2.setCircleColor(Color.BLUE);
+            set2.setLineWidth(1f);
+            set2.setCircleRadius(3f);
+            set2.setDrawCircleHole(true);
+            set2.setValueTextSize(0f);
+            set2.setDrawFilled(true);
+            set2.setFormSize(0.f);
+
+            if (Utils.getSDKInt() >= 18) {
+                Drawable drawable = ContextCompat.getDrawable(getActivity(), R.drawable.fade_blue);
+                set2.setFillDrawable(drawable);
+            } else {
+                set2.setFillColor(Color.BLACK);
+            }
+
+            ArrayList<ILineDataSet> dataSets2 = new ArrayList<ILineDataSet>();
+            dataSets2.add(set2);
+
+            LineData data2 = new LineData(dataSets2);
+
+            chart.setData(data2);
         }
     }
 
@@ -269,11 +284,22 @@ public class StatisticsFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-    @OnClick({R.id.ib_settting})
+    @OnClick({R.id.ib_settting, R.id.lc_chart1, R.id.lc_chart2})
     public void OnClick(View v){
         switch (v.getId()) {
             case R.id.ib_settting:
                 showCalendar();
+                break;
+            case R.id.lc_chart1:
+                Intent intent1 = new Intent(getActivity(), StatisticsDetailAllActivity.class);
+                intent1.putExtra("date", tv_date.getText());
+                startActivity(intent1);
+                break;
+            case R.id.lc_chart2:
+                Intent intent2 = new Intent(getActivity(), StatisticsDetailCategoryActivity.class);
+                intent2.putExtra("date", tv_date.getText());
+                intent2.putExtra("name", tv_category.getText());
+                startActivity(intent2);
                 break;
         }
     }

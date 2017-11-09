@@ -6,21 +6,27 @@
     android:layout_width="match_parent"
     android:layout_height="83dp"
     android:gravity="center_vertical"
-    android:paddingLeft="23dp"
+    android:paddingLeft="13dp"
     android:paddingRight="23dp">
 
-    <ImageView
-        android:id="@+id/iv_delete"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:background="@drawable/btn_delete"/>
+    <LinearLayout
+        android:id="@+id/ll_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/btn_delete"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:layout_marginLeft="13dp">
+        android:layout_marginLeft="3dp">
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
