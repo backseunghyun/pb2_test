@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="13dp"
                 android:textColor="@color/c_f33b2d"
-                android:text="이 완되었습니다."/>
+                android:text="이 완료되었습니다."/>
         </LinearLayout>
     </RelativeLayout>
     

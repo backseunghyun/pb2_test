@@ -115,8 +115,7 @@ public class OrderStep1Fragment extends BaseFragment {
                                 item.setPrice(obj.optString("price"));
                                 item.setCategoryId(obj.optString("categoryId"));
                                 item.setIsInCart(obj.optInt("isInCart"));
-//                                item.setImgUrl(ApplicationData.getImgPrefix() + obj.optString("imageUrl"));
-                                item.setImgUrl("http://bbaeggun100.vps.phps.kr:8080/pleasebuy/static/product/3.jpg");
+                                item.setImgUrl(ApplicationData.getImgPrefix() + obj.optString("imageUrl"));
 
                                 item.setManufacturer(obj.optString("manufacturer"));
                                 item.setOrigin(obj.optString("origin"));

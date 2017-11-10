@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "kr.co.igo.pleasebuy"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -74,6 +74,7 @@ dependencies {
     compile 'com.github.aerdy:Android-Viger_View_Pager_PDF_OpenSource:-SNAPSHOT'
     compile 'com.prolificinteractive:material-calendarview:1.4.2'
     compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'me.kaelaela:verticalviewpager:1.0.0@aar'
     testCompile 'junit:junit:4.12'
 }
 

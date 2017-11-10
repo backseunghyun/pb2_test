@@ -344,9 +344,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    public void setCartCount(int num){
-        if (num > 0) {
-            tv_count.setText(num + "");
+    public void setCartCount(int num, int cnt){
+//        if (num > 0) {
+//            tv_count.setText(num + "");
+//            tv_count.setVisibility(View.VISIBLE);
+//            rl_cart_check.setEnabled(true);
+//        } else {
+//            tv_count.setText("");
+//            tv_count.setVisibility(View.GONE);
+//            rl_cart_check.setEnabled(false);
+//        }
+//
+//        preference.setIntPreference(Preference.PREFS_KEY.CNT_PRODUCT_IN_CART, num);
+
+        if (cnt > 0) {
+            tv_count.setText(cnt + "");
             tv_count.setVisibility(View.VISIBLE);
             rl_cart_check.setEnabled(true);
         } else {
@@ -355,10 +367,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             rl_cart_check.setEnabled(false);
         }
 
-        preference.setIntPreference(Preference.PREFS_KEY.CNT_PRODUCT_IN_CART, num);
+        preference.setIntPreference(Preference.PREFS_KEY.CNT_PRODUCT_IN_CART, cnt);
     }
 
-    public void cartAddProduct(int productId) {
+    public void cartAddProduct(int productId, final int cnt) {
         RequestParams param = new RequestParams();
         param.put("productIds", productId);
 
@@ -368,7 +380,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 super.onSuccess(statusCode, headers, response);
                 try {
                     if (response.getInt("code") == 0) {
-                        setCartCount(response.optInt("cntProductInCart", 0));
+                        setCartCount(response.optInt("cntProductInCart", 0), cnt);
+                    }
+                } catch (JSONException ignored) {
+                }
+            }
+        });
+    }
+
+    public void cartRemoveProduct(int productId, final int cnt) {
+        RequestParams param = new RequestParams();
+        param.put("productIds", productId);
+
+        APIManager.getInstance().callAPI(APIUrl.CART_REMOVE, param, new RequestHandler(this, uuid) {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    if (response.getInt("code") == 0) {
+                        setCartCount(response.optInt("cntProductInCart", 0), cnt);
                     }
                 } catch (JSONException ignored) {
                 }

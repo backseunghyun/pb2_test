@@ -286,7 +286,7 @@ public class FavoriteEditAddActivity extends BaseActivity {
         });
     }
 
-    public void cartAddProduct(int productId) {
+    public void cartProductCheck() {
         rl_cart_check.setEnabled(false);
 
         for(int i=0; i<mList.size(); i++) {

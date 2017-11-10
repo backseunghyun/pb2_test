@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
@@ -29,6 +30,7 @@ import kr.co.igo.pleasebuy.trunk.BaseActivity;
 import kr.co.igo.pleasebuy.trunk.api.APIManager;
 import kr.co.igo.pleasebuy.trunk.api.APIUrl;
 import kr.co.igo.pleasebuy.trunk.api.RequestHandler;
+import kr.co.igo.pleasebuy.util.Preference;
 
 /**
  * Created by Back on 2017-02-27.
@@ -42,8 +44,12 @@ public class ModifyInformationActivity extends BaseActivity {
     @Bind(R.id.et_tel) EditText et_tel;
     @Bind(R.id.et_phone) EditText et_phone;
     @Bind(R.id.et_etc) EditText et_etc;
-    @Bind(R.id.tv_save) TextView tv_save;
+    @Bind(R.id.tv_count)    TextView tv_count;
+    @Bind(R.id.rl_cart)     RelativeLayout rl_cart;
+    @Bind(R.id.tv_save)     TextView tv_save;
 
+
+    public Preference preference;
     private InputMethodManager imm;
     private Store store = new Store();
 
@@ -58,6 +64,12 @@ public class ModifyInformationActivity extends BaseActivity {
         tv_title.setText(getResources().getString(R.string.s_menu_setting_modify_information));
 
         getStoreInfo();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setCartCount(preference.getIntPreference(Preference.PREFS_KEY.CNT_PRODUCT_IN_CART));
     }
 
     @OnClick({R.id.iv_back, R.id.tv_cancel, R.id.tv_save})
@@ -172,5 +184,18 @@ public class ModifyInformationActivity extends BaseActivity {
         imm.hideSoftInputFromWindow(et_tel.getWindowToken(), 0);
         imm.hideSoftInputFromWindow(et_phone.getWindowToken(), 0);
         imm.hideSoftInputFromWindow(et_etc.getWindowToken(), 0);
+    }
+
+    private void setCartCount(int num){
+        if (num > 0) {
+            tv_count.setText(num + "");
+            tv_count.setVisibility(View.VISIBLE);
+            rl_cart.setEnabled(false);
+        } else {
+            tv_count.setText("");
+            tv_count.setVisibility(View.GONE);
+            rl_cart.setEnabled(true);
+        }
+        preference.setIntPreference(Preference.PREFS_KEY.CNT_PRODUCT_IN_CART, num);
     }
 }

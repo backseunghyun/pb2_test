@@ -1,5 +1,6 @@
 package kr.co.igo.pleasebuy.fragment;
 
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,12 +17,20 @@ import com.necistudio.vigerpdf.manage.OnResultListener;
 import com.necistudio.vigerpdf.utils.ViewPagerZoomHorizontal;
 
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import kr.co.igo.pleasebuy.R;
+import kr.co.igo.pleasebuy.model.Favorite;
+import kr.co.igo.pleasebuy.popup.CustomYearMonthPickerPopup;
 import kr.co.igo.pleasebuy.trunk.BaseFragment;
 import kr.co.igo.pleasebuy.ui.MainActivity;
 import kr.co.igo.pleasebuy.util.FragmentName;
@@ -36,6 +45,10 @@ public class ReportFragment extends BaseFragment {
     private ArrayList<Bitmap> itemData;
     private VigerAdapter adapter;
     private VigerPDF vigerPDF;
+
+    private List<String> mList = new ArrayList<String>();
+
+    private Date mDateMonth;
 
     public ReportFragment()  {
 
@@ -81,41 +94,77 @@ public class ReportFragment extends BaseFragment {
     public void onClick(View v){
         switch (v.getId()){
             case R.id.rl_left:
+                moveMonth(-1);
+                getData();
                 break;
             case R.id.rl_right:
+                moveMonth(1);
+                getData();
                 break;
             case R.id.tv_mon:
+                showSelectMonth();
                 break;
         }
     }
 
     private void init(){
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat sSdf = new SimpleDateFormat("yyyy.MM");
+
+        tv_mon.setText(sSdf.format(date));
+
         vigerPDF = new VigerPDF(getContext());
 
         itemData = new ArrayList<>();
-        adapter = new VigerAdapter(getContext(), itemData);
-        viewPager.setAdapter(adapter);
+
+
+
+        mList.add("http://www.pdf995.com/samples/pdf.pdf");
+        mList.add("");
+        mList.add("");
+        mList.add("");
+        mList.add("");
+        mList.add("");
+        mList.add("");
+        mList.add("http://www.africau.edu/images/default/sample.pdf");
+        mList.add("http://che.org.il/wp-content/uploads/2016/12/pdf-sample.pdf");
+        mList.add("http://www.pdf995.com/samples/pdf.pdf");
+        mList.add("http://bbaeggun100.vps.phps.kr:8080/pleasebuy2/static/report/1.pdf");
+        mList.add("http://bbaeggun100.vps.phps.kr:8080/pleasebuy2/static/report/2.pdf");
     }
 
     private void getData(){
+        int i = 0;
+        switch (tv_mon.getText().toString().substring(5, 7)){
+            case "01":  i =0;   break;
+            case "02":  i =1;   break;
+            case "03":  i =2;   break;
+            case "04":  i =3;   break;
+            case "05":  i =4;   break;
+            case "06":  i =5;   break;
+            case "07":  i =6;   break;
+            case "08":  i =7;   break;
+            case "09":  i =8;   break;
+            case "10":  i =9;   break;
+            case "11":  i =10;   break;
+            case "12":  i =11;   break;
+        }
 
-
-        itemData.clear();
-        adapter.notifyDataSetChanged();
-
-        fromNetwork("http://www.pdf995.com/samples/pdf.pdf");
+        fromNetwork(mList.get(i));
     }
 
     private void fromNetwork(String endpoint) {
         itemData.clear();
-        adapter.notifyDataSetChanged();
+//        adapter.notifyDataSetChanged();
         vigerPDF.cancle();
         vigerPDF.initFromNetwork(endpoint, new OnResultListener() {
             @Override
             public void resultData(Bitmap data) {
-                Log.e("data", "run");
                 itemData.add(data);
-                adapter.notifyDataSetChanged();
+                adapter = new VigerAdapter(getContext(), itemData);
+                viewPager.setAdapter(adapter);
+//                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -128,5 +177,35 @@ public class ReportFragment extends BaseFragment {
             public void failed(Throwable t) {
             }
         });
+    }
+
+    private void moveMonth(int i) {
+        try {
+            mDateMonth = new SimpleDateFormat("yyyy.MM").parse(tv_mon.getText().toString());
+            Calendar preCal = Calendar.getInstance();
+
+            preCal.setTime(mDateMonth);
+            preCal.add(Calendar.MONTH, i);
+            mDateMonth = preCal.getTime();
+
+            DateFormat format = new SimpleDateFormat("yyyy.MM");
+            tv_mon.setText(format.format(mDateMonth));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+    private void showSelectMonth(){
+        final CustomYearMonthPickerPopup popup = new CustomYearMonthPickerPopup(getActivity(),  tv_mon.getText().toString().substring(0, 4), tv_mon.getText().toString().substring(5, 7));
+        popup.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if(popup.getResult().equals("ok")) {
+                    String fromDate = popup.getResultDate();
+                    tv_mon.setText(fromDate.substring(0, 4) + "." + fromDate.substring(4, 6));
+                    getData();
+                }
+            }
+        });
+        popup.show();
     }
 }

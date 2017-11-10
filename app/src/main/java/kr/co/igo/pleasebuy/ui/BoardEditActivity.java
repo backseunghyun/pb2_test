@@ -38,6 +38,8 @@ public class BoardEditActivity extends BaseActivity {
     @Bind(R.id.tv_title)    TextView tv_title;
     @Bind(R.id.et_subject)  EditText et_subject;
     @Bind(R.id.et_contents) EditText et_contents;
+    @Bind(R.id.tv_count)    TextView tv_count;
+    @Bind(R.id.rl_cart)     RelativeLayout rl_cart;
     @Bind(R.id.tv_save)     TextView tv_save;
 
 
@@ -62,9 +64,14 @@ public class BoardEditActivity extends BaseActivity {
             tv_save.setText("수정");
             boardId = getIntent().getIntExtra("boardId",0);
             getData();
-
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setCartCount(preference.getIntPreference(Preference.PREFS_KEY.CNT_PRODUCT_IN_CART));
     }
 
     @OnClick({R.id.iv_back, R.id.tv_cancel, R.id.tv_save})
@@ -203,6 +210,17 @@ public class BoardEditActivity extends BaseActivity {
 
     }
 
-
+    private void setCartCount(int num){
+        if (num > 0) {
+            tv_count.setText(num + "");
+            tv_count.setVisibility(View.VISIBLE);
+            rl_cart.setEnabled(false);
+        } else {
+            tv_count.setText("");
+            tv_count.setVisibility(View.GONE);
+            rl_cart.setEnabled(true);
+        }
+        preference.setIntPreference(Preference.PREFS_KEY.CNT_PRODUCT_IN_CART, num);
+    }
 
 }

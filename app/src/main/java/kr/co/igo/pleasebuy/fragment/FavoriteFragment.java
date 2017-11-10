@@ -104,7 +104,7 @@ public class FavoriteFragment extends BaseFragment {
         getList();
         if(getActivity() instanceof MainActivity) {
             ((MainActivity)getActivity()).setHederTitle(FragmentName.FAVORITE.tag());
-            ((MainActivity)getActivity()).setCartCount(preference.getIntPreference(Preference.PREFS_KEY.CNT_PRODUCT_IN_CART));
+            ((MainActivity)getActivity()).setCartCount(preference.getIntPreference(Preference.PREFS_KEY.CNT_PRODUCT_IN_CART) , preference.getIntPreference(Preference.PREFS_KEY.CNT_PRODUCT_IN_CART));
         }
 
     }

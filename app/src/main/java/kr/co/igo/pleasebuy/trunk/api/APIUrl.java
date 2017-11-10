@@ -90,6 +90,11 @@ public enum APIUrl {
     BOARD_BBS_DETAIL("/board/bbs/detail"),  // 게시판 상제
     BOARD_BBS_UPDATE("/board/bbs/update"),  // 게시판 수정
     BOARD_BBS_REMOVE("/board/bbs/remove"),  // 게시판 삭제
+    BOARD_QNA("/board/qna"),                // 게시판 리스트
+    BOARD_QNA_ADD("/board/qna/add"),        // 게시판 등록
+    BOARD_QNA_DETAIL("/board/qna/detail"),  // 게시판 상제
+    BOARD_QNA_UPDATE("/board/qna/update"),  // 게시판 수정
+    BOARD_QNA_REMOVE("/board/qna/remove"),  // 게시판 삭제
     BOARD_NOTICE("/board/notice"),          // 공지사항
     FAVORITE_GROUP("/favorite-group"),      // 즐겨찾기 그룹
     FAVORITE_GROUP_DETAILS("/favorite-group/details"),                  // 즐겨찾기 그룹 상세

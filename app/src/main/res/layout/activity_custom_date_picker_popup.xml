@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".popup.CustomYearMonthPickerPopup"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginLeft="28dp"
+        android:layout_marginRight="28dp">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+                android:id="@+id/ll_popup_title"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:textColor="@color/c_ffffff"
+                    android:gravity="center"
+                    android:background="@drawable/shape_popup_top"
+                    android:text="월 선택"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/ll_cal_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_below="@+id/ll_popup_title"
+                android:background="@color/c_ffffff">
+
+            <me.kaelaela.verticalviewpager.VerticalViewPager
+                    android:id="@+id/vp_year_list"
+                    android:layout_width="0dp"
+                    android:layout_height="200dp"
+                    android:layout_weight="1">
+
+            </me.kaelaela.verticalviewpager.VerticalViewPager>
+
+            <View
+                    android:layout_width="0.6dp"
+                    android:layout_height="100dp"
+                    android:background="@color/c_cecece"/>
+
+            <me.kaelaela.verticalviewpager.VerticalViewPager
+                    android:id="@+id/vp_month_list"
+                    android:layout_width="0dp"
+                    android:layout_height="200dp"
+                    android:layout_weight="1">
+
+            </me.kaelaela.verticalviewpager.VerticalViewPager>
+        </LinearLayout>
+
+        <View
+                android:id="@+id/v_line"
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:background="@color/c_cecece"
+                android:layout_below="@+id/ll_cal_view"/>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:orientation="horizontal"
+                android:layout_below="@+id/v_line"
+                android:background="@drawable/shape_popup_bottom">
+            <TextView
+                    android:id="@+id/cal_a_no"
+                    android:gravity="center"
+                    android:text="취소"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"/>
+            <View
+                android:layout_width="0.6dp"
+                android:layout_height="match_parent"
+                android:background="@color/c_cecece"/>
+            <TextView
+                android:id="@+id/cal_a_ok"
+                android:gravity="center"
+                android:text="확인"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

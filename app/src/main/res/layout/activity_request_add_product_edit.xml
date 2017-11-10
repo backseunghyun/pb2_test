@@ -173,7 +173,7 @@
             android:textColor="#ffffff"
             android:textStyle="bold"
             android:textSize="16dp"
-            android:text="확인"
+            android:text="저장"
             />
     </LinearLayout>
 </LinearLayout>

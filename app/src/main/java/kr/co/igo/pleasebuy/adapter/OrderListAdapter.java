@@ -112,16 +112,40 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             switch (v.getId()) {
                 case R.id.ll_bg:
                     Product m = vList.get(vPosition);
-                    Log.d("click", m.getProductName() + " - " + m.getProductId());
                     if(vActivity instanceof MainActivity) {
-                        Log.d("check", "main");
-                        m.setIsInCart(1);
-                        ((MainActivity)vActivity).cartAddProduct(Integer.parseInt(m.getProductId()));
+                        if (m.getIsInCart() == 0) {
+                            m.setIsInCart(1);
+
+                            int cnt = 0;
+                            for (int i=0; i<vList.size();i++){
+                                if (vList.get(i).getIsInCart() > 0) {
+                                    cnt++;
+                                }
+                            }
+
+
+                            ((MainActivity) vActivity).cartAddProduct(Integer.parseInt(m.getProductId()), cnt);
+                        } else {
+                            m.setIsInCart(0);
+
+                            int cnt = 0;
+                            for (int i=0; i<vList.size();i++){
+                                if (vList.get(i).getIsInCart() > 0) {
+                                    cnt++;
+                                }
+                            }
+
+
+                            ((MainActivity) vActivity).cartRemoveProduct(Integer.parseInt(m.getProductId()), cnt);
+                        }
                         notifyDataSetChanged();
                     } else if (vActivity instanceof FavoriteEditAddActivity){
-                        Log.d("click", "main");
-                        m.setIsInCart(1);
-                        ((FavoriteEditAddActivity)vActivity).cartAddProduct(Integer.parseInt(m.getProductId()));
+                        if (m.getIsInCart() == 0) {
+                            m.setIsInCart(1);
+                        } else {
+                            m.setIsInCart(0);
+                        }
+                        ((FavoriteEditAddActivity)vActivity).cartProductCheck();
                         notifyDataSetChanged();
                     }
                     break;

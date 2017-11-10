@@ -6,6 +6,7 @@ import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
@@ -23,6 +24,7 @@ import kr.co.igo.pleasebuy.trunk.BaseActivity;
 import kr.co.igo.pleasebuy.trunk.api.APIManager;
 import kr.co.igo.pleasebuy.trunk.api.APIUrl;
 import kr.co.igo.pleasebuy.trunk.api.RequestHandler;
+import kr.co.igo.pleasebuy.util.Preference;
 
 /**
  * Created by Back on 2016-10-12.
@@ -33,6 +35,11 @@ public class ModifyPasswordActivity extends BaseActivity {
     @Bind(R.id.et_new_password)  EditText et_new_password;
     @Bind(R.id.et_ack_password)   EditText et_ack_password;
     @Bind(R.id.tv_confirm)           TextView tv_confirm;
+    @Bind(R.id.rl_cart)         RelativeLayout rl_cart;
+    @Bind(R.id.tv_count)     TextView tv_count;
+
+
+    public Preference preference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +51,12 @@ public class ModifyPasswordActivity extends BaseActivity {
 
         tv_title.setText(getResources().getString(R.string.s_modify_password_title));
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setCartCount(preference.getIntPreference(Preference.PREFS_KEY.CNT_PRODUCT_IN_CART));
     }
 
     @OnTextChanged({R.id.et_password, R.id.et_new_password, R.id.et_ack_password})
@@ -93,6 +106,18 @@ public class ModifyPasswordActivity extends BaseActivity {
         popup.setTitle(getResources().getString(R.string.s_confirm));
         popup.setContent(getResources().getString(R.string.s_password_modify_success));
         popup.show();
+    }
 
+    private void setCartCount(int num){
+        if (num > 0) {
+            tv_count.setText(num + "");
+            tv_count.setVisibility(View.VISIBLE);
+            rl_cart.setEnabled(false);
+        } else {
+            tv_count.setText("");
+            tv_count.setVisibility(View.GONE);
+            rl_cart.setEnabled(true);
+        }
+        preference.setIntPreference(Preference.PREFS_KEY.CNT_PRODUCT_IN_CART, num);
     }
 }

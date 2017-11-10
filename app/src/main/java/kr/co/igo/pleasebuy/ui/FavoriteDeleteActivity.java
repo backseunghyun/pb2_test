@@ -88,7 +88,11 @@ public class FavoriteDeleteActivity extends BaseActivity {
                     productIds += productIds.equals("") ? dList.get(i).getFavoriteGroupId() : "," + dList.get(i).getFavoriteGroupId();
                 }
 
-                delete(productIds);
+                if(productIds.equals("")) {
+                    finish();
+                } else {
+                    delete(productIds);
+                }
                 break;
         }
     }

@@ -181,8 +181,8 @@ public class HomeFragment extends BaseFragment {
                         tv_preOrderPrice.setText(CommonUtils.getNumberThreeEachFormat(30000));
 
                         if (getActivity() instanceof MainActivity) {
-                            int countProductInCart = response.optInt("cntOfProductInCart",0);
-                            ((MainActivity)getActivity()).setCartCount(countProductInCart);
+                            int countProductInCart = response.optInt("cntOfProductInCart", 0);
+                            ((MainActivity)getActivity()).setCartCount(countProductInCart, countProductInCart);
                         }
                     }
                 } catch (JSONException ignored) {

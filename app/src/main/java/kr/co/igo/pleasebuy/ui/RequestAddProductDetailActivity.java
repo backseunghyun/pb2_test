@@ -97,7 +97,7 @@ public class RequestAddProductDetailActivity extends BaseActivity {
         RequestParams param = new RequestParams();
         param.put("boardId", boardId);
 
-        APIManager.getInstance().callAPI(APIUrl.BOARD_NOTICE_DETAIL, param, new RequestHandler(this, uuid) {
+        APIManager.getInstance().callAPI(APIUrl.BOARD_QNA_DETAIL, param, new RequestHandler(this, uuid) {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
@@ -106,7 +106,7 @@ public class RequestAddProductDetailActivity extends BaseActivity {
 
                         JSONObject item = response.getJSONObject("item");
                         tv_name.setText(item.optString("title"));
-                        tv_unit.setText(item.optString("userName"));
+                        tv_unit.setText(item.optString("contents"));
                         tv_etc.setText(item.optString("contents"));
                         Glide.with(RequestAddProductDetailActivity.this)
                                 .load(ApplicationData.getImgPrefix() + item.optString("imageUrl"))
@@ -137,9 +137,11 @@ public class RequestAddProductDetailActivity extends BaseActivity {
     private void setCartCount(int num){
         if (num > 0) {
             tv_count.setText(num + "");
+            tv_count.setVisibility(View.VISIBLE);
             rl_cart.setEnabled(false);
         } else {
             tv_count.setText("");
+            tv_count.setVisibility(View.GONE);
             rl_cart.setEnabled(true);
         }
         preference.setIntPreference(Preference.PREFS_KEY.CNT_PRODUCT_IN_CART, num);

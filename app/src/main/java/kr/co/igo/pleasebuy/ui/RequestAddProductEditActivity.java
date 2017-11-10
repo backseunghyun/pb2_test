@@ -63,6 +63,7 @@ public class RequestAddProductEditActivity extends BaseActivity {
     @Bind(R.id.et_etc)      EditText et_etc;
     @Bind(R.id.tv_count)    TextView tv_count;
     @Bind(R.id.rl_cart)     RelativeLayout rl_cart;
+    @Bind(R.id.tv_save)     TextView tv_save;
 
     public static final int ACTION_PICK_FROM_GALLERY = 0;
     public static final int ACTION_PICK_FROM_CAMERA = 1;
@@ -93,14 +94,19 @@ public class RequestAddProductEditActivity extends BaseActivity {
 
         if(getIntent().hasExtra("boardId")) {
             boardId = getIntent().getIntExtra("boardId",0);
+            getData();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        checkData();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         setCartCount(preference.getIntPreference(Preference.PREFS_KEY.CNT_PRODUCT_IN_CART));
-        getData();
     }
 
     @OnClick({R.id.iv_back, R.id.tv_cancel, R.id.tv_save, R.id.rl_add})
@@ -111,6 +117,11 @@ public class RequestAddProductEditActivity extends BaseActivity {
                 checkData();
                 break;
             case R.id.tv_save:
+                if (boardId == 0) {
+                    add();
+                } else {
+                    update();
+                }
                 break;
             case R.id.rl_add:
                 PermissionListener permissionListener1 = new PermissionListener() {
@@ -156,9 +167,10 @@ public class RequestAddProductEditActivity extends BaseActivity {
     }
 
     public void checkData(){
-        if (!et_name.getText().toString().equals(name) ||
+        if (boardId > 0 && (
+            !et_name.getText().toString().equals(name) ||
             !et_unit.getText().toString().equals(unit) ||
-            !et_etc.getText().toString().equals(etc)) {
+            !et_etc.getText().toString().equals(etc)) ) {
             showConfirm();
         } else {
             finish();
@@ -168,7 +180,7 @@ public class RequestAddProductEditActivity extends BaseActivity {
     private void showConfirm() {
         final TwoButtonPopup popup = new TwoButtonPopup(this);
         popup.setTitle(getResources().getString(R.string.s_confirm));
-        popup.setContent(getResources().getString(R.string.s_confirm));
+        popup.setContent(getResources().getString(R.string.s_ask_request_add_finish));
         popup.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
@@ -184,7 +196,7 @@ public class RequestAddProductEditActivity extends BaseActivity {
         RequestParams param = new RequestParams();
         param.put("boardId", boardId);
 
-        APIManager.getInstance().callAPI(APIUrl.BOARD_NOTICE_DETAIL, param, new RequestHandler(this, uuid) {
+        APIManager.getInstance().callAPI(APIUrl.BOARD_QNA_DETAIL, param, new RequestHandler(this, uuid) {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
@@ -193,7 +205,7 @@ public class RequestAddProductEditActivity extends BaseActivity {
 
                         JSONObject item = response.getJSONObject("item");
                         name = item.optString("title");
-                        unit = item.optString("userName");
+                        unit = item.optString("contents");
                         etc = item.optString("contents");
 
                         et_name.setText(name);
@@ -216,17 +228,18 @@ public class RequestAddProductEditActivity extends BaseActivity {
         param.put("contents", et_unit.getText().toString());
         param.put("contents", et_etc.getText().toString());
 
-        final File file = new File(path);
-        try {
-            param.put("img", file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        if (path != null) {
+            final File file = new File(path);
+            try {
+                param.put("img", file);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
-
 
         param.setForceMultipartEntityContentType(true);
 
-        APIManager.getInstance().callAPI(APIUrl.BOARD_BBS_ADD, param, new RequestHandler(this, uuid) {
+        APIManager.getInstance().callAPI(APIUrl.BOARD_QNA_ADD, param, new RequestHandler(this, uuid) {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
@@ -249,15 +262,17 @@ public class RequestAddProductEditActivity extends BaseActivity {
         param.put("title", et_name.getText().toString());
         param.put("contents", et_unit.getText().toString());
         param.put("contents", et_etc.getText().toString());
-        final File file = new File(path);
-        try {
-            param.put("img", file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        if (path != null) {
+            final File file = new File(path);
+            try {
+                param.put("img", file);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
         param.setForceMultipartEntityContentType(true);
 
-        APIManager.getInstance().callAPI(APIUrl.BOARD_BBS_UPDATE, param, new RequestHandler(this, uuid) {
+        APIManager.getInstance().callAPI(APIUrl.BOARD_QNA_UPDATE, param, new RequestHandler(this, uuid) {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
@@ -291,9 +306,11 @@ public class RequestAddProductEditActivity extends BaseActivity {
     private void setCartCount(int num){
         if (num > 0) {
             tv_count.setText(num + "");
+            tv_count.setVisibility(View.VISIBLE);
             rl_cart.setEnabled(false);
         } else {
             tv_count.setText("");
+            tv_count.setVisibility(View.GONE);
             rl_cart.setEnabled(true);
         }
         preference.setIntPreference(Preference.PREFS_KEY.CNT_PRODUCT_IN_CART, num);

@@ -116,7 +116,7 @@ public class RequestAddProductFragment extends BaseFragment {
     private void getList() {
         RequestParams param = new RequestParams();
 
-        APIManager.getInstance().callAPI(APIUrl.BOARD_NOTICE, param, new RequestHandler(getActivity(), uuid) {
+        APIManager.getInstance().callAPI(APIUrl.BOARD_QNA, param, new RequestHandler(getActivity(), uuid) {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
