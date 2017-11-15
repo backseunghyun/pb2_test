@@ -7,13 +7,15 @@
     android:layout_height="83dp"
     android:gravity="center_vertical"
     android:paddingLeft="23dp"
-    android:paddingRight="23dp">
+    android:paddingRight="23dp"
+    >
 
     <ImageView
         android:id="@+id/iv_check"
         android:layout_width="22dp"
         android:layout_height="22dp"
-        android:background="@drawable/selector_check_box"/>
+        android:background="@drawable/selector_check_box"
+        android:visibility="gone"/>
 
     <LinearLayout
         android:layout_width="0dp"

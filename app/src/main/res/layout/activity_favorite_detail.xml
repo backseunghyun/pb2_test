@@ -10,47 +10,49 @@
     >
     <include layout="@layout/toobar"/>
 
-    
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/c_f33b2d"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="23dp"
-        android:paddingRight="23dp"
-        android:gravity="center_vertical">
+        android:paddingRight="23dp">
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
+
             <TextView
-                android:id="@+id/tv_title"
+                android:id="@+id/tv_favoriteTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
+                android:text="주재료 주문 리스트"
                 android:textColor="@color/c_ffffff"
-                android:textStyle="bold"
-                android:text="주재료 주문 리스트"/>
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/tv_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                android:textSize="11dp"
-                android:textColor="@color/c_ffdfdf"
-                app:font="custom1"
                 android:text="2017.01.01"
-                />
-            
+                android:textColor="@color/c_ffdfdf"
+                android:textSize="11dp"
+                app:font="custom1" />
         </LinearLayout>
 
         <ImageButton
             android:id="@+id/ib_edit"
             android:layout_width="87dp"
             android:layout_height="26dp"
-            android:background="@drawable/btn_bookmark_edit"/>
+            android:background="@drawable/btn_bookmark_edit" />
     </LinearLayout>
+
     <ListView
         android:id="@+id/lv_list"
         android:layout_width="match_parent"
@@ -73,7 +75,7 @@
         android:textSize="16dp"
         android:textColor="@color/c_ffffff"
         android:textStyle="bold"
-        android:text="상품 추가 "
+        android:text="장바구니 추가 "
         android:gravity="center"
         />
 

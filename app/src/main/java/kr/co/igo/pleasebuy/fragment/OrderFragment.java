@@ -181,6 +181,10 @@ public class OrderFragment extends BaseFragment {
         }
         mCommonNavigator.notifyDataSetChanged();
         mAdapter.notifyDataSetChanged();
+
+        if(fList.size() == 0) {
+            showError(getResources().getString(R.string.s_no_search_item));
+        }
     }
 
     private void setListChange(){

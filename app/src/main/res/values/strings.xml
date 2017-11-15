@@ -55,4 +55,6 @@
     <string name="s_update_favorite_success">저장되었습니다.</string>
     <string name="s_update_favorite_error_no_name">즐겨찾기 이름을 입력해주세요.</string>
     <string name="s_update_favorite_error_no_products">상품을 추가해주세요.</string>
+
+    <string name="s_no_search_item">상품이 없습니다.</string>
 </resources>

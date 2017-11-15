@@ -36,6 +36,8 @@
                     android:paddingRight="10dp"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/shape_round_5dp_ffffff"
+                    android:hint="즐겨찾기명 입력"
+                    android:textColorHint="@color/c_999999"
                     android:textSize="16dp"
                     android:textColor="@color/c_000000"/>
             </LinearLayout>

@@ -6,6 +6,8 @@ import android.util.Log;
 
 import java.util.UUID;
 
+import kr.co.igo.pleasebuy.R;
+import kr.co.igo.pleasebuy.popup.ConfirmPopup;
 import kr.co.igo.pleasebuy.trunk.api.APIManager;
 
 /**
@@ -48,5 +50,12 @@ public class BaseFragment extends Fragment {
         // 홈 버튼, Sleep 모드로 빠지는 경우
         if(uuid.equals(lastUUID)) {
         }
+    }
+
+    protected void showError(String msg){
+        ConfirmPopup popup = new ConfirmPopup(getContext());
+        popup.setTitle(getResources().getString(R.string.s_confirm));
+        popup.setContent(msg);
+        popup.show();
     }
 }

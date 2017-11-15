@@ -352,11 +352,4 @@ public class FavoriteEditActivity extends BaseActivity {
         }
     }
 
-    private void showError(String msg){
-        ConfirmPopup popup = new ConfirmPopup(this);
-        popup.setTitle(getResources().getString(R.string.s_confirm));
-        popup.setContent(msg);
-        popup.show();
-    }
-
 }

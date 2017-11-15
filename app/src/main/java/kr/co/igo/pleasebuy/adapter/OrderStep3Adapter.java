@@ -66,7 +66,7 @@ public class OrderStep3Adapter extends BaseAdapter {
         holder.tv_price.setText(CommonUtils.getNumberThreeEachFormatWithWon(Integer.parseInt(m.getPrice()) * m.getSelectedCount()));
         holder.tv_etc.setText(m.getOrigin() + "/" + m.getUnit());
 
-        holder.tv_count.setText(m.getSelectedCount() + "");
+        holder.tv_count.setText(m.getSelectedCount() + "개");
 
         holder.vPosition = position;
 

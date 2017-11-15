@@ -70,6 +70,11 @@ public class FavoriteDetailAdapter extends BaseAdapter {
         holder.tv_etc.setText(m.getOrigin() + "/" + m.getUnit());
 
         holder.iv_check.setSelected(m.isSelected());
+        if(m.isSelected()) {
+            holder.ll_rootlayout.setBackgroundColor(activity.getResources().getColor(R.color.c_fddbd8));
+        } else {
+            holder.ll_rootlayout.setBackgroundColor(activity.getResources().getColor(R.color.c_ffffff));
+        }
 
         holder.vPosition = position;
 

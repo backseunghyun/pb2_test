@@ -48,6 +48,7 @@ public class FavoriteDetailActivity extends BaseActivity {
     @Bind(R.id.lv_list)     ListView lv_list;
     @Bind(R.id.tv_count)    TextView tv_count;
     @Bind(R.id.rl_cart) RelativeLayout rl_cart;
+    @Bind(R.id.tv_favoriteTitle)    TextView tv_favoriteTitle;
 
     private FavoriteDetailAdapter mAdapter;
     private List<Product> mList = new ArrayList<Product>();
@@ -67,6 +68,8 @@ public class FavoriteDetailActivity extends BaseActivity {
 
         mAdapter = new FavoriteDetailAdapter(this, mList);
         lv_list.setAdapter(mAdapter);
+
+        tv_title.setText("즐겨찾기");
 
         if(getIntent().hasExtra("favoriteGroupId")) {
             favoriteGroupId = getIntent().getIntExtra("favoriteGroupId",0);
@@ -115,7 +118,7 @@ public class FavoriteDetailActivity extends BaseActivity {
 
                         JSONObject favoriteGroup = response.getJSONObject("favoriteGroup");
                         tv_date.setText(CommonUtils.ConvertDate(favoriteGroup.optLong("updateDate")));
-                        tv_title.setText(favoriteGroup.optString("name"));
+                        tv_favoriteTitle.setText(favoriteGroup.optString("name"));
 
                         JSONArray jsonArray = response.getJSONArray("list");
                         for(int i = 0; i < jsonArray.length(); i++) {
@@ -173,7 +176,7 @@ public class FavoriteDetailActivity extends BaseActivity {
                 try {
                     if (response.getInt("code") == 0) {
                         Toast.makeText(FavoriteDetailActivity.this, String.format(getResources().getString(R.string.s_cart_add_success), count), Toast.LENGTH_SHORT).show();
-                        setCartCount(response.optInt("cntProductInCart", 0));
+                        setCartCount(response.optInt("cntOfProductInCart", 0));
                     }
                 } catch (JSONException ignored) {
                 }

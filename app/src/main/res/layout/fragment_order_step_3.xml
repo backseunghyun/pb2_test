@@ -213,22 +213,23 @@
         </LinearLayout>
 
     </LinearLayout>
-    
+
     <RelativeLayout
         android:id="@+id/rl_confirm"
         android:layout_width="212dp"
         android:layout_height="48dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="27dp"
         android:layout_marginBottom="37dp"
+        android:layout_marginTop="27dp"
         android:background="@drawable/shape_round_5dp_333333">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16dp"
-            android:textColor="@color/c_ffffff"
-            android:textStyle="bold"
             android:layout_centerInParent="true"
-            android:text="확인"/>
+            android:text="확인"
+            android:textColor="@color/c_ffffff"
+            android:textSize="16dp"
+            android:textStyle="bold" />
     </RelativeLayout>
 </LinearLayout>

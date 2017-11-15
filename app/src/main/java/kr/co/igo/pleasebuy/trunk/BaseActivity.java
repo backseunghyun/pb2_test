@@ -9,6 +9,8 @@ import com.tsengvn.typekit.TypekitContextWrapper;
 
 import java.util.UUID;
 
+import kr.co.igo.pleasebuy.R;
+import kr.co.igo.pleasebuy.popup.ConfirmPopup;
 import kr.co.igo.pleasebuy.trunk.api.APIManager;
 
 public class BaseActivity extends AppCompatActivity {
@@ -60,5 +62,12 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+    }
+
+    protected void showError(String msg){
+        ConfirmPopup popup = new ConfirmPopup(this);
+        popup.setTitle(getResources().getString(R.string.s_confirm));
+        popup.setContent(msg);
+        popup.show();
     }
 }

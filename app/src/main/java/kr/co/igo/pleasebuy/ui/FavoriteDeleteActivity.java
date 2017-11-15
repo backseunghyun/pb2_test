@@ -63,7 +63,7 @@ public class FavoriteDeleteActivity extends BaseActivity {
         mAdapter = new FavoriteDeleteAdapter(this, mList);
         lv_list.setAdapter(mAdapter);
 
-        tv_title.setText("즐겨찾기 수정");
+        tv_title.setText("즐겨찾기 리스트 수정");
 
         getList();
     }
@@ -240,13 +240,6 @@ public class FavoriteDeleteActivity extends BaseActivity {
         } else {
             finish();
         }
-    }
-
-    private void showError(String msg){
-        ConfirmPopup popup = new ConfirmPopup(this);
-        popup.setTitle(getResources().getString(R.string.s_confirm));
-        popup.setContent(msg);
-        popup.show();
     }
 
 }
