@@ -7,8 +7,11 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,6 +31,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -320,10 +324,26 @@ public class RequestAddProductEditActivity extends BaseActivity {
      * 사진 촬영
      */
     private void captureImage(int i) {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE, null);
-        mImageUri = Uri.fromFile(Dir.getPublicTempImageFile());
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
-        startActivityForResult(intent, i);
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE, null);
+            mImageUri = Uri.fromFile(Dir.getPublicTempImageFile());
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
+            startActivityForResult(intent, i);
+        } else {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                Uri photoURI = null;
+                File photoFile = Dir.getPublicTempImageFile();
+                path = photoFile.getAbsolutePath();
+                photoURI = FileProvider.getUriForFile(RequestAddProductEditActivity.this,
+                        getString(R.string.file_provider_authority),
+                        photoFile);
+
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(intent, i);
+            }
+        }
+
     }
 
     /**
@@ -341,10 +361,21 @@ public class RequestAddProductEditActivity extends BaseActivity {
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case ACTION_PICK_FROM_CAMERA:
-                    if (null != mImageUri) {
-                        String tPath = CommonUtils.getPathFromUri(this, mImageUri);
-                        if (StringUtils.isNotBlank(tPath)) {
-                            absolutePath1 = tPath;
+
+                    if(Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                        if (null != mImageUri) {
+                            String tPath = CommonUtils.getPathFromUri(this, mImageUri);
+                            if (StringUtils.isNotBlank(tPath)) {
+                                absolutePath1 = tPath;
+                                getImage(absolutePath1);
+                            } else {
+                                //잘못된 이미지
+                            }
+                        }
+                    } else {
+
+                        if (StringUtils.isNotBlank(path)) {
+                            absolutePath1 = path;
                             getImage(absolutePath1);
                         } else {
                             //잘못된 이미지

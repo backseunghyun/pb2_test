@@ -92,6 +92,10 @@ public class StatisticsFragment extends BaseFragment {
 
         setInit();
         setCategoryItem();
+
+        initChart(lc_chart1);
+        initChart(lc_chart2);
+
         setChart(lc_chart1);
         setChart(lc_chart2);
         return view;
@@ -117,9 +121,7 @@ public class StatisticsFragment extends BaseFragment {
         }
     }
 
-    private void setChart(LineChart chart) {
-//        lc_chart1.setOnChartValueSelectedListener(getActivity());
-
+    private void initChart(LineChart chart) {
         chart.setDrawGridBackground(false);
         chart.getDescription().setEnabled(false);
         chart.setDrawBorders(false);
@@ -140,11 +142,7 @@ public class StatisticsFragment extends BaseFragment {
         // if disabled, scaling can be done on x- and y-axis separately
         chart.setPinchZoom(false);
 
-        Legend l = chart.getLegend();
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-        l.setOrientation(Legend.LegendOrientation.VERTICAL);
-        l.setDrawInside(false);
+
 
         // x-axis limit line
         XAxis xAxis = chart.getXAxis();
@@ -158,26 +156,11 @@ public class StatisticsFragment extends BaseFragment {
         }
 
 
-        LimitLine ll1 = new LimitLine(150f, "Upper Limit");
-        ll1.setLineWidth(4f);
-        ll1.enableDashedLine(10f, 10f, 0f);
-        ll1.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
-        ll1.setTextSize(10f);
-
-        LimitLine ll2 = new LimitLine(-30f, "Lower Limit");
-        ll2.setLineWidth(4f);
-        ll2.enableDashedLine(10f, 10f, 0f);
-        ll2.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
-        ll2.setTextSize(10f);
-
-
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
-//        leftAxis.addLimitLine(ll1);
-//        leftAxis.addLimitLine(ll2);
-        leftAxis.setAxisMaximum(200f);
-        leftAxis.setAxisMinimum(-50f);
-        //leftAxis.setYOffset(20f);
+        leftAxis.setAxisMaximum(100f);
+        leftAxis.setAxisMinimum(-100f);
+
         leftAxis.enableGridDashedLine(10f, 10f, 0f);
         leftAxis.setDrawZeroLine(true);
 
@@ -185,9 +168,27 @@ public class StatisticsFragment extends BaseFragment {
         leftAxis.setDrawLimitLinesBehindData(true);
 
         chart.getAxisRight().setEnabled(false);
+    }
+
+    private void setChart(LineChart chart) {
+
+        Legend l = chart.getLegend();
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+        l.setOrientation(Legend.LegendOrientation.VERTICAL);
+        l.setDrawInside(false);
 
         // add data
-        setData(chart, 31, 100);
+
+        ArrayList<Entry> values1 = new ArrayList<Entry>();
+        ArrayList<Entry> values2 = new ArrayList<Entry>();
+        for (int i = 0; i < 31; i++) {
+            float val = (float) (Math.random() * 100) + 3;
+            values1.add(new Entry(i, val));
+            values1.add(new Entry(i, -val));
+        }
+
+        setData(chart, values1, values2);
 
         chart.animateX(2500);
 
@@ -195,18 +196,18 @@ public class StatisticsFragment extends BaseFragment {
     }
 
 
-    private void setData(LineChart chart, int count, float range) {
-        ArrayList<Entry> values = new ArrayList<Entry>();
-        for (int i = 0; i < count; i++) {
-            float val = (float) (Math.random() * range) + 3;
-            values.add(new Entry(i, val));
-        }
-
+    private void setData(LineChart chart, ArrayList<Entry> values, ArrayList<Entry> values2) {
         LineDataSet set1;
+        LineDataSet set2;
 
         if (chart.getData() != null && chart.getData().getDataSetCount() > 0) {
             set1 = (LineDataSet)chart.getData().getDataSetByIndex(0);
             set1.setValues(values);
+
+            set2 = (LineDataSet)chart.getData().getDataSetByIndex(1);
+            set2.setValues(values2);
+
+
             chart.getData().notifyDataChanged();
             chart.notifyDataSetChanged();
         } else {
@@ -228,30 +229,7 @@ public class StatisticsFragment extends BaseFragment {
                 set1.setFillColor(Color.BLACK);
             }
 
-            ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
-            dataSets.add(set1);
-
-            LineData data = new LineData(dataSets);
-
-            chart.setData(data);
-        }
-
-
-        ArrayList<Entry> values2 = new ArrayList<Entry>();
-        for (int i = 0; i < count; i++) {
-            float val = (float) (Math.random() * range) + 3;
-            values2.add(new Entry(i, val));
-        }
-
-        LineDataSet set2;
-
-        if (chart.getData() != null && chart.getData().getDataSetCount() > 0) {
-            set2 = (LineDataSet)chart.getData().getDataSetByIndex(0);
-            set2.setValues(values2);
-            chart.getData().notifyDataChanged();
-            chart.notifyDataSetChanged();
-        } else {
-            set2 = new LineDataSet(values2, "");
+            set2 = new LineDataSet(values, "");
             set2.setDrawIcons(false);
             set2.setColor(Color.BLUE);
             set2.setCircleColor(Color.BLUE);
@@ -263,18 +241,21 @@ public class StatisticsFragment extends BaseFragment {
             set2.setFormSize(0.f);
 
             if (Utils.getSDKInt() >= 18) {
-                Drawable drawable = ContextCompat.getDrawable(getActivity(), R.drawable.fade_blue);
-                set2.setFillDrawable(drawable);
+                Drawable drawable2 = ContextCompat.getDrawable(getActivity(), R.drawable.fade_blue);
+                set2.setFillDrawable(drawable2);
             } else {
                 set2.setFillColor(Color.BLACK);
             }
 
-            ArrayList<ILineDataSet> dataSets2 = new ArrayList<ILineDataSet>();
-            dataSets2.add(set2);
 
-            LineData data2 = new LineData(dataSets2);
+            ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+            dataSets.add(set1);
+            dataSets.add(set2);
 
-            chart.setData(data2);
+            LineData data = new LineData(dataSets);
+
+            chart.setData(data);
+
         }
     }
 

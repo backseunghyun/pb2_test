@@ -192,6 +192,7 @@ public class OrderFragment extends BaseFragment {
             b = preference.TRUE;
         }
         preference.setStringPreference(Preference.PREFS_KEY.IS_LIST_VISIBLE, b);
+        rl_change.setSelected(b.equals("false"));
         mAdapter.setIsList(preference.getStringPreference(Preference.PREFS_KEY.IS_LIST_VISIBLE).equals(preference.TRUE));
         setInit();
     }

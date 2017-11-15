@@ -93,9 +93,10 @@ public class FavoriteDetailAdapter extends BaseAdapter {
             vActivity = c;
             vList = list;
         }
-        @OnClick({R.id.iv_check})
+        @OnClick({R.id.ll_rootlayout, R.id.iv_check})
         public void onClick(View v) {
             switch (v.getId()) {
+                case R.id.ll_rootlayout:
                 case R.id.iv_check:
                     Product m = vList.get(vPosition);
                     Log.d("click", m.getProductName() + " - " + m.getProductId());

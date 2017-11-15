@@ -104,13 +104,14 @@ public class OrderStep2Fragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-    @OnClick({R.id.ib_add, R.id.tv_date, R.id.iv_date, R.id.rl_next, R.id.tv_etc, R.id.rl_etc})
+    @OnClick({R.id.ib_add, R.id.ll_date, R.id.tv_date, R.id.iv_date, R.id.rl_next, R.id.ll_etc, R.id.tv_etc, R.id.rl_etc})
     public void OnClick(View v){
         switch (v.getId()) {
             case R.id.ib_add:
                 getActivity().setResult(-1);
                 getActivity().finish();
                 break;
+            case R.id.ll_date:
             case R.id.tv_date:
             case R.id.iv_date:
                 showCalendar();
@@ -130,6 +131,7 @@ public class OrderStep2Fragment extends BaseFragment {
                 });
                 popup.show();
                 break;
+            case R.id.ll_etc:
             case R.id.tv_etc:
             case R.id.rl_etc:
                 final DeliveryMemoPopup popup2 = new DeliveryMemoPopup(getActivity());

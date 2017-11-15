@@ -184,9 +184,11 @@ public class FavoriteDetailActivity extends BaseActivity {
     private void setCartCount(int num){
         if (num > 0) {
             tv_count.setText(num + "");
+            tv_count.setVisibility(View.VISIBLE);
             rl_cart.setEnabled(false);
         } else {
             tv_count.setText("");
+            tv_count.setVisibility(View.GONE);
             rl_cart.setEnabled(true);
         }
         preference.setIntPreference(Preference.PREFS_KEY.CNT_PRODUCT_IN_CART, num);

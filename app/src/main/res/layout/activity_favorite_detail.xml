@@ -73,7 +73,7 @@
         android:textSize="16dp"
         android:textColor="@color/c_ffffff"
         android:textStyle="bold"
-        android:text="즐겨찾기 추가 "
+        android:text="상품 추가 "
         android:gravity="center"
         />
 
