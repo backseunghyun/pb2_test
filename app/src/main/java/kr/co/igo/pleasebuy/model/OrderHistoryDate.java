@@ -6,6 +6,7 @@ package kr.co.igo.pleasebuy.model;
 
 public class OrderHistoryDate {
     private String date;
+    private String fulldate;
     private String status;
     private int orderInfoId;
     private boolean selected;
@@ -49,5 +50,13 @@ public class OrderHistoryDate {
 
     public void setActivated(boolean activated) {
         this.activated = activated;
+    }
+
+    public String getFulldate() {
+        return fulldate;
+    }
+
+    public void setFulldate(String fulldate) {
+        this.fulldate = fulldate;
     }
 }

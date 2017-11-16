@@ -76,7 +76,10 @@
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/lc_chart1"
                 android:layout_width="match_parent"
-                android:layout_height="170dp" />
+                android:layout_height="170dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/c_ffffff"/>
 
 
             <LinearLayout
@@ -84,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginLeft="23dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="10dp">
                 <TextView
                     android:layout_width="wrap_content"
@@ -97,7 +100,10 @@
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/lc_chart2"
                 android:layout_width="match_parent"
-                android:layout_height="170dp"/>
+                android:layout_height="170dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/c_ffffff"/>
 
 
             <LinearLayout
@@ -105,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginLeft="23dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="10dp">
                 <TextView
                     android:layout_width="wrap_content"
@@ -118,14 +124,17 @@
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/lc_chart3"
                 android:layout_width="match_parent"
-                android:layout_height="170dp"/>
+                android:layout_height="170dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/c_ffffff"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginLeft="23dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="10dp">
                 <TextView
                     android:layout_width="wrap_content"
@@ -138,14 +147,17 @@
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/lc_chart4"
                 android:layout_width="match_parent"
-                android:layout_height="170dp"/>
+                android:layout_height="170dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/c_ffffff"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginLeft="23dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="10dp">
                 <TextView
                     android:layout_width="wrap_content"
@@ -158,7 +170,10 @@
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/lc_chart5"
                 android:layout_width="match_parent"
-                android:layout_height="170dp"/>
+                android:layout_height="170dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/c_ffffff"/>
 
 
             <LinearLayout
@@ -166,7 +181,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginLeft="23dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="10dp">
                 <TextView
                     android:layout_width="wrap_content"
@@ -179,7 +194,10 @@
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/lc_chart6"
                 android:layout_width="match_parent"
-                android:layout_height="170dp"/>
+                android:layout_height="170dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/c_ffffff"/>
 
         </LinearLayout>
     </ScrollView>

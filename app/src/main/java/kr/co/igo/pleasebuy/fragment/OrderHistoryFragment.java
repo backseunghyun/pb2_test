@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
@@ -18,6 +19,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.annotation.Target;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -62,6 +64,7 @@ public class OrderHistoryFragment extends BaseFragment {
     @Bind(R.id.tv_etc)                  TextView tv_etc;
     @Bind(R.id.rb_order)                RadioButton rb_order;
     @Bind(R.id.rb_delivery)             RadioButton rb_delivery;
+    @Bind(R.id.rl_order_cancel)         RelativeLayout rl_order_cancel;
 
     private OrderHistoryAdapter mAdapter;
     private List<Product> mList = new ArrayList<Product>();
@@ -147,6 +150,7 @@ public class OrderHistoryFragment extends BaseFragment {
         SimpleDateFormat sdf = new SimpleDateFormat("MM");
         SimpleDateFormat sdf2 = new SimpleDateFormat("dd");
         SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy.MM.dd");
+        SimpleDateFormat sdf4 = new SimpleDateFormat("yyyy.MM.");
 
         tv_month.setText(sdf.format(cDate) + "월");
 
@@ -154,13 +158,19 @@ public class OrderHistoryFragment extends BaseFragment {
         for (int i=1; i <= Integer.parseInt(sdf2.format(cDate)); i++ ){
             OrderHistoryDate item = new OrderHistoryDate();
             item.setDate(i + "");
-            item.setStatus("배송완료");
+            item.setFulldate(sdf4.format(cDate) + String.format("%2d", i));
+
             item.setOrderInfoId(50 + i);
             item.setSelected(i == Integer.parseInt(sdf2.format(cDate)));
-            if (5<i) {
-                item.setActivated(true);
-            } else {
+            if (5>i) {
                 item.setActivated(false);
+                item.setStatus("배송완료");
+            } else if (6==i) {
+                item.setActivated(true);
+                item.setStatus("배송중");
+            } else {
+                item.setActivated(true);
+                item.setStatus("주문접수");
             }
             nList.add(item);
         }
@@ -278,8 +288,15 @@ public class OrderHistoryFragment extends BaseFragment {
         popup.show();
     }
 
-    public void orderHistoryChangeData(int id){
-        orderInfoId = id;
+    public void orderHistoryChangeData(OrderHistoryDate date){
+        orderInfoId = date.getOrderInfoId();
         getData();
+
+        tv_reference_date.setText(date.getFulldate());
+        if(date.getStatus().equals("주문접수")) {
+            rl_order_cancel.setEnabled(true);
+        } else {
+            rl_order_cancel.setEnabled(false);
+        }
     }
 }

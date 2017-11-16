@@ -36,6 +36,8 @@ import kr.co.igo.pleasebuy.fragment.ReportFragment;
 import kr.co.igo.pleasebuy.fragment.RequestAddProductFragment;
 import kr.co.igo.pleasebuy.fragment.SettingFragment;
 import kr.co.igo.pleasebuy.fragment.StatisticsFragment;
+import kr.co.igo.pleasebuy.model.OrderHistoryDate;
+import kr.co.igo.pleasebuy.model.Product;
 import kr.co.igo.pleasebuy.popup.TwoButtonPopup;
 import kr.co.igo.pleasebuy.trunk.BaseActivity;
 import kr.co.igo.pleasebuy.trunk.api.APIManager;
@@ -297,26 +299,26 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     setHeaderFavorite();
                     break;
                 case ADD: // 상품추가 요청
-//                    ft.replace(R.id.fl_container, requestAddProductFragment)
-//                            .setBreadCrumbTitle(index.value())
-//                            .addToBackStack(null)
-//                            .commit();
-                    showError("준비중입니다.");
+                    ft.replace(R.id.fl_container, requestAddProductFragment)
+                            .setBreadCrumbTitle(index.value())
+                            .addToBackStack(null)
+                            .commit();
+//                    showError("준비중입니다.");
                     break;
                 case GRAPH: // 통계
-//                    ft.replace(R.id.fl_container, statisticsFragment)
-//                            .setBreadCrumbTitle(index.value())
-//                            .addToBackStack(null)
-//                            .commit();
+                    ft.replace(R.id.fl_container, statisticsFragment)
+                            .setBreadCrumbTitle(index.value())
+                            .addToBackStack(null)
+                            .commit();
 
-                    showError("준비중입니다.");
+//                    showError("준비중입니다.");
                     break;
                 case HISTORY: // 주문 히스토리
-//                    ft.replace(R.id.fl_container, orderHistoryFragment)
-//                            .setBreadCrumbTitle(index.value())
-//                            .addToBackStack(null)
-//                            .commit();
-                    showError("준비중입니다.");
+                    ft.replace(R.id.fl_container, orderHistoryFragment)
+                            .setBreadCrumbTitle(index.value())
+                            .addToBackStack(null)
+                            .commit();
+//                    showError("준비중입니다.");
                     break;
                 case BOARD: // 게시판
                     ft.replace(R.id.fl_container, boardFragment)
@@ -331,11 +333,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             .commit();
                     break;
                 case REPORT: // 월간리포트
-//                    ft.replace(R.id.fl_container, reportFragment)
-//                            .setBreadCrumbTitle(index.value())
-//                            .addToBackStack(null)
-//                            .commit();
-                    showError("준비중입니다.");
+                    ft.replace(R.id.fl_container, reportFragment)
+                            .setBreadCrumbTitle(index.value())
+                            .addToBackStack(null)
+                            .commit();
+//                    showError("준비중입니다.");
                     break;
                 case SETTING: // 설정
                     ft.replace(R.id.fl_container, settingFragment)
@@ -423,8 +425,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    public void orderHistoryChangeData(int id){
-        orderHistoryFragment.orderHistoryChangeData(id);
+    public void orderHistoryChangeData(OrderHistoryDate date){
+        orderHistoryFragment.orderHistoryChangeData(date);
     }
 
     public void logoutPopup() {
