@@ -417,9 +417,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 100) {
-            if(resultCode == -1) {
+            if(resultCode == -1) {      // 주문하기 step2 에서 상품 추가 눌렀을시
                 if (currentFragment != FragmentName.ORDER) {
                     mainFragmentReplace(FragmentName.ORDER);
+                }
+            } else if (resultCode == 1) {   // 주문하기 step3 에서 완료 시
+                if (currentFragment != FragmentName.HOME) {
+                    mainFragmentReplace(FragmentName.HOME);
                 }
             }
         }
