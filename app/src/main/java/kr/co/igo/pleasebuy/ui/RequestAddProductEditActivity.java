@@ -77,7 +77,7 @@ public class RequestAddProductEditActivity extends BaseActivity {
     private String path;
     public Preference preference;
     private BackPressCloseSystem backPressCloseSystem;
-    private int boardId;
+    private int productReqBoardId;
     private String name;
     private String unit;
     private String etc;
@@ -96,8 +96,8 @@ public class RequestAddProductEditActivity extends BaseActivity {
         unit = "";
         etc = "";
 
-        if(getIntent().hasExtra("boardId")) {
-            boardId = getIntent().getIntExtra("boardId",0);
+        if(getIntent().hasExtra("productReqBoardId")) {
+            productReqBoardId = getIntent().getIntExtra("productReqBoardId",0);
             getData();
         }
     }
@@ -121,7 +121,7 @@ public class RequestAddProductEditActivity extends BaseActivity {
                 checkData();
                 break;
             case R.id.tv_save:
-                if (boardId == 0) {
+                if (productReqBoardId == 0) {
                     add();
                 } else {
                     update();
@@ -171,7 +171,7 @@ public class RequestAddProductEditActivity extends BaseActivity {
     }
 
     public void checkData(){
-        if (boardId > 0 && (
+        if (productReqBoardId > 0 && (
             !et_name.getText().toString().equals(name) ||
             !et_unit.getText().toString().equals(unit) ||
             !et_etc.getText().toString().equals(etc)) ) {
@@ -198,9 +198,9 @@ public class RequestAddProductEditActivity extends BaseActivity {
 
     private void getData() {
         RequestParams param = new RequestParams();
-        param.put("boardId", boardId);
+        param.put("productReqBoardId", productReqBoardId);
 
-        APIManager.getInstance().callAPI(APIUrl.BOARD_QNA_DETAIL, param, new RequestHandler(this, uuid) {
+        APIManager.getInstance().callAPI(APIUrl.PRODUCT_REQ_BOARD_DETAIL, param, new RequestHandler(this, uuid) {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
@@ -208,15 +208,15 @@ public class RequestAddProductEditActivity extends BaseActivity {
                     if (response.getInt("code") == 0) {
 
                         JSONObject item = response.getJSONObject("item");
-                        name = item.optString("title");
-                        unit = item.optString("contents");
+                        name = item.optString("productName");
+                        unit = item.optString("unit");
                         etc = item.optString("contents");
 
                         et_name.setText(name);
                         et_unit.setText(unit);
                         et_etc.setText(etc);
                         Glide.with(RequestAddProductEditActivity.this)
-                                .load(ApplicationData.getImgPrefix() + item.optString("imageUrl"))
+                                .load(ApplicationData.getImgPrefix() + item.optString("url"))
                                 .centerCrop()
                                 .into(iv_image);
                     }
@@ -228,8 +228,8 @@ public class RequestAddProductEditActivity extends BaseActivity {
 
     private void add() {
         RequestParams param = new RequestParams();
-        param.put("title", et_name.getText().toString());
-        param.put("contents", et_unit.getText().toString());
+        param.put("productName", et_name.getText().toString());
+        param.put("unit", et_unit.getText().toString());
         param.put("contents", et_etc.getText().toString());
 
         if (path != null) {
@@ -243,7 +243,7 @@ public class RequestAddProductEditActivity extends BaseActivity {
 
         param.setForceMultipartEntityContentType(true);
 
-        APIManager.getInstance().callAPI(APIUrl.BOARD_QNA_ADD, param, new RequestHandler(this, uuid) {
+        APIManager.getInstance().callAPI(APIUrl.PRODUCT_REQ_BOARD_ADD, param, new RequestHandler(this, uuid) {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
@@ -262,9 +262,9 @@ public class RequestAddProductEditActivity extends BaseActivity {
 
     private void update() {
         RequestParams param = new RequestParams();
-        param.put("boardId", boardId);
-        param.put("title", et_name.getText().toString());
-        param.put("contents", et_unit.getText().toString());
+        param.put("productReqBoardId", productReqBoardId);
+        param.put("productName", et_name.getText().toString());
+        param.put("unit", et_unit.getText().toString());
         param.put("contents", et_etc.getText().toString());
         if (path != null) {
             final File file = new File(path);
@@ -276,7 +276,7 @@ public class RequestAddProductEditActivity extends BaseActivity {
         }
         param.setForceMultipartEntityContentType(true);
 
-        APIManager.getInstance().callAPI(APIUrl.BOARD_QNA_UPDATE, param, new RequestHandler(this, uuid) {
+        APIManager.getInstance().callAPI(APIUrl.PRODUCT_REQ_BOARD_UPDATE, param, new RequestHandler(this, uuid) {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);

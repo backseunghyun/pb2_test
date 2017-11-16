@@ -222,7 +222,19 @@ public class FavoriteEditAddActivity extends BaseActivity {
                             JSONObject obj = jsonArray.getJSONObject(i);
                             if (obj != null) {
                                 String item = obj.optString("value");
-                                mDataList.add(item);
+
+                                if (preference.getStringPreference(Preference.PREFS_KEY.USER_ID).contains("CCB")){
+                                    if(item.equals("식자재") ||
+                                            item.equals("식자재") ||
+                                            item.equals("부자재") ||
+                                            item.equals("소모품") ||
+                                            item.equals("주방기물") ||
+                                            item.equals("유니폼")) {
+                                        mDataList.add(item);
+                                    }
+                                } else {
+                                    mDataList.add(item);
+                                }
                             }
                         }
                     }

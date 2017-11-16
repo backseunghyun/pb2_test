@@ -95,6 +95,11 @@ public enum APIUrl {
     BOARD_QNA_DETAIL("/board/qna/detail"),  // 게시판 상제
     BOARD_QNA_UPDATE("/board/qna/update"),  // 게시판 수정
     BOARD_QNA_REMOVE("/board/qna/remove"),  // 게시판 삭제
+    PRODUCT_REQ_BOARD("/product-req-board"), // 상품추가 요청 리스트
+    PRODUCT_REQ_BOARD_DETAIL("/product-req-board/detail"), // 상품추가 요청 상세
+    PRODUCT_REQ_BOARD_ADD("/product-req-board/add"), // 상품추가 요청 추가
+    PRODUCT_REQ_BOARD_UPDATE("/product-req-board/update"), // 상품추가 요청 수정
+    PRODUCT_REQ_BOARD_REMOVE("/product-req-board/remove"), // 상품추가 요청 삭제
     BOARD_NOTICE("/board/notice"),          // 공지사항
     FAVORITE_GROUP("/favorite-group"),      // 즐겨찾기 그룹
     FAVORITE_GROUP_DETAILS("/favorite-group/details"),                  // 즐겨찾기 그룹 상세

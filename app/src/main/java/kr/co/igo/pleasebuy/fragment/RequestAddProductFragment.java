@@ -78,9 +78,9 @@ public class RequestAddProductFragment extends BaseFragment {
         lv_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("boardId", mList.get(position).getBoardId() + "");
+                Log.d("productReqBoardId", mList.get(position).getBoardId() + "");
                 Intent intent = new Intent(getActivity(), RequestAddProductDetailActivity.class);
-                intent.putExtra("boardId", mList.get(position).getBoardId());
+                intent.putExtra("productReqBoardId", mList.get(position).getBoardId());
                 getActivity().startActivity(intent);
             }
         });
@@ -116,7 +116,7 @@ public class RequestAddProductFragment extends BaseFragment {
     private void getList() {
         RequestParams param = new RequestParams();
 
-        APIManager.getInstance().callAPI(APIUrl.BOARD_QNA, param, new RequestHandler(getActivity(), uuid) {
+        APIManager.getInstance().callAPI(APIUrl.PRODUCT_REQ_BOARD, param, new RequestHandler(getActivity(), uuid) {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
@@ -129,10 +129,10 @@ public class RequestAddProductFragment extends BaseFragment {
                             JSONObject obj = jsonArray.getJSONObject(i);
                             if (obj != null) {
                                 RequestAddProduct item = new RequestAddProduct();
-                                item.setBoardId(obj.optInt("boardId"));
-                                item.setName(obj.optString("title"));
+                                item.setBoardId(obj.optInt("productReqBoardId"));
+                                item.setName(obj.optString("productName"));
                                 item.setEtc(obj.optString("contents"));
-                                item.setUnit(obj.optString("userName"));
+                                item.setUnit(obj.optString("unit"));
                                 item.setRegDate(obj.optLong("regDate"));
                                 item.setImgUrl(ApplicationData.getImgPrefix() + obj.optString("imageUrl"));
 

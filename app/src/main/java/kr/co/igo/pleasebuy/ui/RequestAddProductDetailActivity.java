@@ -52,7 +52,7 @@ public class RequestAddProductDetailActivity extends BaseActivity {
     public Preference preference;
     private BackPressCloseSystem backPressCloseSystem;
 
-    private int boardId;
+    private int productReqBoardId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +65,8 @@ public class RequestAddProductDetailActivity extends BaseActivity {
 
         tv_title.setText(getResources().getString(R.string.s_menu_request_add_product));
 
-        if(getIntent().hasExtra("boardId")) {
-            boardId = getIntent().getIntExtra("boardId",0);
+        if(getIntent().hasExtra("productReqBoardId")) {
+            productReqBoardId = getIntent().getIntExtra("productReqBoardId",0);
         }
 
     }
@@ -87,7 +87,7 @@ public class RequestAddProductDetailActivity extends BaseActivity {
                 break;
             case R.id.tv_save:
                 Intent intent = new Intent(this, RequestAddProductEditActivity.class);
-                intent.putExtra("boardId", boardId);
+                intent.putExtra("productReqBoardId", productReqBoardId);
                 startActivity(intent);
                 break;
         }
@@ -95,9 +95,9 @@ public class RequestAddProductDetailActivity extends BaseActivity {
 
     private void getData() {
         RequestParams param = new RequestParams();
-        param.put("boardId", boardId);
+        param.put("productReqBoardId", productReqBoardId);
 
-        APIManager.getInstance().callAPI(APIUrl.BOARD_QNA_DETAIL, param, new RequestHandler(this, uuid) {
+        APIManager.getInstance().callAPI(APIUrl.PRODUCT_REQ_BOARD_DETAIL, param, new RequestHandler(this, uuid) {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
@@ -105,11 +105,11 @@ public class RequestAddProductDetailActivity extends BaseActivity {
                     if (response.getInt("code") == 0) {
 
                         JSONObject item = response.getJSONObject("item");
-                        tv_name.setText(item.optString("title"));
-                        tv_unit.setText(item.optString("contents"));
+                        tv_name.setText(item.optString("productName"));
+                        tv_unit.setText(item.optString("unit"));
                         tv_etc.setText(item.optString("contents"));
                         Glide.with(RequestAddProductDetailActivity.this)
-                                .load(ApplicationData.getImgPrefix() + item.optString("imageUrl"))
+                                .load(ApplicationData.getImgPrefix() + item.optString("url"))
 //                                .centerCrop()
                                 .listener(requestListener)
                                 .into(iv_image);
