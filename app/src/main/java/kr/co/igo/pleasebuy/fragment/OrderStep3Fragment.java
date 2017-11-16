@@ -1,5 +1,6 @@
 package kr.co.igo.pleasebuy.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -80,6 +81,7 @@ public class OrderStep3Fragment extends BaseFragment {
     public void OnClick(View v){
         switch (v.getId()) {
             case R.id.rl_confirm:
+                getActivity().setResult(1);
                 getActivity().finish();
                 break;
         }

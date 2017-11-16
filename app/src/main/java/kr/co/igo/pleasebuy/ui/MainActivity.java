@@ -297,26 +297,26 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     setHeaderFavorite();
                     break;
                 case ADD: // 상품추가 요청
-//                    ft.replace(R.id.fl_container, requestAddProductFragment)
-//                            .setBreadCrumbTitle(index.value())
-//                            .addToBackStack(null)
-//                            .commit();
-                    showError("준비중입니다.");
+                    ft.replace(R.id.fl_container, requestAddProductFragment)
+                            .setBreadCrumbTitle(index.value())
+                            .addToBackStack(null)
+                            .commit();
+//                    showError("준비중입니다.");
                     break;
                 case GRAPH: // 통계
-//                    ft.replace(R.id.fl_container, statisticsFragment)
-//                            .setBreadCrumbTitle(index.value())
-//                            .addToBackStack(null)
-//                            .commit();
+                    ft.replace(R.id.fl_container, statisticsFragment)
+                            .setBreadCrumbTitle(index.value())
+                            .addToBackStack(null)
+                            .commit();
 
-                    showError("준비중입니다.");
+//                    showError("준비중입니다.");
                     break;
                 case HISTORY: // 주문 히스토리
-//                    ft.replace(R.id.fl_container, orderHistoryFragment)
-//                            .setBreadCrumbTitle(index.value())
-//                            .addToBackStack(null)
-//                            .commit();
-                    showError("준비중입니다.");
+                    ft.replace(R.id.fl_container, orderHistoryFragment)
+                            .setBreadCrumbTitle(index.value())
+                            .addToBackStack(null)
+                            .commit();
+//                    showError("준비중입니다.");
                     break;
                 case BOARD: // 게시판
                     ft.replace(R.id.fl_container, boardFragment)
@@ -415,9 +415,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 100) {
-            if(resultCode == -1) {
+            if(resultCode == -1) {      // 주문하기 step2 에서 상품 추가 눌렀을시
                 if (currentFragment != FragmentName.ORDER) {
                     mainFragmentReplace(FragmentName.ORDER);
+                }
+            } else if (resultCode == 1) {   // 주문하기 step3 에서 완료 시
+                if (currentFragment != FragmentName.HOME) {
+                    mainFragmentReplace(FragmentName.HOME);
                 }
             }
         }
