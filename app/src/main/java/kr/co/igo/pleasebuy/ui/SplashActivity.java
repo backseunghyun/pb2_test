@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.gun0912.tedpermission.PermissionListener;
@@ -36,7 +37,7 @@ import kr.co.igo.pleasebuy.util.ApplicationData;
 import kr.co.igo.pleasebuy.util.Preference;
 
 public class SplashActivity extends BaseActivity {
-
+    @Bind(R.id.iv_image)    ImageView iv_image;
 
     private static final String TAG = "SplashActivity";
     private static final String KEY_FIRST_CONNECTION = "Ajpark.user.firstconnection";
@@ -51,6 +52,12 @@ public class SplashActivity extends BaseActivity {
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
         preference = new Preference();
+
+        Glide.with(this)
+                .load("http://bbaeggun100.vps.phps.kr:8080/pleasebuy2/static/splash.jpg")
+                .centerCrop()
+                .error(null)
+                .into(iv_image);
 
         extras = getIntent().getExtras();
         if (extras != null) {

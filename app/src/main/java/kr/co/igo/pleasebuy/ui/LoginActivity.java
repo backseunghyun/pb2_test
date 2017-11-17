@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONException;
@@ -29,6 +31,7 @@ import kr.co.igo.pleasebuy.util.Preference;
 public class LoginActivity extends BaseActivity {
     @Bind(R.id.et_id)       EditText et_id;
     @Bind(R.id.et_password) EditText et_password;
+    @Bind(R.id.iv_image)    ImageView iv_image;
 
     private static Preference preference;
     private BackPressCloseSystem backPressCloseSystem;
@@ -38,6 +41,12 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
+        Glide.with(this)
+                .load("http://bbaeggun100.vps.phps.kr:8080/pleasebuy2/static/splash.jpg")
+                .centerCrop()
+                .error(null)
+                .into(iv_image);
     }
 
     @OnClick({R.id.btn_login})

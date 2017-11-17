@@ -21,10 +21,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -72,7 +74,7 @@ public class HomeFragment extends BaseFragment {
     @Bind(R.id.tv_preOrderDate) TextView tv_preOrderDate;
     @Bind(R.id.tv_preOrderPrice)    TextView tv_preOrderPrice;
     @Bind(R.id.tv_noti)     TextView tv_noti;
-
+    @Bind(R.id.iv_image)    ImageView iv_image;
 
     public HomeFragment()  {
 
@@ -151,6 +153,12 @@ public class HomeFragment extends BaseFragment {
 
 
     private void initView(){
+        Glide.with(this)
+                .load("http://bbaeggun100.vps.phps.kr:8080/pleasebuy2/static/splash.jpg")
+                .centerCrop()
+                .error(null)
+                .into(iv_image);
+
         long now = System.currentTimeMillis();
         Date date = new Date(now);
         SimpleDateFormat sSdf = new SimpleDateFormat("yyyy-MM");
