@@ -161,10 +161,11 @@ public class HomeFragment extends BaseFragment {
 
         long now = System.currentTimeMillis();
         Date date = new Date(now);
+        SimpleDateFormat mSdf = new SimpleDateFormat("MM");
         SimpleDateFormat sSdf = new SimpleDateFormat("yyyy-MM");
         SimpleDateFormat eSdf = new SimpleDateFormat("yyyy-MM-dd");
 
-        tv_mon.setText(date.getMonth() + "월내역");
+        tv_mon.setText(mSdf.format(date) + "월내역");
         tv_dateFul.setText(sSdf.format(date) + ".01 ~ " + eSdf.format(date));
     }
 

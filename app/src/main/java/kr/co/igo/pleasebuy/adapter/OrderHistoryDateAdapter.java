@@ -94,7 +94,7 @@ public class OrderHistoryDateAdapter extends RecyclerView.Adapter<OrderHistoryDa
                     clear();
                     m.setSelected(true);
                     if(vActivity instanceof MainActivity) {
-                        ((MainActivity)vActivity).orderHistoryChangeData(m.getOrderInfoId());
+                        ((MainActivity)vActivity).orderHistoryChangeData(m);
                     }
                     notifyDataSetChanged();
                     break;
