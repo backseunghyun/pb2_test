@@ -436,7 +436,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void logoutPopup() {
         final TwoButtonPopup popup = new TwoButtonPopup(this);
         popup.setCancelable(false);
-        popup.setTitle(getResources().getString(R.string.s_confirm));
+        popup.setTitle(getResources().getString(R.string.s_popup_title));
         popup.setContent(getResources().getString(R.string.s_ask_logout));
         popup.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override

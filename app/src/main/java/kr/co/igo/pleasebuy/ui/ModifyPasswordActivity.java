@@ -103,7 +103,7 @@ public class ModifyPasswordActivity extends BaseActivity {
     private void showModifySuccess() {
         ConfirmPopup popup = new ConfirmPopup(this);
 //        notiPopup.setCancelable(false);
-        popup.setTitle(getResources().getString(R.string.s_confirm));
+        popup.setTitle(getResources().getString(R.string.s_popup_title));
         popup.setContent(getResources().getString(R.string.s_password_modify_success));
         popup.show();
     }

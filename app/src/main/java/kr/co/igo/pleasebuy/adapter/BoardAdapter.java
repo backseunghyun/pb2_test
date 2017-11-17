@@ -190,7 +190,7 @@ public class BoardAdapter extends BaseExpandableListAdapter {
 
         final TwoButtonPopup popup = new TwoButtonPopup(context);
         popup.setCancelable(false);
-        popup.setTitle(context.getResources().getString(R.string.s_confirm));
+        popup.setTitle(context.getResources().getString(R.string.s_popup_title));
         popup.setContent(context.getResources().getString(R.string.s_ask_board_bbs_delete));
         popup.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override

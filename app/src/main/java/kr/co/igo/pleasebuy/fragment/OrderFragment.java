@@ -110,6 +110,7 @@ public class OrderFragment extends BaseFragment {
 
     private void setInit() {
         et_search.setText("");
+        rl_change.setSelected(preference.getStringPreference(Preference.PREFS_KEY.IS_LIST_VISIBLE).equals(preference.FALSE));
 
         view_pager.setAdapter(mAdapter);
         view_pager.setOffscreenPageLimit(1);

@@ -48,6 +48,7 @@ import kr.co.igo.pleasebuy.R;
 import kr.co.igo.pleasebuy.adapter.FavoriteAdapter;
 import kr.co.igo.pleasebuy.model.Product;
 import kr.co.igo.pleasebuy.popup.CalendarTwoPopup;
+import kr.co.igo.pleasebuy.popup.CustomYearMonthPickerPopup;
 import kr.co.igo.pleasebuy.trunk.BaseFragment;
 import kr.co.igo.pleasebuy.trunk.api.APIManager;
 import kr.co.igo.pleasebuy.trunk.api.APIUrl;
@@ -96,21 +97,23 @@ public class StatisticsFragment extends BaseFragment {
         initChart(lc_chart1);
         initChart(lc_chart2);
 
-        setChart(lc_chart1);
-        setChart(lc_chart2);
+        getData();
+
         return view;
     }
 
     private void setInit() {
         long now = System.currentTimeMillis();
         Date date = new Date(now);
-        SimpleDateFormat sSdf = new SimpleDateFormat("yyyy-MM");
-        SimpleDateFormat eSdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sSdf = new SimpleDateFormat("yyyy.MM");
+        SimpleDateFormat eSdf = new SimpleDateFormat("yyyy.MM.dd");
 
-        toDate = eSdf.format(date);
-        fromDate = sSdf.format(date) + ".01";
+//        toDate = eSdf.format(date);
+//        fromDate = sSdf.format(date) + ".01";
+//        tv_date.setText(fromDate + " ~ " + toDate);
 
-        tv_date.setText(fromDate + " ~ " + toDate);
+        fromDate = sSdf.format(date);
+        tv_date.setText(fromDate);
     }
 
     @Override
@@ -126,7 +129,7 @@ public class StatisticsFragment extends BaseFragment {
         chart.getDescription().setEnabled(false);
         chart.setDrawBorders(false);
 
-        chart.getAxisLeft().setEnabled(false);
+        chart.getAxisLeft().setEnabled(true);
         chart.getAxisRight().setDrawAxisLine(false);
         chart.getAxisRight().setDrawGridLines(false);
         chart.getXAxis().setDrawAxisLine(false);
@@ -142,8 +145,6 @@ public class StatisticsFragment extends BaseFragment {
         // if disabled, scaling can be done on x- and y-axis separately
         chart.setPinchZoom(false);
 
-
-
         // x-axis limit line
         XAxis xAxis = chart.getXAxis();
         for (int i=1; i<6; i++) {
@@ -155,11 +156,10 @@ public class StatisticsFragment extends BaseFragment {
             xAxis.addLimitLine(llXAxis);
         }
 
-
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
-        leftAxis.setAxisMaximum(100f);
-        leftAxis.setAxisMinimum(-100f);
+        leftAxis.setAxisMaximum(200f);
+        leftAxis.setAxisMinimum(0f);
 
         leftAxis.enableGridDashedLine(10f, 10f, 0f);
         leftAxis.setDrawZeroLine(true);
@@ -168,9 +168,6 @@ public class StatisticsFragment extends BaseFragment {
         leftAxis.setDrawLimitLinesBehindData(true);
 
         chart.getAxisRight().setEnabled(false);
-    }
-
-    private void setChart(LineChart chart) {
 
         Legend l = chart.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
@@ -178,31 +175,20 @@ public class StatisticsFragment extends BaseFragment {
         l.setOrientation(Legend.LegendOrientation.VERTICAL);
         l.setDrawInside(false);
 
-        // add data
-
-        ArrayList<Entry> values1 = new ArrayList<Entry>();
-        ArrayList<Entry> values2 = new ArrayList<Entry>();
-        for (int i = 0; i < 31; i++) {
-            float val = (float) (Math.random() * 100) + 3;
-            values1.add(new Entry(i, val));
-            values1.add(new Entry(i, -val));
-        }
-
-        setData(chart, values1, values2);
-
         chart.animateX(2500);
 
         l.setForm(Legend.LegendForm.LINE);
     }
 
+    private void setData(LineChart chart, ArrayList<Entry> values1, ArrayList<Entry> values2) {
+//        setData(chart, values1, values2);
 
-    private void setData(LineChart chart, ArrayList<Entry> values, ArrayList<Entry> values2) {
         LineDataSet set1;
         LineDataSet set2;
 
         if (chart.getData() != null && chart.getData().getDataSetCount() > 0) {
             set1 = (LineDataSet)chart.getData().getDataSetByIndex(0);
-            set1.setValues(values);
+            set1.setValues(values1);
 
             set2 = (LineDataSet)chart.getData().getDataSetByIndex(1);
             set2.setValues(values2);
@@ -211,7 +197,7 @@ public class StatisticsFragment extends BaseFragment {
             chart.getData().notifyDataChanged();
             chart.notifyDataSetChanged();
         } else {
-            set1 = new LineDataSet(values, "");
+            set1 = new LineDataSet(values1, "");
             set1.setDrawIcons(false);
             set1.setColor(Color.RED);
             set1.setCircleColor(Color.RED);
@@ -229,7 +215,7 @@ public class StatisticsFragment extends BaseFragment {
                 set1.setFillColor(Color.BLACK);
             }
 
-            set2 = new LineDataSet(values, "");
+            set2 = new LineDataSet(values2, "");
             set2.setDrawIcons(false);
             set2.setColor(Color.BLUE);
             set2.setCircleColor(Color.BLUE);
@@ -247,7 +233,6 @@ public class StatisticsFragment extends BaseFragment {
                 set2.setFillColor(Color.BLACK);
             }
 
-
             ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
             dataSets.add(set1);
             dataSets.add(set2);
@@ -255,7 +240,6 @@ public class StatisticsFragment extends BaseFragment {
             LineData data = new LineData(dataSets);
 
             chart.setData(data);
-
         }
     }
 
@@ -287,19 +271,22 @@ public class StatisticsFragment extends BaseFragment {
 
 
     private void showCalendar(){
-        final CalendarTwoPopup calendarPopup = new CalendarTwoPopup(getActivity());
-        calendarPopup.setOnDismissListener(new DialogInterface.OnDismissListener() {
+        final CustomYearMonthPickerPopup popup = new CustomYearMonthPickerPopup(getActivity(),  tv_date.getText().toString().substring(0, 4), tv_date.getText().toString().substring(5, 7));
+        popup.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                if (calendarPopup.getBtn_result().equals("ok")) {
-                    fromDate = calendarPopup.getStartDate();
-                    toDate = calendarPopup.getEndDate();
-                    tv_date.setText(fromDate + " ~ " + toDate);
+                if(popup.getResult().equals("ok")) {
+                    String fromDate = popup.getResultDate();
+                    tv_date.setText(fromDate.substring(0, 4) + "." + fromDate.substring(4, 6));
+
+                    initChart(lc_chart1);
+                    initChart(lc_chart2);
+
                     getData();
                 }
             }
         });
-        calendarPopup.show();
+        popup.show();
     }
 
 
@@ -367,7 +354,20 @@ public class StatisticsFragment extends BaseFragment {
     }
 
     private void getData(){
+        ArrayList<Entry> values1 = new ArrayList<Entry>();
+        ArrayList<Entry> values2 = new ArrayList<Entry>();
+        for (int i = 1; i < 31; i++) {
+            float val = (float) (Math.random() * 100);
+            values1.add(new Entry(i, val));
+        }
 
+        for (int i = 1; i < 16; i++) {
+            float val = (float) (Math.random() * 100);
+            values2.add(new Entry(i, val));
+        }
+
+        setData(lc_chart1, values1, values2);
+
+        setData(lc_chart2, values1, values2);
     }
-
 }

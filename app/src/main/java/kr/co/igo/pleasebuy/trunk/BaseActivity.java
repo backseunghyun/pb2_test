@@ -66,7 +66,7 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void showError(String msg){
         ConfirmPopup popup = new ConfirmPopup(this);
-        popup.setTitle(getResources().getString(R.string.s_confirm));
+        popup.setTitle(getResources().getString(R.string.s_popup_title));
         popup.setContent(msg);
         popup.show();
     }

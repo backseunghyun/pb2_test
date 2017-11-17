@@ -112,7 +112,7 @@ public class BoardEditActivity extends BaseActivity {
 
         final TwoButtonPopup popup = new TwoButtonPopup(this);
         popup.setCancelable(false);
-        popup.setTitle(getResources().getString(R.string.s_confirm));
+        popup.setTitle(getResources().getString(R.string.s_popup_title));
         if (b) {
             popup.setContent(getResources().getString(R.string.s_ask_board_bbs_edit));
         } else {

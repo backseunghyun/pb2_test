@@ -27,90 +27,98 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="39dp"
-                android:layout_marginLeft="33dp">
-                <TextView
-                    android:id="@+id/tv_mon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15dp"
-                    android:textColor="@color/c_fefefe"
-                    android:text=""/>
-                <TextView
-                    android:id="@+id/tv_dateFul"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="7dp"
-                    android:textSize="14dp"
-                    android:textColor="@color/c_ef8f7c"
-                    app:font="custom2"
-                    android:text=""/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="14dp"
-                android:layout_marginLeft="33dp">
-                <TextView
-                    android:id="@+id/tv_totalPrice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="44dp"
-                    android:textColor="@color/c_ffffff"
-                    app:font="custom4"
-                    android:text=""/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="6dp"
-                    android:textSize="29dp"
-                    android:textColor="@color/c_ffffff"
-                    app:font="custom1"
-                    android:text="원"/>
-            </LinearLayout>
-
-            <View
+                android:id="@+id/ll_info"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="33dp">
-                <TextView
-                    android:id="@+id/tv_preOrderDate"
-                    android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="14dp"
-                    android:textColor="@color/c_d79183"
-                    app:font="custom2"
-                    android:text=""/>
-                <TextView
-                    android:id="@+id/tv_preOrderPrice"
-                    android:layout_width="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="39dp"
+                    android:layout_marginLeft="33dp">
+                    <TextView
+                        android:id="@+id/tv_mon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15dp"
+                        android:textColor="@color/c_fefefe"
+                        android:text=""/>
+                    <TextView
+                        android:id="@+id/tv_dateFul"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="7dp"
+                        android:textSize="14dp"
+                        android:textColor="@color/c_ef8f7c"
+                        app:font="custom2"
+                        android:text=""/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:textSize="21dp"
-                    android:textColor="@color/c_e6d1c8"
-                    app:font="custom2"
-                    android:text=""/>
-                <TextView
-                    android:layout_width="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginLeft="33dp">
+                    <TextView
+                        android:id="@+id/tv_totalPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="44dp"
+                        android:textColor="@color/c_ffffff"
+                        app:font="custom4"
+                        android:text=""/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:textSize="29dp"
+                        android:textColor="@color/c_ffffff"
+                        app:font="custom1"
+                        android:text="원"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:textSize="17dp"
-                    android:textColor="@color/c_e6d1c8"
-                    app:font="custom1"
-                    android:text="원"/>
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="33dp">
+                    <TextView
+                        android:id="@+id/tv_preOrderDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14dp"
+                        android:textColor="@color/c_d79183"
+                        app:font="custom2"
+                        android:text=""/>
+                    <TextView
+                        android:id="@+id/tv_preOrderPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:textSize="21dp"
+                        android:textColor="@color/c_e6d1c8"
+                        app:font="custom2"
+                        android:text=""/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:textSize="17dp"
+                        android:textColor="@color/c_e6d1c8"
+                        app:font="custom1"
+                        android:text="원"/>
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_notice"
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
                 android:orientation="horizontal"

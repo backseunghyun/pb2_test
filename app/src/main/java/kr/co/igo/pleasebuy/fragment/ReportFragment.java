@@ -5,12 +5,15 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.necistudio.vigerpdf.VigerPDF;
 import com.necistudio.vigerpdf.adapter.VigerAdapter;
 import com.necistudio.vigerpdf.manage.OnResultListener;
@@ -30,6 +33,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import kr.co.igo.pleasebuy.R;
 import kr.co.igo.pleasebuy.model.Favorite;
+import kr.co.igo.pleasebuy.popup.CustomProgressDialog;
 import kr.co.igo.pleasebuy.popup.CustomYearMonthPickerPopup;
 import kr.co.igo.pleasebuy.trunk.BaseFragment;
 import kr.co.igo.pleasebuy.ui.MainActivity;
@@ -41,6 +45,9 @@ import kr.co.igo.pleasebuy.util.FragmentName;
 public class ReportFragment extends BaseFragment {
     @Bind(R.id.tv_mon)      TextView tv_mon;
     @Bind(R.id.viewPager)   ViewPagerZoomHorizontal viewPager;
+    @Bind(R.id.rl_left)     RelativeLayout rl_left;
+    @Bind(R.id.rl_right)    RelativeLayout rl_right;
+    @Bind(R.id.tv_page)     TextView tv_page;
 
     private ArrayList<Bitmap> itemData;
     private VigerAdapter adapter;
@@ -49,6 +56,8 @@ public class ReportFragment extends BaseFragment {
     private List<String> mList = new ArrayList<String>();
 
     private Date mDateMonth;
+
+    private CustomProgressDialog progress  = null;
 
     public ReportFragment()  {
 
@@ -108,6 +117,9 @@ public class ReportFragment extends BaseFragment {
     }
 
     private void init(){
+        progress = new CustomProgressDialog(getActivity());
+        progress.setCancelable(false);
+
         long now = System.currentTimeMillis();
         Date date = new Date(now);
         SimpleDateFormat sSdf = new SimpleDateFormat("yyyy.MM");
@@ -117,7 +129,6 @@ public class ReportFragment extends BaseFragment {
         vigerPDF = new VigerPDF(getContext());
 
         itemData = new ArrayList<>();
-
 
 
         mList.add("http://www.pdf995.com/samples/pdf.pdf");
@@ -156,27 +167,47 @@ public class ReportFragment extends BaseFragment {
 
     private void fromNetwork(String endpoint) {
         itemData.clear();
-//        adapter.notifyDataSetChanged();
         vigerPDF.cancle();
+        progress.show();
+        progress.setProgress(0);
         vigerPDF.initFromNetwork(endpoint, new OnResultListener() {
             @Override
             public void resultData(Bitmap data) {
                 itemData.add(data);
                 adapter = new VigerAdapter(getContext(), itemData);
                 viewPager.setAdapter(adapter);
-//                adapter.notifyDataSetChanged();
+                viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                    @Override
+                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                    }
+
+                    @Override
+                    public void onPageSelected(int position) {
+                        tv_page.setText(position+1 + "/" + itemData.size());
+                    }
+
+                    @Override
+                    public void onPageScrollStateChanged(int state) {
+
+                    }
+                });
+                tv_page.setText(1 + "/" + itemData.size());
+                progress.dismiss();
             }
 
             @Override
-            public void progressData(int progress) {
-                Log.e("data", "" + progress);
-                // TODO: 2017-11-06 프로그래스바 처리 필요
+            public void progressData(int pos) {
+                progress.setProgress(pos);
             }
 
             @Override
             public void failed(Throwable t) {
+                progress.dismiss();
             }
         });
+
+
     }
 
     private void moveMonth(int i) {

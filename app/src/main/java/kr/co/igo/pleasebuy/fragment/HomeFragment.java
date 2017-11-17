@@ -75,6 +75,7 @@ public class HomeFragment extends BaseFragment {
     @Bind(R.id.tv_preOrderPrice)    TextView tv_preOrderPrice;
     @Bind(R.id.tv_noti)     TextView tv_noti;
     @Bind(R.id.iv_image)    ImageView iv_image;
+    @Bind(R.id.ll_info)     LinearLayout ll_info;
 
     public HomeFragment()  {
 
@@ -110,8 +111,8 @@ public class HomeFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.ll_order, R.id.ll_favorite, R.id.ll_add, R.id.ll_graph, R.id.ll_history, R.id.ll_board,
-              R.id.ll_noti, R.id.ll_report, R.id.ll_setting})
+    @OnClick({R.id.ll_info, R.id.ll_order, R.id.ll_favorite, R.id.ll_add, R.id.ll_graph, R.id.ll_history,
+              R.id.ll_board, R.id.ll_noti, R.id.ll_report, R.id.ll_setting})
     public void OnClick(View v){
         switch (v.getId()) {
             case R.id.ll_order:
@@ -126,6 +127,7 @@ public class HomeFragment extends BaseFragment {
             case R.id.ll_graph:
                 moveFragment(FragmentName.GRAPH);
                 break;
+            case R.id.ll_info:
             case R.id.ll_history:
                 moveFragment(FragmentName.HISTORY);
                 break;

@@ -119,7 +119,7 @@ public class OrderStep2Fragment extends BaseFragment {
             case R.id.rl_next:
                 final TwoButtonPopup popup = new TwoButtonPopup(getActivity());
                 popup.setCancelable(false);
-                popup.setTitle(getResources().getString(R.string.s_confirm));
+                popup.setTitle(getResources().getString(R.string.s_popup_title));
                 popup.setContent(getResources().getString(R.string.s_ask_order));
                 popup.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override

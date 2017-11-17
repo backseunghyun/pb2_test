@@ -162,7 +162,7 @@ public class OrderHistoryFragment extends BaseFragment {
 
             item.setOrderInfoId(50 + i);
             item.setSelected(i == Integer.parseInt(sdf2.format(cDate)));
-            if (5>i) {
+            if (6>i) {
                 item.setActivated(false);
                 item.setStatus("배송완료");
             } else if (6==i) {
@@ -261,7 +261,7 @@ public class OrderHistoryFragment extends BaseFragment {
     private void orderCancelPopup() {
         final TwoButtonPopup popup = new TwoButtonPopup(getActivity());
         popup.setCancelable(false);
-        popup.setTitle(getResources().getString(R.string.s_confirm));
+        popup.setTitle(getResources().getString(R.string.s_popup_title));
         popup.setContent(getResources().getString(R.string.s_ask_order_cancel));
         popup.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
@@ -277,7 +277,7 @@ public class OrderHistoryFragment extends BaseFragment {
     private void orderCancelSuccessPopup() {
         final ConfirmPopup popup = new ConfirmPopup(getActivity());
         popup.setCancelable(false);
-        popup.setTitle(getResources().getString(R.string.s_confirm));
+        popup.setTitle(getResources().getString(R.string.s_popup_title));
         popup.setContent(getResources().getString(R.string.s_ask_order_cancel_success));
         popup.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override

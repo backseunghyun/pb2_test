@@ -183,7 +183,7 @@ public class RequestAddProductEditActivity extends BaseActivity {
 
     private void showConfirm() {
         final TwoButtonPopup popup = new TwoButtonPopup(this);
-        popup.setTitle(getResources().getString(R.string.s_confirm));
+        popup.setTitle(getResources().getString(R.string.s_popup_title));
         popup.setContent(getResources().getString(R.string.s_ask_request_add_finish));
         popup.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
@@ -296,7 +296,7 @@ public class RequestAddProductEditActivity extends BaseActivity {
     private void showSuccess(String msg) {
         ConfirmPopup popup = new ConfirmPopup(this);
 //        notiPopup.setCancelable(false);
-        popup.setTitle(getResources().getString(R.string.s_confirm));
+        popup.setTitle(getResources().getString(R.string.s_popup_title));
         popup.setContent(msg);
         popup.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override

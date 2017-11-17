@@ -283,7 +283,7 @@ public class FavoriteEditActivity extends BaseActivity {
     public void confirmDeletePopup(final String productId, String name){
         final TwoButtonPopup popup = new TwoButtonPopup(this);
         popup.setCancelable(false);
-        popup.setTitle(getResources().getString(R.string.s_confirm));
+        popup.setTitle(getResources().getString(R.string.s_popup_title));
         popup.setContent(name + getResources().getString(R.string.s_ask_delete_favorite));
         popup.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
@@ -299,7 +299,7 @@ public class FavoriteEditActivity extends BaseActivity {
     private void confirmFinishPopup(){
         final TwoButtonPopup popup = new TwoButtonPopup(this);
         popup.setCancelable(false);
-        popup.setTitle(getResources().getString(R.string.s_confirm));
+        popup.setTitle(getResources().getString(R.string.s_popup_title));
         popup.setContent(getResources().getString(R.string.s_ask_update_favorite_finish));
         popup.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
@@ -315,7 +315,7 @@ public class FavoriteEditActivity extends BaseActivity {
 
     private void showSaveSuccess(){
         ConfirmPopup popup = new ConfirmPopup(this);
-        popup.setTitle(getResources().getString(R.string.s_confirm));
+        popup.setTitle(getResources().getString(R.string.s_popup_title));
         popup.setContent(getResources().getString(R.string.s_update_favorite_success));
         popup.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override

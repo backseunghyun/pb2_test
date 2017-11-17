@@ -164,7 +164,7 @@ public class ModifyInformationActivity extends BaseActivity {
     private void showSuccess() {
         ConfirmPopup popup = new ConfirmPopup(this);
 //        notiPopup.setCancelable(false);
-        popup.setTitle(getResources().getString(R.string.s_confirm));
+        popup.setTitle(getResources().getString(R.string.s_popup_title));
         popup.setContent(getResources().getString(R.string.s_info_update_success));
         popup.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override

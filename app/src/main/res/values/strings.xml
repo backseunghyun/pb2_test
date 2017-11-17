@@ -3,6 +3,7 @@
     <string name="file_provider_authority" translatable="false">com.quiro.fileproviderexample.fileprovider</string>
 
 
+    <string name="s_popup_title">사주세요</string>
     <string name="s_menu_home">홈</string>
     <string name="s_menu_order">주문하기</string>
     <string name="s_menu_favorite">즐겨찾기</string>
