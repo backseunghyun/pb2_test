@@ -67,7 +67,11 @@ public class FavoriteAdapter extends BaseAdapter {
 
         m = mList.get(position);
 
-        holder.tv_date.setText(CommonUtils.ConvertDate(m.getUpdateDate()));
+        if (m.getUpdateDate() == 0) {
+            holder.tv_date.setText(CommonUtils.ConvertDate(m.getRegDate()));
+        } else {
+            holder.tv_date.setText(CommonUtils.ConvertDate(m.getUpdateDate()));
+        }
         holder.tv_title.setText(m.getName());
         holder.tv_products.setText(m.getProductNames());
         holder.tv_count.setText("총 " + m.getCntOfProduct() +"개 품목");

@@ -131,18 +131,20 @@ public class ReportFragment extends BaseFragment {
         itemData = new ArrayList<>();
 
 
-        mList.add("http://www.pdf995.com/samples/pdf.pdf");
-        mList.add("");
-        mList.add("");
-        mList.add("");
-        mList.add("");
-        mList.add("");
-        mList.add("");
         mList.add("http://www.africau.edu/images/default/sample.pdf");
         mList.add("http://che.org.il/wp-content/uploads/2016/12/pdf-sample.pdf");
+        mList.add("");
+        mList.add("");
+        mList.add("");
+        mList.add("");
+        mList.add("");
+        mList.add("http://che.org.il/wp-content/uploads/2016/12/pdf-sample.pdf");
         mList.add("http://www.pdf995.com/samples/pdf.pdf");
-        mList.add("http://bbaeggun100.vps.phps.kr:8080/pleasebuy2/static/report/1.pdf");
-        mList.add("http://bbaeggun100.vps.phps.kr:8080/pleasebuy2/static/report/2.pdf");
+//        mList.add("http://bbaeggun100.vps.phps.kr:8080/pleasebuy2/static/report/1.pdf");
+//        mList.add("http://bbaeggun100.vps.phps.kr:8080/pleasebuy2/static/report/2.pdf");
+        mList.add("http://www.pdf995.com/samples/pdf.pdf");
+        mList.add("https://files.nc.gov/ncdhhs/documents/files/Sample-Form-1095B-2016-01-21.pdf");
+        mList.add("https://www.collegeofsanmateo.edu/library/docs/MLAWorksCited7.pdf");
     }
 
     private void getData(){

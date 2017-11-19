@@ -160,7 +160,7 @@ public class OrderHistoryFragment extends BaseFragment {
             item.setDate(i + "");
             item.setFulldate(sdf4.format(cDate) + String.format("%2d", i));
 
-            item.setOrderInfoId(50 + i);
+            item.setOrderInfoId(70 + i);
             item.setSelected(i == Integer.parseInt(sdf2.format(cDate)));
             if (6>i) {
                 item.setActivated(false);
@@ -204,7 +204,7 @@ public class OrderHistoryFragment extends BaseFragment {
                                 item.setPrice(obj.optString("price"));
                                 item.setCategoryId(obj.optString("categoryId"));
                                 item.setIsInCart(obj.optInt("isInCart"));
-                                item.setImgUrl(ApplicationData.getImgPrefix() + obj.optString("imageUrl"));
+                                item.setImgUrl(ApplicationData.getImgPrefix() + obj.optString("url"));
 
                                 item.setManufacturer(obj.optString("manufacturer"));
                                 item.setOrigin(obj.optString("origin"));
@@ -294,7 +294,7 @@ public class OrderHistoryFragment extends BaseFragment {
 
         tv_reference_date.setText(date.getFulldate());
         if(date.getStatus().equals("주문접수")) {
-            rl_order_cancel.setEnabled(true);
+            rl_order_cancel.setEnabled(false);
         } else {
             rl_order_cancel.setEnabled(false);
         }

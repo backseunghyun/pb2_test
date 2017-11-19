@@ -99,6 +99,7 @@ public class RequestAddProductEditActivity extends BaseActivity {
         if(getIntent().hasExtra("productReqBoardId")) {
             productReqBoardId = getIntent().getIntExtra("productReqBoardId",0);
             getData();
+            tv_title.setText(getResources().getString(R.string.s_menu_request_add_product_edit));
         }
     }
 

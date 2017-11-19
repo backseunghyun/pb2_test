@@ -221,7 +221,7 @@ public class OrderFragment extends BaseFragment {
                             if (obj != null) {
                                 String item = obj.optString("value");
 
-                                if (preference.getStringPreference(Preference.PREFS_KEY.USER_ID).contains("CCB")){
+                                if (preference.getStringPreference(Preference.PREFS_KEY.USER_ID).contains("ccb")){
                                     if(item.equals("식자재") ||
                                             item.equals("식자재") ||
                                             item.equals("부자재") ||

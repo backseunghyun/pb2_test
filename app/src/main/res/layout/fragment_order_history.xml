@@ -5,41 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/c_f4f4f4">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal">
-        <LinearLayout
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:orientation="vertical"
-            android:background="@color/c_333333"
-            android:gravity="center">
-            <TextView
-                android:id="@+id/tv_month"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="13dp"
-                android:textColor="@color/c_ffffff"
-                android:textStyle="bold"/>
-
-        </LinearLayout>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_date_list"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@color/c_ffffff"
-            android:dividerHeight="0.6dp"
-            android:divider="@color/c_cecece"
-            android:listSelector="@android:color/transparent"
-            android:scrollbars="none"
-            >
-        </android.support.v7.widget.RecyclerView>
-    </LinearLayout>
-
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -85,10 +50,41 @@
             android:buttonTint="@color/c_ffffff"
             />
     </LinearLayout>
-    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:orientation="vertical"
+            android:background="@color/c_333333"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/tv_month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13dp"
+                android:textColor="@color/c_ffffff"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_date_list"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/c_ffffff"
+            android:dividerHeight="0.6dp"
+            android:divider="@color/c_cecece"
+            android:listSelector="@android:color/transparent"
+            android:scrollbars="none"
+            >
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.6dp"
+        android:layout_height="2dp"
         android:background="@color/c_cecece"/>
 
     <ListView
@@ -197,6 +193,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
+            android:layout_marginBottom="16dp"
             android:orientation="horizontal">
 
             <TextView
@@ -234,15 +231,18 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0.3dp"
-            android:layout_marginTop="16dp"
-            android:background="@color/c_cecece" />
+            android:background="@color/c_cecece"
+            android:visibility="gone"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="42dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingRight="20dp">
+            android:paddingRight="20dp"
+            android:visibility="gone"
+            >
 
             <TextView
                 android:layout_width="80dp"

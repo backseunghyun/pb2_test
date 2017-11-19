@@ -66,7 +66,7 @@ public class OrderHistoryAdapter extends BaseAdapter {
 
         holder.tv_name.setText(m.getProductName());
         holder.tv_price.setText(CommonUtils.getNumberThreeEachFormatWithWon(Integer.parseInt(m.getPrice()) * m.getSelectedCount()));
-        holder.tv_etc.setText(m.getOrigin() + "/" + m.getUnit());
+        holder.tv_etc.setText(m.getOrigin() + (m.getOrigin().equals("") ? "" : "/") + m.getUnit());
 
         Glide.with(activity)
                 .load( m.getImgUrl())

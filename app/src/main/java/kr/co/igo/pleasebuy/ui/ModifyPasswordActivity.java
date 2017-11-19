@@ -105,6 +105,12 @@ public class ModifyPasswordActivity extends BaseActivity {
 //        notiPopup.setCancelable(false);
         popup.setTitle(getResources().getString(R.string.s_popup_title));
         popup.setContent(getResources().getString(R.string.s_password_modify_success));
+        popup.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                finish();
+            }
+        });
         popup.show();
     }
 

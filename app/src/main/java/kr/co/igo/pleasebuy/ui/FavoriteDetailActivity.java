@@ -5,6 +5,7 @@ import android.content.ContentUris;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -49,6 +50,7 @@ public class FavoriteDetailActivity extends BaseActivity {
     @Bind(R.id.tv_count)    TextView tv_count;
     @Bind(R.id.rl_cart) RelativeLayout rl_cart;
     @Bind(R.id.tv_favoriteTitle)    TextView tv_favoriteTitle;
+    @Bind(R.id.ib_edit)     ImageButton ib_edit;
 
     private FavoriteDetailAdapter mAdapter;
     private List<Product> mList = new ArrayList<Product>();
@@ -56,6 +58,7 @@ public class FavoriteDetailActivity extends BaseActivity {
     public Preference preference;
     private BackPressCloseSystem backPressCloseSystem;
     private int favoriteGroupId;
+    private int orderInfoId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +74,16 @@ public class FavoriteDetailActivity extends BaseActivity {
 
         tv_title.setText("즐겨찾기");
 
-        if(getIntent().hasExtra("favoriteGroupId")) {
+        if(getIntent().hasExtra("favoriteGroupId") && getIntent().getIntExtra("favoriteGroupId",0) != 0) {
             favoriteGroupId = getIntent().getIntExtra("favoriteGroupId",0);
+            getList();
+            ib_edit.setVisibility(View.VISIBLE);
+        }
+
+        if(getIntent().hasExtra("orderInfoId")){
+            orderInfoId = getIntent().getIntExtra("orderInfoId", 0);
+            getList2();
+            ib_edit.setVisibility(View.GONE);
         }
     }
 
@@ -101,7 +112,7 @@ public class FavoriteDetailActivity extends BaseActivity {
     public void onResume() {
         super.onResume();
         setCartCount(preference.getIntPreference(Preference.PREFS_KEY.CNT_PRODUCT_IN_CART));
-        getList();
+
     }
 
     private void getList() {
@@ -134,6 +145,51 @@ public class FavoriteDetailActivity extends BaseActivity {
                                 item.setManufacturer(obj.optString("manufacturer"));
                                 item.setOrigin(obj.optString("origin"));
                                 item.setSelected(false);
+
+                                mList.add(item);
+                            }
+                        }
+                    }
+                } catch (JSONException ignored) {
+                } finally {
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+    }
+
+    private void getList2() {
+        RequestParams param = new RequestParams();
+        param.put("orderInfoId", orderInfoId);
+
+        APIManager.getInstance().callAPI(APIUrl.ORDER_DETAIL, param, new RequestHandler(this, uuid) {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    if (response.getInt("code") == 0) {
+                        mList.clear();
+
+                        JSONObject info = response.getJSONObject("orderInfo");
+                        tv_date.setText(CommonUtils.ConvertDate(info.optLong("regDate")));
+                        tv_favoriteTitle.setText("직전 주문");
+
+                        JSONArray jsonArray = response.getJSONArray("orderDetailList");
+                        for(int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject obj = jsonArray.getJSONObject(i);
+                            if (obj != null) {
+
+                                Product item = new Product();
+                                item.setFavoriteId(obj.optString("favoriteId"));
+                                item.setProductName(obj.optString("productName"));
+                                item.setUnit(obj.optString("unit"));
+                                item.setPrice(obj.optString("price"));
+                                item.setProductId(obj.optString("productId"));
+
+                                item.setManufacturer(obj.optString("manufacturer"));
+                                item.setOrigin(obj.optString("origin"));
+                                item.setSelected(false);
+
 
                                 mList.add(item);
                             }

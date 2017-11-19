@@ -141,6 +141,8 @@ public class BoardAdapter extends BaseExpandableListAdapter {
         }
 
         viewHolder.tv_contents.setText(mList.get(groupPosition).getContents());
+        Log.d("a", mList.get(groupPosition).getUserID());
+        Log.d("b", preference.getStringPreference(Preference.PREFS_KEY.USER_ID));
         if (mList.get(groupPosition).getUserID().equals(preference.getStringPreference(Preference.PREFS_KEY.USER_ID))) {
             viewHolder.ll_editView.setVisibility(View.VISIBLE);
         } else {

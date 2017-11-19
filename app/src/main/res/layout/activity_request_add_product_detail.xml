@@ -23,13 +23,6 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp">
 
-            <ImageView
-                android:id="@+id/iv_image"
-                android:layout_width="match_parent"
-                android:layout_height="198dp"
-                android:layout_marginTop="20dp"
-                android:visibility="gone"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -38,7 +31,7 @@
                 <TextView
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:text="상호명"
+                    android:text="상품명"
                     android:textColor="@color/c_999999"
                     android:textSize="13dp"
                     app:font="custom1" />
@@ -95,6 +88,14 @@
                     android:textSize="13dp"
                     app:font="custom1" />
             </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:visibility="visible"/>
+
         </LinearLayout>
     </ScrollView>
 

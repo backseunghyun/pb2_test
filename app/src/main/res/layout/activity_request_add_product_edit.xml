@@ -26,17 +26,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="33dp">
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:textSize="13dp"
                     android:textColor="@color/c_999999"
                     app:font="custom1"
-                    android:text="상호명"/>
+                    android:text="상품명"/>
                 <EditText
                     android:id="@+id/et_name"
-                    android:layout_width="295dp"
+                    android:layout_width="0dp"
                     android:layout_height="34dp"
+                    android:layout_weight="1"
                     android:paddingLeft="7dp"
                     android:paddingRight="7dp"
                     android:background="@drawable/shape_round_5dp_ffffff"
@@ -51,17 +51,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="9dp">
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:textSize="13dp"
                     android:textColor="@color/c_999999"
                     app:font="custom1"
                     android:text="단위"/>
                 <EditText
                     android:id="@+id/et_unit"
-                    android:layout_width="295dp"
+                    android:layout_width="0dp"
                     android:layout_height="34dp"
+                    android:layout_weight="1"
                     android:paddingLeft="7dp"
                     android:paddingRight="7dp"
                     android:background="@drawable/shape_round_5dp_ffffff"
@@ -76,17 +76,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="9dp">
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:textSize="13dp"
                     android:textColor="@color/c_999999"
                     app:font="custom1"
                     android:text="기타"/>
                 <EditText
                     android:id="@+id/et_etc"
-                    android:layout_width="295dp"
+                    android:layout_width="0dp"
                     android:layout_height="98dp"
+                    android:layout_weight="1"
                     android:paddingTop="7dp"
                     android:paddingBottom="7dp"
                     android:paddingLeft="7dp"
@@ -173,7 +173,7 @@
             android:textColor="#ffffff"
             android:textStyle="bold"
             android:textSize="16dp"
-            android:text="저장"
+            android:text="확인"
             />
     </LinearLayout>
 </LinearLayout>

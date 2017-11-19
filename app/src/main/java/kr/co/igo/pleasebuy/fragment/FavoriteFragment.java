@@ -75,7 +75,11 @@ public class FavoriteFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("favoriteGroupId", mList.get(position).getFavoriteGroupId() + "");
                 Intent intent = new Intent(getActivity(), FavoriteDetailActivity.class);
-                intent.putExtra("favoriteGroupId", mList.get(position).getFavoriteGroupId());
+                if (mList.get(position).getFavoriteGroupId() == 0) {
+                    intent.putExtra("orderInfoId", mList.get(position).getOrderInfoId());
+                } else {
+                    intent.putExtra("favoriteGroupId", mList.get(position).getFavoriteGroupId());
+                }
                 getActivity().startActivity(intent);
             }
         });
@@ -120,6 +124,19 @@ public class FavoriteFragment extends BaseFragment {
                     if (response.getInt("code") == 0) {
                         mList.clear();
 
+
+                        JSONObject lo = response.getJSONObject("lastOrderInfo");
+                        if(lo != null) {
+                            Favorite lastOrder = new Favorite();
+                            lastOrder.setOrderInfoId(lo.optInt("orderInfoId"));
+                            lastOrder.setName("직전주문");
+                            lastOrder.setProductNames(lo.optString("productNames").equals("null") ? "" : lo.optString("productNames"));
+                            lastOrder.setRegDate(lo.optLong("regDate"));
+                            lastOrder.setUpdateDate(lo.optLong("updateDate"));
+                            lastOrder.setCntOfProduct(lo.optInt("cntOfProduct", 0));
+                            mList.add(lastOrder);
+                        }
+
                         JSONArray jsonArray = response.getJSONArray("list");
                         for(int i = 0; i < jsonArray.length(); i++) {
                             JSONObject obj = jsonArray.getJSONObject(i);
@@ -135,6 +152,8 @@ public class FavoriteFragment extends BaseFragment {
                                 mList.add(item);
                             }
                         }
+
+
                     }
                 } catch (JSONException ignored) {
                 } finally {

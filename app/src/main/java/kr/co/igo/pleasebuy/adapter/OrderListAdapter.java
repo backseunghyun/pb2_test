@@ -58,7 +58,8 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
 
         holder.tv_name.setText(m.getProductName());
         holder.tv_price.setText(CommonUtils.getNumberThreeEachFormatWithWon(m.getPrice()));
-        holder.tv_etc.setText(m.getOrigin() + "/" + m.getUnit());
+
+        holder.tv_etc.setText(m.getOrigin() + (m.getOrigin().equals("") ? "" : "/") + m.getUnit());
 
         Glide.with(activity)
                 .load( m.getImgUrl())

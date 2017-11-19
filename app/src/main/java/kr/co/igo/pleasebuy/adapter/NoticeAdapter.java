@@ -127,7 +127,7 @@ public class NoticeAdapter extends BaseExpandableListAdapter {
         viewHolder.tv_contents.setText(mList.get(groupPosition).getContents());
         Glide.with(context)
                 .load( m.getImgUrl())
-                .centerCrop()
+//                .centerCrop()
                 .into(viewHolder.iv_image);
 
 

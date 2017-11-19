@@ -11,6 +11,7 @@ public class Favorite {
     private Long regDate;
     private Long updateDate;
     private int cntOfProduct;
+    private int orderInfoId;
 
     public int getFavoriteGroupId() {
         return favoriteGroupId;
@@ -58,5 +59,13 @@ public class Favorite {
 
     public void setCntOfProduct(int cntOfProduct) {
         this.cntOfProduct = cntOfProduct;
+    }
+
+    public int getOrderInfoId() {
+        return orderInfoId;
+    }
+
+    public void setOrderInfoId(int orderInfoId) {
+        this.orderInfoId = orderInfoId;
     }
 }
