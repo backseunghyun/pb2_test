@@ -86,6 +86,7 @@
         <activity android:name=".ui.RequestAddProductEditActivity"/>
         <activity android:name=".ui.StatisticsDetailAllActivity"/>
         <activity android:name=".ui.StatisticsDetailCategoryActivity"/>
+        <activity android:name=".ui.TermsActivity"/>
 
 
 

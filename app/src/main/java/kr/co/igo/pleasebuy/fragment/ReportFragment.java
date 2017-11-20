@@ -227,6 +227,7 @@ public class ReportFragment extends BaseFragment {
             e.printStackTrace();
         }
     }
+    
     private void showSelectMonth(){
         final CustomYearMonthPickerPopup popup = new CustomYearMonthPickerPopup(getActivity(),  tv_mon.getText().toString().substring(0, 4), tv_mon.getText().toString().substring(5, 7));
         popup.setOnDismissListener(new DialogInterface.OnDismissListener() {

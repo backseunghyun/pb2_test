@@ -143,6 +143,28 @@ public class CommonUtils {
         return df.format(date);
     }
 
+    /**
+     * Long형 날짜를 형식에 맞게 변경
+     *
+     * @param date Long 형의 날짜
+     * @return 예) 2016.01.11
+     */
+    public static String ConvertDate(long date, String deli) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy"+deli+"MM"+deli+"dd");
+        return df.format(date);
+    }
+
+    /**
+     * Long형 날짜를 형식에 맞게 변경
+     *
+     * @param date Long 형의 날짜
+     * @return 예) 2016.01.11 14:50:31
+     */
+    public static String ConvertDateFull(long date, String deli) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy"+deli+"MM"+deli+"dd HH:mm:ss");
+        return df.format(date);
+    }
+
 
     /**
      * 숫자에 3자리마다 콤마

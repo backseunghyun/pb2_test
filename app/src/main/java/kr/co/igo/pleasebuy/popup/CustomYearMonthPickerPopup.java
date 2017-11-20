@@ -18,6 +18,7 @@ import kr.co.igo.pleasebuy.R;
 import kr.co.igo.pleasebuy.adapter.MonthListAdapter;
 import kr.co.igo.pleasebuy.adapter.YearListAdapter;
 import me.kaelaela.verticalviewpager.VerticalViewPager;
+import java.util.Date;
 
 public class CustomYearMonthPickerPopup extends Dialog {
     @Bind(R.id.vp_year_list)    VerticalViewPager vp_year_list;
@@ -145,6 +146,11 @@ public class CustomYearMonthPickerPopup extends Dialog {
 
     public String getResultDate() {
         resultDate = String.valueOf(year) + month;
+        return this.resultDate;
+    }
+
+    public String getResultMonth(String delimeter) {
+        resultDate = String.valueOf(year) + delimeter + month;
         return this.resultDate;
     }
 }

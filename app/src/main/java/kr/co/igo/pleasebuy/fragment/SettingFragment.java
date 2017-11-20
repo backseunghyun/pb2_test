@@ -37,6 +37,7 @@ import kr.co.igo.pleasebuy.ui.LoginActivity;
 import kr.co.igo.pleasebuy.ui.MainActivity;
 import kr.co.igo.pleasebuy.ui.ModifyInformationActivity;
 import kr.co.igo.pleasebuy.ui.ModifyPasswordActivity;
+import kr.co.igo.pleasebuy.ui.TermsActivity;
 import kr.co.igo.pleasebuy.util.ApplicationData;
 import kr.co.igo.pleasebuy.util.BackPressCloseSystem;
 import kr.co.igo.pleasebuy.util.FragmentName;
@@ -101,7 +102,7 @@ public class SettingFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), ModifyPasswordActivity.class));
                 break;
             case R.id.rl_setting5:
-//                startActivity(new Intent(getActivity(), TermsActivity.class));
+                startActivity(new Intent(getActivity(), TermsActivity.class));
                 break;
             case R.id.rl_logout:
                 if(getActivity() instanceof MainActivity) {

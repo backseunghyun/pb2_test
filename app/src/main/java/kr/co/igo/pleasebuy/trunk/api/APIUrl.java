@@ -107,8 +107,11 @@ public enum APIUrl {
     FAVORITE_GROUP_UPDATE("/favorite-group/update"),                    // 즐겨찾기 그룹 수정 (이름 수정)
     FAVORITE_GROUP_UPDATE_FAVORITE("/favorite-group/update/favorite"),  // 즐겨찾기 그룹 상품 변경
     FAVORITE_GROUP_REMOVE("/favorite-group/remove"),                    // 즐겨찾기 그룹 삭제
-
     BOARD_NOTICE_DETAIL("/board/notice/detail"),    // 공지사항 상세
+    ORDER_HISTORY("/order/history"),    // 주문히스토리
+    ORDER_HISTORY_DETAIL("/order/history/detail"),    // 주문히스토리 상세
+    ORDER_CANCEL_DATE("/order/cancel/date"),    // 주문 취소(날짜)
+
 
     ;
 

@@ -1,0 +1,51 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <include layout="@layout/toobar"/>
+
+
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="49dp">
+
+        <TextView
+            android:id="@+id/tv_terms"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:textSize="14dp"
+            android:text="이용약관"
+            android:textColor="@drawable/selector_terms_menu_title"
+            android:gravity="center"
+            android:background="@drawable/selector_terms_menu_bg"
+            />
+
+        <TextView
+            android:id="@+id/tv_pp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:textSize="14dp"
+            android:textColor="@drawable/selector_terms_menu_title"
+            android:text="개인정보 취급방침"
+            android:gravity="center"
+            android:background="@drawable/selector_terms_menu_bg"
+            />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/v_main_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/c_cecece"/>
+
+    <WebView
+        android:id="@+id/wv_webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </WebView>
+
+</LinearLayout>

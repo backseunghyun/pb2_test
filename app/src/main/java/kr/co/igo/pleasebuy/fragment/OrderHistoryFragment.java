@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
@@ -37,6 +39,7 @@ import kr.co.igo.pleasebuy.adapter.OrderStep3Adapter;
 import kr.co.igo.pleasebuy.model.OrderHistoryDate;
 import kr.co.igo.pleasebuy.model.Product;
 import kr.co.igo.pleasebuy.popup.ConfirmPopup;
+import kr.co.igo.pleasebuy.popup.CustomYearMonthPickerPopup;
 import kr.co.igo.pleasebuy.popup.TwoButtonPopup;
 import kr.co.igo.pleasebuy.trunk.BaseFragment;
 import kr.co.igo.pleasebuy.trunk.api.APIManager;
@@ -72,8 +75,14 @@ public class OrderHistoryFragment extends BaseFragment {
     private OrderHistoryDateAdapter nAdapter;
     private List<OrderHistoryDate> nList = new ArrayList<OrderHistoryDate>();
     private LinearLayoutManager mLayoutManager;
+    private Date cDate;
+    private String yearMonth;
+    private String seletedDate;
+    private SimpleDateFormat sdf = new SimpleDateFormat("MM");
+    private SimpleDateFormat sdf2 = new SimpleDateFormat("dd");
+    private SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy.MM.dd");
+    private SimpleDateFormat sdf4 = new SimpleDateFormat("yyyy-MM");
 
-    private int orderInfoId;
 
     public OrderHistoryFragment()  {
 
@@ -100,7 +109,7 @@ public class OrderHistoryFragment extends BaseFragment {
         nAdapter = new OrderHistoryDateAdapter(getActivity(), nList);
         rv_date_list.setAdapter(nAdapter);
 
-        setDate();
+        setInit();
 
         return view;
     }
@@ -110,7 +119,7 @@ public class OrderHistoryFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-    @OnClick({R.id.rl_order_cancel, R.id.rb_order, R.id.rb_delivery, R.id.iv_date, R.id.tv_reference_date})
+    @OnClick({R.id.rl_order_cancel, R.id.rb_order, R.id.rb_delivery, R.id.iv_date, R.id.tv_reference_date, R.id.ll_month})
     public void OnClick(View v){
         switch (v.getId()) {
             case R.id.rl_order_cancel:
@@ -119,13 +128,19 @@ public class OrderHistoryFragment extends BaseFragment {
             case R.id.rb_order:
                 rb_order.setChecked(true);
                 rb_delivery.setChecked(false);
+                getMonthlyOrderStatusList();
                 break;
             case R.id.rb_delivery:
                 rb_order.setChecked(false);
                 rb_delivery.setChecked(true);
+                getMonthlyOrderStatusList();
                 break;
             case R.id.iv_date:
             case R.id.tv_reference_date:
+
+                break;
+            case R.id.ll_month:
+                showSelectMonth();
                 break;
         }
     }
@@ -136,55 +151,88 @@ public class OrderHistoryFragment extends BaseFragment {
         if(getActivity() instanceof MainActivity) {
             ((MainActivity)getActivity()).setHederTitle(FragmentName.HISTORY.tag());
         }
-        orderInfoId = 51;
-        getData();
     }
 
-    public void setDate(){
+    public void setInit(){
         long now = System.currentTimeMillis();
-        Date cDate = new Date(now);
-//        Calendar cal = Calendar.getInstance();
-//        cal.setTime(cDate);
-//        cal.add(Calendar.DATE, + 1);
-//        cDate = cal.getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM");
-        SimpleDateFormat sdf2 = new SimpleDateFormat("dd");
-        SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy.MM.dd");
-        SimpleDateFormat sdf4 = new SimpleDateFormat("yyyy.MM.");
-
+        cDate = new Date(now);
         tv_month.setText(sdf.format(cDate) + "월");
-
-        nList.clear();
-        for (int i=1; i <= Integer.parseInt(sdf2.format(cDate)); i++ ){
-            OrderHistoryDate item = new OrderHistoryDate();
-            item.setDate(i + "");
-            item.setFulldate(sdf4.format(cDate) + String.format("%2d", i));
-
-            item.setOrderInfoId(70 + i);
-            item.setSelected(i == Integer.parseInt(sdf2.format(cDate)));
-            if (6>i) {
-                item.setActivated(false);
-                item.setStatus("배송완료");
-            } else if (6==i) {
-                item.setActivated(true);
-                item.setStatus("배송중");
-            } else {
-                item.setActivated(true);
-                item.setStatus("주문접수");
-            }
-            nList.add(item);
-        }
+        yearMonth = sdf4.format(cDate);
 
         rb_order.setChecked(true);
-        tv_reference_date.setText(sdf3.format(cDate));
-        rv_date_list.scrollToPosition(nAdapter.getItemCount() - 1);
+        getMonthlyOrderStatusList();
     }
 
-    public void getData() {
+    public void getMonthlyOrderStatusList(){
         RequestParams param = new RequestParams();
-        param.put("orderInfoId", orderInfoId);
+        param.put("yearMonth", yearMonth);
+        param.put("kind", rb_order.isChecked() ? "order" : "delivery");
 
-        APIManager.getInstance().callAPI(APIUrl.ORDER_DETAIL, param, new RequestHandler(getActivity(), uuid) {
+        APIManager.getInstance().callAPI(APIUrl.ORDER_HISTORY, param, new RequestHandler(getActivity(), uuid) {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    if (response.getInt("code") == 0) {
+                        nList.clear();
+
+                        JSONArray jsonArray = response.getJSONArray("monthlyOrderStatusList");
+                        for(int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject obj = jsonArray.getJSONObject(i);
+                            if (obj != null) {
+                                OrderHistoryDate item = new OrderHistoryDate();
+                                item.setDate(obj.optString("date").split("-")[2]);
+                                item.setFulldate(obj.optString("date"));
+                                item.setSelected(false);
+                                item.setStatus(obj.optString("status"));
+
+                                if (item.getStatus().equals("배송완료")) {
+                                    item.setActivated(false);
+                                } else if (item.getStatus().equals("배송중")) {
+                                    item.setActivated(true);
+                                } else if (item.getStatus().equals("주문접수") || item.getStatus().equals("주문중")) {
+                                    item.setActivated(true);
+                                } else {
+                                    item.setActivated(false);
+                                }
+
+                                nList.add(item);
+                            }
+                        }
+                    }
+                } catch (JSONException ignored) {
+                } finally {
+                    if (nList.size() > 0) {
+                        OrderHistoryDate date = nList.get(nList.size() - 1);
+
+                        date.setSelected(true);
+                        orderHistoryChangeData(date);
+                        seletedDate = date.getFulldate();
+
+                        tv_reference_date.setText(seletedDate);
+
+                        nAdapter.notifyDataSetChanged();
+                        rv_date_list.scrollToPosition(nAdapter.getItemCount() - 1);
+
+                        getData(seletedDate);
+
+
+                    } else {
+                        nAdapter.notifyDataSetChanged();
+                        mList.clear();
+                        mAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
+    }
+
+    public void getData(String date) {
+        RequestParams param = new RequestParams();
+        param.put("date", date);
+        param.put("kind", rb_order.isChecked() ? "order" : "delivery");
+
+        APIManager.getInstance().callAPI(APIUrl.ORDER_HISTORY_DETAIL, param, new RequestHandler(getActivity(), uuid) {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
@@ -210,8 +258,10 @@ public class OrderHistoryFragment extends BaseFragment {
                                 item.setOrigin(obj.optString("origin"));
 
                                 item.setCategoryValue(obj.optString("categoryValue"));
-                                item.setQuantity(obj.optString("quantity"));
-                                item.setSelectedCount(obj.optInt("quantity"));
+//                                item.setQuantity(obj.optString("completeQuantity"));
+//                                item.setSelectedCount(obj.optInt("completeQuantity"));
+                                item.setQuantity("1");
+                                item.setSelectedCount(1);
 
                                 mList.add(item);
                             }
@@ -231,6 +281,8 @@ public class OrderHistoryFragment extends BaseFragment {
                         tv_etc.setText(obj.optString("etc"));
                         tv_cntProductInCart.setText(obj.optInt("totalQuantity", 0) + "개");
                         tv_totalOfOrderPrice.setText(CommonUtils.getNumberThreeEachFormatWithWon(obj.optInt("totalPrice", 0)));
+
+                        seletedDate = CommonUtils.ConvertDate(obj.optLong("regDate"), "-");
                     }
                 } catch (JSONException ignored) {
                 } finally {
@@ -240,11 +292,11 @@ public class OrderHistoryFragment extends BaseFragment {
         });
     }
 
-    public void orderCancel(int orderInfoId) {
+    public void orderCancel(String date) {
         RequestParams param = new RequestParams();
-        param.put("orderInfoId", orderInfoId);
+        param.put("date", date);
 
-        APIManager.getInstance().callAPI(APIUrl.ORDER_CANCEL, param, new RequestHandler(getActivity(), uuid) {
+        APIManager.getInstance().callAPI(APIUrl.ORDER_CANCEL_DATE, param, new RequestHandler(getActivity(), uuid) {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
@@ -267,7 +319,7 @@ public class OrderHistoryFragment extends BaseFragment {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
                 if(popup.isConfirm()){
-                    orderCancel(orderInfoId);
+                    orderCancel(seletedDate);
                 }
             }
         });
@@ -282,21 +334,36 @@ public class OrderHistoryFragment extends BaseFragment {
         popup.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-
+                getMonthlyOrderStatusList();
             }
         });
         popup.show();
     }
 
     public void orderHistoryChangeData(OrderHistoryDate date){
-        orderInfoId = date.getOrderInfoId();
-        getData();
+        seletedDate = date.getFulldate();
+        getData(seletedDate);
 
         tv_reference_date.setText(date.getFulldate());
+
         if(date.getStatus().equals("주문접수")) {
-            rl_order_cancel.setEnabled(false);
+            rl_order_cancel.setEnabled(true);
         } else {
-            rl_order_cancel.setEnabled(false);
+            rl_order_cancel.setEnabled(true);
         }
+    }
+
+    private void showSelectMonth(){
+        final CustomYearMonthPickerPopup popup = new CustomYearMonthPickerPopup(getActivity(),  tv_reference_date.getText().toString().substring(0, 4), tv_reference_date.getText().toString().substring(5, 7));
+        popup.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if(popup.getResult().equals("ok")) {
+                    yearMonth = popup.getResultMonth("-");
+                    getMonthlyOrderStatusList();
+                }
+            }
+        });
+        popup.show();
     }
 }

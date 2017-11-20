@@ -55,6 +55,7 @@
         android:layout_height="60dp"
         android:orientation="horizontal">
         <LinearLayout
+            android:id="@+id/ll_month"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:orientation="vertical"
