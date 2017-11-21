@@ -220,17 +220,34 @@ public class OrderFragment extends BaseFragment {
                             JSONObject obj = jsonArray.getJSONObject(i);
                             if (obj != null) {
                                 String item = obj.optString("value");
+                                int categoryId = obj.optInt("categoryId");
 
-                                if (preference.getStringPreference(Preference.PREFS_KEY.USER_ID).contains("ccb")){
-                                    if(item.equals("식자재") ||
-                                            item.equals("식자재") ||
-                                            item.equals("부자재") ||
-                                            item.equals("소모품") ||
-                                            item.equals("주방기물") ||
-                                            item.equals("유니폼")) {
+                                if (preference.getStringPreference(Preference.PREFS_KEY.LOGIN_ID).contains("ccb")){
+                                    if( 6 <= categoryId  && categoryId <= 11 ){
                                         mDataList.add(item);
                                     }
-                                } else {
+                                } else if (preference.getStringPreference(Preference.PREFS_KEY.LOGIN_ID).contains("pig")){
+                                    if( 1 <= categoryId  && categoryId <= 5 ){
+                                        mDataList.add(item);
+                                    }
+                                } else if (preference.getStringPreference(Preference.PREFS_KEY.LOGIN_ID).contains("jeju")){
+                                    if(12 <= categoryId  && categoryId <= 16 ){
+                                        mDataList.add(item);
+                                    }
+                                } else if (preference.getStringPreference(Preference.PREFS_KEY.LOGIN_ID).contains("wcafe")){
+                                    if(17 <= categoryId  && categoryId <= 19 ){
+                                        mDataList.add(item);
+                                    }
+                                } else if (preference.getStringPreference(Preference.PREFS_KEY.LOGIN_ID).contains("9cafe")){
+                                    if(17 <= categoryId  && categoryId <= 19 ){
+                                        mDataList.add(item);
+                                    }
+                                } else if (preference.getStringPreference(Preference.PREFS_KEY.LOGIN_ID).contains("hcafe")){
+                                    if(20 <= categoryId  && categoryId <= 25 ){
+                                        mDataList.add(item);
+                                    }
+                                }
+                                else {
                                     mDataList.add(item);
                                 }
                             }
