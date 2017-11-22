@@ -162,6 +162,7 @@
         android:layout_marginLeft="23dp"
         android:layout_marginRight="23dp"
         android:layout_marginTop="25dp"
+        android:layout_marginBottom="27dp"
         android:background="@drawable/shape_round_10dp_ffffff"
         android:orientation="vertical"
         android:paddingLeft="18dp"
@@ -274,7 +275,6 @@
         android:layout_width="212dp"
         android:layout_height="48dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="27dp"
         android:layout_marginBottom="37dp"
         android:background="@drawable/selector_order_cancel">
         <TextView

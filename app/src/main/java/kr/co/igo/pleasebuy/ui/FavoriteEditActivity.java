@@ -129,7 +129,9 @@ public class FavoriteEditActivity extends BaseActivity {
                 }
                 break;
             case R.id.rl_cart:
-                startActivity(new Intent(this, OrderActivity.class));
+                if (tv_count.getVisibility() != View.GONE) {
+                    startActivity(new Intent(this, OrderActivity.class));
+                }
                 break;
 
             case R.id.ib_add:
@@ -143,7 +145,7 @@ public class FavoriteEditActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-
+        setCartCount(preference.getIntPreference(Preference.PREFS_KEY.CNT_PRODUCT_IN_CART));
     }
 
     @Override
@@ -350,6 +352,19 @@ public class FavoriteEditActivity extends BaseActivity {
         } else {
             finish();
         }
+    }
+
+    private void setCartCount(int num){
+        if (num > 0) {
+            tv_count.setText(num + "");
+            tv_count.setVisibility(View.VISIBLE);
+            rl_cart.setEnabled(false);
+        } else {
+            tv_count.setText("");
+            tv_count.setVisibility(View.GONE);
+            rl_cart.setEnabled(true);
+        }
+        preference.setIntPreference(Preference.PREFS_KEY.CNT_PRODUCT_IN_CART, num);
     }
 
 }

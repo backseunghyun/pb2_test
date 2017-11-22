@@ -29,7 +29,7 @@ public class OrderHistoryDateAdapter extends RecyclerView.Adapter<OrderHistoryDa
     private LayoutInflater layoutInflater;
     private List<OrderHistoryDate> mList = new ArrayList<OrderHistoryDate>();
     private OrderHistoryDate m;
-
+    private String type;
 
     public OrderHistoryDateAdapter(Activity c, List<OrderHistoryDate> list) {
         this.activity = c;
@@ -52,6 +52,13 @@ public class OrderHistoryDateAdapter extends RecyclerView.Adapter<OrderHistoryDa
         m = mList.get(position);
 
         holder.tv_date.setText(m.getDate());
+
+        if (type.equals("order")) {
+            holder.tv_satus.setVisibility(View.GONE);
+        } else {
+            holder.tv_satus.setVisibility(View.VISIBLE);
+        }
+
         holder.tv_satus.setText(m.getStatus());
 
         holder.ll_bg.setSelected(m.isSelected());
@@ -67,6 +74,14 @@ public class OrderHistoryDateAdapter extends RecyclerView.Adapter<OrderHistoryDa
     @Override
     public int getItemCount() {
         return mList.size();
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
 

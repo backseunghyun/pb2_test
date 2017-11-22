@@ -1,6 +1,7 @@
 package kr.co.igo.pleasebuy.ui;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
@@ -68,7 +69,7 @@ public class ModifyPasswordActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.iv_back, R.id.tv_cancel, R.id.tv_confirm})
+    @OnClick({R.id.iv_back, R.id.tv_cancel, R.id.tv_confirm, R.id.rl_cart})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_back:
@@ -77,6 +78,11 @@ public class ModifyPasswordActivity extends BaseActivity {
                 break;
             case R.id.tv_confirm:
                 passwordAuthCode(et_password.getText().toString(), et_new_password.getText().toString(), et_ack_password.getText().toString());
+                break;
+            case R.id.rl_cart:
+                if (tv_count.getVisibility() != View.GONE) {
+                    startActivity(new Intent(this, OrderActivity.class));
+                }
                 break;
         }
     }
@@ -118,11 +124,11 @@ public class ModifyPasswordActivity extends BaseActivity {
         if (num > 0) {
             tv_count.setText(num + "");
             tv_count.setVisibility(View.VISIBLE);
-            rl_cart.setEnabled(false);
+            rl_cart.setEnabled(true);
         } else {
             tv_count.setText("");
             tv_count.setVisibility(View.GONE);
-            rl_cart.setEnabled(true);
+            rl_cart.setEnabled(false);
         }
         preference.setIntPreference(Preference.PREFS_KEY.CNT_PRODUCT_IN_CART, num);
     }

@@ -191,7 +191,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 menu.showMenu();
                 break;
             case R.id.rl_cart:
-                startActivityForResult(new Intent(this, OrderActivity.class), 100);
+                if (tv_count.getVisibility() != View.GONE) {
+                    startActivityForResult(new Intent(this, OrderActivity.class), 100);
+                }
                 break;
             case R.id.rl_cart_check:
                 startActivityForResult(new Intent(this, OrderActivity.class), 100);

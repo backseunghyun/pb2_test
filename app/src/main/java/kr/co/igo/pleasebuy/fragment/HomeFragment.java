@@ -182,15 +182,19 @@ public class HomeFragment extends BaseFragment {
                 super.onSuccess(statusCode, headers, response);
                 try {
                     if (response.getInt("code") == 0) {
-
                         JSONObject bbs = response.getJSONObject("bbs");
                         tv_noti.setText(bbs.optString("title"));
 
+                        tv_totalPrice.setText(CommonUtils.getNumberThreeEachFormat(response.optInt("thisMonthlyOrderTotalPrice",0)));
 
-                        tv_totalPrice.setText(CommonUtils.getNumberThreeEachFormat(102000));
-
-                        tv_preOrderDate.setText("2017-01-01");
-                        tv_preOrderPrice.setText(CommonUtils.getNumberThreeEachFormat(30000));
+                        JSONObject lastOrderInfo = response.getJSONObject("lastOrderInfo");
+                        if (lastOrderInfo != null) {
+                            tv_preOrderDate.setText(CommonUtils.ConvertDate(lastOrderInfo.optLong("regDate")));
+                            tv_preOrderPrice.setText(CommonUtils.getNumberThreeEachFormat(lastOrderInfo.optInt("totalPrice", 0)));
+                        } else {
+                            tv_preOrderDate.setText("2017-11-22");
+                            tv_preOrderPrice.setText(CommonUtils.getNumberThreeEachFormat(10000));
+                        }
 
                         if (getActivity() instanceof MainActivity) {
                             int countProductInCart = response.optInt("cntOfProductInCart", 0);

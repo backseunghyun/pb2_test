@@ -128,11 +128,13 @@ public class OrderHistoryFragment extends BaseFragment {
             case R.id.rb_order:
                 rb_order.setChecked(true);
                 rb_delivery.setChecked(false);
+                rl_order_cancel.setVisibility(View.GONE);
                 getMonthlyOrderStatusList();
                 break;
             case R.id.rb_delivery:
                 rb_order.setChecked(false);
                 rb_delivery.setChecked(true);
+                rl_order_cancel.setVisibility(View.VISIBLE);
                 getMonthlyOrderStatusList();
                 break;
             case R.id.iv_date:
@@ -160,13 +162,16 @@ public class OrderHistoryFragment extends BaseFragment {
         yearMonth = sdf4.format(cDate);
 
         rb_order.setChecked(true);
+        rl_order_cancel.setVisibility(View.GONE);
         getMonthlyOrderStatusList();
     }
 
     public void getMonthlyOrderStatusList(){
         RequestParams param = new RequestParams();
         param.put("yearMonth", yearMonth);
-        param.put("kind", rb_order.isChecked() ? "order" : "delivery");
+        param.put("kind", rb_order.isChecked() ? "order" : "delivery")
+        ;
+        nAdapter.setType(rb_order.isChecked() ? "order" : "delivery");
 
         APIManager.getInstance().callAPI(APIUrl.ORDER_HISTORY, param, new RequestHandler(getActivity(), uuid) {
             @Override
@@ -175,6 +180,7 @@ public class OrderHistoryFragment extends BaseFragment {
                 try {
                     if (response.getInt("code") == 0) {
                         nList.clear();
+                        nAdapter.notifyDataSetChanged();
 
                         JSONArray jsonArray = response.getJSONArray("monthlyOrderStatusList");
                         for(int i = 0; i < jsonArray.length(); i++) {
@@ -202,6 +208,8 @@ public class OrderHistoryFragment extends BaseFragment {
                     }
                 } catch (JSONException ignored) {
                 } finally {
+
+
                     if (nList.size() > 0) {
                         OrderHistoryDate date = nList.get(nList.size() - 1);
 

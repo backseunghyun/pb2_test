@@ -51,6 +51,7 @@ public class FavoriteDetailActivity extends BaseActivity {
     @Bind(R.id.rl_cart) RelativeLayout rl_cart;
     @Bind(R.id.tv_favoriteTitle)    TextView tv_favoriteTitle;
     @Bind(R.id.ib_edit)     ImageButton ib_edit;
+    @Bind(R.id.tv_all)      TextView tv_all;
 
     private FavoriteDetailAdapter mAdapter;
     private List<Product> mList = new ArrayList<Product>();
@@ -88,7 +89,7 @@ public class FavoriteDetailActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.iv_back, R.id.ib_edit, R.id.tv_add, R.id.rl_cart})
+    @OnClick({R.id.iv_back, R.id.ib_edit, R.id.tv_add, R.id.rl_cart, R.id.tv_all})
     public void onClick(View v){
         switch (v.getId()) {
             case R.id.iv_back:
@@ -103,7 +104,18 @@ public class FavoriteDetailActivity extends BaseActivity {
                 cartAdd();
                 break;
             case R.id.rl_cart:
-                startActivity(new Intent(this, OrderActivity.class));
+                if (tv_count.getVisibility() != View.GONE) {
+                    startActivity(new Intent(this, OrderActivity.class));
+                }
+                break;
+            case R.id.tv_all:
+                if (tv_all.getText().equals("전체 선택")) {
+                    selectedAll(true);
+                    tv_all.setText("전체 해제");
+                } else if (tv_all.getText().equals("전체 해제")) {
+                    selectedAll(false);
+                    tv_all.setText("전체 선택");
+                }
                 break;
         }
     }
@@ -244,13 +256,20 @@ public class FavoriteDetailActivity extends BaseActivity {
         if (num > 0) {
             tv_count.setText(num + "");
             tv_count.setVisibility(View.VISIBLE);
-            rl_cart.setEnabled(false);
+            rl_cart.setEnabled(true);
         } else {
             tv_count.setText("");
             tv_count.setVisibility(View.GONE);
-            rl_cart.setEnabled(true);
+            rl_cart.setEnabled(false);
         }
         preference.setIntPreference(Preference.PREFS_KEY.CNT_PRODUCT_IN_CART, num);
+    }
+
+    private void selectedAll(boolean b){
+        for (int i=0; i < mList.size(); i++){
+            mList.get(i).setSelected(b);
+        }
+        mAdapter.notifyDataSetChanged();
     }
 
 }

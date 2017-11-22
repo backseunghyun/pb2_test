@@ -30,6 +30,8 @@ public class TermsActivity extends BaseActivity {
     @Bind(R.id.tv_terms)    TextView tv_terms;
     @Bind(R.id.tv_pp)       TextView tv_pp;
     @Bind(R.id.wv_webview)  WebView wv_webview;
+    @Bind(R.id.tv_count)    TextView tv_count;
+    @Bind(R.id.rl_cart)     RelativeLayout rl_cart;
 
     public Preference preference;
     private BackPressCloseSystem backPressCloseSystem;
@@ -46,6 +48,7 @@ public class TermsActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        setCartCount(preference.getIntPreference(Preference.PREFS_KEY.CNT_PRODUCT_IN_CART));
     }
 
     private void setInitVeiw() {
@@ -80,7 +83,9 @@ public class TermsActivity extends BaseActivity {
                 setWebview(2);
                 break;
             case R.id.rl_cart:
-                startActivity(new Intent(this, OrderActivity.class));
+                if (tv_count.getVisibility() != View.GONE) {
+                    startActivity(new Intent(this, OrderActivity.class));
+                }
                 break;
         }
     }
@@ -98,5 +103,18 @@ public class TermsActivity extends BaseActivity {
             CookieSyncManager.getInstance().sync();
         }
 
+    }
+
+    private void setCartCount(int num){
+        if (num > 0) {
+            tv_count.setText(num + "");
+            tv_count.setVisibility(View.VISIBLE);
+            rl_cart.setEnabled(true);
+        } else {
+            tv_count.setText("");
+            tv_count.setVisibility(View.GONE);
+            rl_cart.setEnabled(false);
+        }
+        preference.setIntPreference(Preference.PREFS_KEY.CNT_PRODUCT_IN_CART, num);
     }
 }

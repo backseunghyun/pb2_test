@@ -39,8 +39,7 @@
                     android:focusableInTouchMode="true"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:paddingLeft="73dp"
-                    android:paddingRight="73dp">
+                    >
 
                     <ImageView
                         android:layout_width="88dp"
@@ -52,9 +51,11 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="43dp"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="73dp"
+                        android:layout_marginRight="73dp"
                         android:layout_marginTop="120dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        >
 
                         <ImageView
                             android:layout_width="15dp"
@@ -80,14 +81,17 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.3dp"
-                        android:background="@color/c_7f7a7a" />
+                        android:background="@color/c_7f7a7a"
+                        android:layout_marginLeft="73dp"
+                        android:layout_marginRight="73dp"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="43dp"
-                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="12dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginLeft="73dp"
+                        android:layout_marginRight="73dp">
 
                         <ImageView
                             android:layout_width="15dp"
@@ -114,31 +118,55 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.3dp"
-                        android:background="@color/c_7f7a7a" />
+                        android:background="@color/c_7f7a7a"
+                        android:layout_marginLeft="73dp"
+                        android:layout_marginRight="73dp"/>
 
-                    <Button
-                        android:id="@+id/btn_login"
-                        android:layout_width="160dp"
-                        android:layout_height="51dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="17dp"
-                        android:background="@drawable/shape_round_5dp_f33b2d"
-                        android:text="로그인"
-                        android:textColor="@color/c_ffffff"
-                        android:textSize="18dp"
-                        android:textStyle="bold" />
+                        android:gravity="center_horizontal"
+                        >
+
+                        <Button
+                            android:id="@+id/btn_register"
+                            android:layout_width="130dp"
+                            android:layout_height="51dp"
+                            android:layout_marginRight="20dp"
+                            android:background="@drawable/shape_round_5dp_f33b2d"
+                            android:text="회원가입"
+                            android:textColor="@color/c_ffffff"
+                            android:textSize="18dp"
+                            android:textStyle="bold"
+                            android:visibility="gone"/>
+
+                        <Button
+                            android:id="@+id/btn_login2"
+                            android:layout_width="130dp"
+                            android:layout_height="51dp"
+                            android:background="@drawable/shape_round_5dp_f33b2d"
+                            android:text="로그인"
+                            android:textColor="@color/c_ffffff"
+                            android:textSize="18dp"
+                            android:textStyle="bold"
+                            android:visibility="gone"/>
+
+                        <Button
+                            android:id="@+id/btn_login"
+                            android:layout_width="160dp"
+                            android:layout_height="51dp"
+                            android:background="@drawable/shape_round_5dp_f33b2d"
+                            android:text="로그인"
+                            android:textColor="@color/c_ffffff"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="17dp"
-                    android:textColor="@color/c_f33b2d"
-                    android:text="@string/s_login_info"
-                    android:gravity="center"
-                    android:textSize="14dp"/>
             </LinearLayout>
 
 

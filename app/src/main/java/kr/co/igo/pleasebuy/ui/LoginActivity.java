@@ -1,7 +1,9 @@
 package kr.co.igo.pleasebuy.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,6 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cz.msebera.android.httpclient.Header;
 import kr.co.igo.pleasebuy.R;
+import kr.co.igo.pleasebuy.popup.RegisterPopup;
 import kr.co.igo.pleasebuy.trunk.BaseActivity;
 import kr.co.igo.pleasebuy.trunk.api.APIManager;
 import kr.co.igo.pleasebuy.trunk.api.APIUrl;
@@ -49,7 +52,7 @@ public class LoginActivity extends BaseActivity {
                 .into(iv_image);
     }
 
-    @OnClick({R.id.btn_login, R.id.tv_info})
+    @OnClick({R.id.btn_login, R.id.btn_register})
     public void onClick(View v){
         switch (v.getId()) {
             case R.id.btn_login:
@@ -57,14 +60,26 @@ public class LoginActivity extends BaseActivity {
                     login();
                 }
                 break;
-            case R.id.tv_info:
-                Intent email = new Intent(Intent.ACTION_SEND);
-                email.setType("plain/text");
-                String[] address = {"dikeipd@igoperation"};
-                email.putExtra(Intent.EXTRA_EMAIL, address);
-//                email.putExtra(Intent.EXTRA_SUBJECT,"보내질 email 제목");
-//                email.putExtra(Intent.EXTRA_TEXT,"보낼 email 내용을 미리 적어 놓을 수 있습니다.\n");
-                startActivity(email);
+            case R.id.btn_register:
+                final RegisterPopup popup = new RegisterPopup(this);
+                popup.setCancelable(false);
+                popup.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        if(popup.isConfirm()){
+                            String storeName = popup.getStoreName();
+                            String name = popup.getName();
+                            String tel = popup.getTel();
+//                            testLogin();
+
+                            String phoneNumber = "01038621214";
+                            String smsBody = "Message from the API";
+                            SmsManager smsManager = SmsManager.getDefault();
+                            smsManager.sendTextMessage(phoneNumber, null, smsBody, null, null);
+                        }
+                    }
+                });
+                popup.show();
                 break;
         }
     }
@@ -77,9 +92,30 @@ public class LoginActivity extends BaseActivity {
         return true;
     }
 
-
-
     private void login() {
+        String gcmToken = preference.getStringPreference(Preference.PREFS_KEY.PUSH_DEVICE_ID);
+
+        RequestParams param = new RequestParams();
+        param.put("loginId", et_id.getText().toString());
+        param.put("password", et_password.getText().toString());
+        param.put("pushDeviceId", gcmToken);
+
+        APIManager.getInstance().callAPI(APIUrl.PUBLIC_LOGIN, param, new RequestHandler(this, uuid) {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                if (response != null && response.optInt("code") == 0) {
+                    preference.setStringPreference(Preference.PREFS_KEY.ENC_USER_ID, response.optString("encUserId"));
+                    preference.setStringPreference(Preference.PREFS_KEY.USER_ID, response.optJSONObject("user").optString("userId"));
+                    preference.setStringPreference(Preference.PREFS_KEY.LOGIN_ID, response.optJSONObject("user").optString("loginId"));
+                    preference.setStringPreference(Preference.PREFS_KEY.USER_NAME, response.optJSONObject("user").optString("ownerName"));
+                    moveMain();
+                }
+            }
+        });
+    }
+
+    private void testLogin() {
         String gcmToken = preference.getStringPreference(Preference.PREFS_KEY.PUSH_DEVICE_ID);
 
         RequestParams param = new RequestParams();
