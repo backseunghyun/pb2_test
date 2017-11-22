@@ -19,7 +19,7 @@
     <string name="s_confirm">확인</string>
     <string name="s_yes">예</string>
     <string name="s_no">아니오</string>
-    <string name="s_login_info">*회원가입 문의는 dikeipd@gmail.com로 해주세요.</string>
+    <string name="s_login_info">회원가입 / 문의 : dikeipd@igoperation</string>
 
     <string name="s_menu_notice">공지사항</string>
     <string name="s_menu_setting_modify_information">내 정보 수정</string>

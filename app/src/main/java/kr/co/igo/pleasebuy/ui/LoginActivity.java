@@ -49,13 +49,22 @@ public class LoginActivity extends BaseActivity {
                 .into(iv_image);
     }
 
-    @OnClick({R.id.btn_login})
+    @OnClick({R.id.btn_login, R.id.tv_info})
     public void onClick(View v){
         switch (v.getId()) {
             case R.id.btn_login:
                 if (vaildation()) {
                     login();
                 }
+                break;
+            case R.id.tv_info:
+                Intent email = new Intent(Intent.ACTION_SEND);
+                email.setType("plain/text");
+                String[] address = {"dikeipd@igoperation"};
+                email.putExtra(Intent.EXTRA_EMAIL, address);
+//                email.putExtra(Intent.EXTRA_SUBJECT,"보내질 email 제목");
+//                email.putExtra(Intent.EXTRA_TEXT,"보낼 email 내용을 미리 적어 놓을 수 있습니다.\n");
+                startActivity(email);
                 break;
         }
     }

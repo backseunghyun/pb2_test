@@ -223,7 +223,7 @@ public class OrderFragment extends BaseFragment {
                                 int categoryId = obj.optInt("categoryId");
 
                                 if (preference.getStringPreference(Preference.PREFS_KEY.LOGIN_ID).contains("ccb")){
-                                    if( 6 <= categoryId  && categoryId <= 11 ){
+                                    if( (7 <= categoryId  && categoryId <= 11)){
                                         mDataList.add(item);
                                     }
                                 } else if (preference.getStringPreference(Preference.PREFS_KEY.LOGIN_ID).contains("pig")){
