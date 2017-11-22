@@ -258,10 +258,8 @@ public class OrderHistoryFragment extends BaseFragment {
                                 item.setOrigin(obj.optString("origin"));
 
                                 item.setCategoryValue(obj.optString("categoryValue"));
-//                                item.setQuantity(obj.optString("completeQuantity"));
-//                                item.setSelectedCount(obj.optInt("completeQuantity"));
-                                item.setQuantity("1");
-                                item.setSelectedCount(1);
+                                item.setQuantity(obj.optString("quantity"));
+                                item.setSelectedCount(obj.optInt("quantity"));
 
                                 mList.add(item);
                             }
@@ -349,7 +347,7 @@ public class OrderHistoryFragment extends BaseFragment {
         if(date.getStatus().equals("주문접수")) {
             rl_order_cancel.setEnabled(true);
         } else {
-            rl_order_cancel.setEnabled(true);
+            rl_order_cancel.setEnabled(false);
         }
     }
 
