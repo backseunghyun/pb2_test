@@ -77,15 +77,28 @@ public class FavoriteDetailActivity extends BaseActivity {
 
         if(getIntent().hasExtra("favoriteGroupId") && getIntent().getIntExtra("favoriteGroupId",0) != 0) {
             favoriteGroupId = getIntent().getIntExtra("favoriteGroupId",0);
-            getList();
             ib_edit.setVisibility(View.VISIBLE);
         }
 
         if(getIntent().hasExtra("orderInfoId")){
             orderInfoId = getIntent().getIntExtra("orderInfoId", 0);
-            getList2();
             ib_edit.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setCartCount(preference.getIntPreference(Preference.PREFS_KEY.CNT_PRODUCT_IN_CART));
+
+        if (favoriteGroupId > 0) {
+            getList();
+        }
+
+        if (orderInfoId > 0) {
+            getList2();
+        }
+
     }
 
 
@@ -118,13 +131,6 @@ public class FavoriteDetailActivity extends BaseActivity {
                 }
                 break;
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        setCartCount(preference.getIntPreference(Preference.PREFS_KEY.CNT_PRODUCT_IN_CART));
-
     }
 
     private void getList() {
