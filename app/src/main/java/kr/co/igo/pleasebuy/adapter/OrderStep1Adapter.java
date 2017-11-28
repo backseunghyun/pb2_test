@@ -8,9 +8,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +22,12 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cz.msebera.android.httpclient.Header;
 import kr.co.igo.pleasebuy.R;
 import kr.co.igo.pleasebuy.model.Product;
+import kr.co.igo.pleasebuy.trunk.api.APIManager;
+import kr.co.igo.pleasebuy.trunk.api.APIUrl;
+import kr.co.igo.pleasebuy.trunk.api.RequestHandler;
 import kr.co.igo.pleasebuy.ui.MainActivity;
 import kr.co.igo.pleasebuy.util.CommonUtils;
 
@@ -105,6 +113,7 @@ public class OrderStep1Adapter extends BaseAdapter {
         @Bind(R.id.tv_count)        TextView tv_count;
         @Bind(R.id.iv_plus)         ImageView iv_plus;
         @Bind(R.id.tv_price)        TextView tv_price;
+        @Bind(R.id.rl_delete)       RelativeLayout rl_delete;
 
         private int vPosition;
         private Activity vActivity;
@@ -118,21 +127,22 @@ public class OrderStep1Adapter extends BaseAdapter {
             vView = tv;
         }
 
-        @OnClick({R.id.iv_minus, R.id.iv_plus})
+        @OnClick({R.id.iv_minus, R.id.iv_plus, R.id.rl_delete})
         public void onClick(View v) {
-            Product m;
+            Product m = vList.get(vPosition);
             switch (v.getId()) {
                 case R.id.iv_minus:
-                    m = vList.get(vPosition);
                     m.setSelectedCount(m.getSelectedCount() == 1 ? 1 : m.getSelectedCount()-1);
                     notifyDataSetChanged();
                     setTotalPrice();
                     break;
                 case R.id.iv_plus:
-                    m = vList.get(vPosition);
                     m.setSelectedCount(m.getSelectedCount()+1);
                     notifyDataSetChanged();
                     setTotalPrice();
+                    break;
+                case R.id.rl_delete:
+                    delete(m.getCartId(), m.getProductId(), vPosition);
                     break;
             }
         }
@@ -143,6 +153,24 @@ public class OrderStep1Adapter extends BaseAdapter {
                 price += Integer.parseInt(vList.get(i).getPrice()) * vList.get(i).getSelectedCount();
             }
             vView.setText(CommonUtils.getNumberThreeEachFormatWithWon(price));
+        }
+
+        private void delete(String cartIds, String productIds, final int index) {
+            RequestParams param = new RequestParams();
+            param.put("cartIds", cartIds);
+            param.put("productIds", productIds);
+
+            APIManager.getInstance().callAPI(APIUrl.CART_REMOVE, param, new RequestHandler(vActivity) {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    super.onSuccess(statusCode, headers, response);
+                    if (response != null && response.optInt("code") == 0) {
+                        vList.remove(index);
+                        notifyDataSetChanged();
+                        setTotalPrice();
+                    }
+                }
+            });
         }
 
     }

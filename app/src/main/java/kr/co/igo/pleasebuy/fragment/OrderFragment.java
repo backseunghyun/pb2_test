@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -75,6 +76,7 @@ public class OrderFragment extends BaseFragment {
 
     private static Preference preference;
 
+    private InputMethodManager imm;
 
     public OrderFragment()  {
 
@@ -95,6 +97,8 @@ public class OrderFragment extends BaseFragment {
 
         mAdapter = new OrderPagerAdapter(getActivity(), mDataList, fList);
         mAdapter.setIsList(preference.getStringPreference(Preference.PREFS_KEY.IS_LIST_VISIBLE).equals(preference.TRUE));
+
+        imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
         setInit();
         return view;
@@ -175,7 +179,7 @@ public class OrderFragment extends BaseFragment {
             fList.addAll(mList);
         } else {
             for(Product item : mList){
-                if( item.getProductName().contains(et_search.getText().toString().toLowerCase()) ) {
+                if( item.getProductName().toUpperCase().contains(et_search.getText().toString().toUpperCase()) ) {
                     fList.add(item);
                 }
             }
@@ -186,6 +190,8 @@ public class OrderFragment extends BaseFragment {
         if(fList.size() == 0) {
             showError(getResources().getString(R.string.s_no_search_item));
         }
+
+        hideSoftKeyboard();
     }
 
     private void setListChange(){
@@ -302,6 +308,10 @@ public class OrderFragment extends BaseFragment {
                 }
             }
         });
+    }
+
+    private void hideSoftKeyboard() {
+        imm.hideSoftInputFromWindow(et_search.getWindowToken(), 0);
     }
 
 }

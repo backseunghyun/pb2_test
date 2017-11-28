@@ -84,6 +84,8 @@ public class OrderStep2Fragment extends BaseFragment {
         lv_list.setAdapter(mAdapter);
 
         setInit();
+        getList();
+        getStoreInfo();
 
         return view;
     }
@@ -152,8 +154,6 @@ public class OrderStep2Fragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        getList();
-        getStoreInfo();
     }
 
     private void getList() {

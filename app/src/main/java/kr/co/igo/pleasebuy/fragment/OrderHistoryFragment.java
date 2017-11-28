@@ -161,8 +161,8 @@ public class OrderHistoryFragment extends BaseFragment {
         tv_month.setText(sdf.format(cDate) + "월");
         yearMonth = sdf4.format(cDate);
 
-        rb_order.setChecked(true);
-        rl_order_cancel.setVisibility(View.GONE);
+        rb_delivery.setChecked(true);
+        rl_order_cancel.setVisibility(View.VISIBLE);
         getMonthlyOrderStatusList();
     }
 
@@ -288,7 +288,7 @@ public class OrderHistoryFragment extends BaseFragment {
                         tv_cntProductInCart.setText(obj.optInt("totalQuantity", 0) + "개");
                         tv_totalOfOrderPrice.setText(CommonUtils.getNumberThreeEachFormatWithWon(obj.optInt("totalPrice", 0)));
 
-                        seletedDate = CommonUtils.ConvertDate(obj.optLong("regDate"), "-");
+//                        seletedDate = CommonUtils.ConvertDate(obj.optLong("regDate"), "-");
                     }
                 } catch (JSONException ignored) {
                 } finally {

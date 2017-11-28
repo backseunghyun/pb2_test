@@ -6,12 +6,25 @@
     android:layout_height="83dp"
     android:gravity="center_vertical"
      android:id="@+id/ll_rootlayout">
+
+    <RelativeLayout
+        android:id="@+id/rl_delete"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="7dp">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/btn_delete"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
     
     <ImageView
         android:id="@+id/iv_image"
         android:layout_width="68dp"
         android:layout_height="68dp"
-        android:layout_marginLeft="28dp"
         android:layout_marginRight="18dp"/>
     <LinearLayout
         android:layout_width="0dp"

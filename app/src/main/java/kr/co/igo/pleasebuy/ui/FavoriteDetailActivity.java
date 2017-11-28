@@ -52,6 +52,7 @@ public class FavoriteDetailActivity extends BaseActivity {
     @Bind(R.id.tv_favoriteTitle)    TextView tv_favoriteTitle;
     @Bind(R.id.ib_edit)     ImageButton ib_edit;
     @Bind(R.id.tv_all)      TextView tv_all;
+    @Bind(R.id.iv_check)    ImageView iv_check;
 
     private FavoriteDetailAdapter mAdapter;
     private List<Product> mList = new ArrayList<Product>();
@@ -102,7 +103,7 @@ public class FavoriteDetailActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.iv_back, R.id.ib_edit, R.id.tv_add, R.id.rl_cart, R.id.tv_all})
+    @OnClick({R.id.iv_back, R.id.ib_edit, R.id.tv_add, R.id.rl_cart, R.id.tv_all, R.id.iv_check})
     public void onClick(View v){
         switch (v.getId()) {
             case R.id.iv_back:
@@ -122,12 +123,15 @@ public class FavoriteDetailActivity extends BaseActivity {
                 }
                 break;
             case R.id.tv_all:
+            case R.id.iv_check:
                 if (tv_all.getText().equals("전체 선택")) {
                     selectedAll(true);
                     tv_all.setText("전체 해제");
+                    iv_check.setSelected(true);
                 } else if (tv_all.getText().equals("전체 해제")) {
                     selectedAll(false);
                     tv_all.setText("전체 선택");
+                    iv_check.setSelected(false);
                 }
                 break;
         }
@@ -276,6 +280,25 @@ public class FavoriteDetailActivity extends BaseActivity {
             mList.get(i).setSelected(b);
         }
         mAdapter.notifyDataSetChanged();
+    }
+
+    public void checkSelected(){
+        boolean b = true;
+        for (int i=0; i < mList.size(); i++){
+            if (!mList.get(i).isSelected()) {
+                b = false;
+                break;
+            }
+        }
+
+        if(b){
+            tv_all.setText("전체 해제");
+            iv_check.setSelected(true);
+        } else {
+            tv_all.setText("전체 선택");
+            iv_check.setSelected(false);
+        }
+
     }
 
 }

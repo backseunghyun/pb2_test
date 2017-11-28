@@ -18,6 +18,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import kr.co.igo.pleasebuy.R;
 import kr.co.igo.pleasebuy.model.Product;
+import kr.co.igo.pleasebuy.ui.FavoriteDeleteActivity;
+import kr.co.igo.pleasebuy.ui.FavoriteDetailActivity;
 import kr.co.igo.pleasebuy.ui.MainActivity;
 import kr.co.igo.pleasebuy.util.CommonUtils;
 
@@ -109,9 +111,12 @@ public class FavoriteDetailAdapter extends BaseAdapter {
                 case R.id.ll_rootlayout:
                 case R.id.iv_check:
                     Product m = vList.get(vPosition);
-                    Log.d("click", m.getProductName() + " - " + m.getProductId());
                     m.setSelected(!m.isSelected());
                     notifyDataSetChanged();
+
+                    if (vActivity instanceof FavoriteDetailActivity) {
+                        ((FavoriteDetailActivity)vActivity).checkSelected();
+                    }
                     break;
             }
         }

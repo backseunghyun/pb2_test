@@ -68,6 +68,8 @@ public class OrderStep1Fragment extends BaseFragment {
         mAdapter = new OrderStep1Adapter(getActivity(), mList, tv_totalOfOrderPrice);
         lv_list.setAdapter(mAdapter);
 
+        getList();
+
         return view;
     }
 
@@ -89,7 +91,6 @@ public class OrderStep1Fragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        getList();
     }
 
     private void getList() {
