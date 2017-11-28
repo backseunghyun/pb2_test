@@ -74,7 +74,8 @@
             android:launchMode="singleTop"
             android:noHistory="true"
             android:theme="@android:style/Theme.NoDisplay"/>
-        <activity android:name=".ui.OrderActivity"/>
+        <activity android:name=".ui.OrderActivity"
+            android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".ui.BoardEditActivity"/>
         <activity android:name=".ui.ModifyInformationActivity"/>
         <activity android:name=".ui.ModifyPasswordActivity"/>

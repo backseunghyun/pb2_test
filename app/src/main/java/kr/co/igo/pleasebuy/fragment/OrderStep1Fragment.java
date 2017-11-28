@@ -67,6 +67,7 @@ public class OrderStep1Fragment extends BaseFragment {
 
         mAdapter = new OrderStep1Adapter(getActivity(), mList, tv_totalOfOrderPrice);
         lv_list.setAdapter(mAdapter);
+        lv_list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
         getList();
 

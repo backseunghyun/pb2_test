@@ -58,14 +58,16 @@
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:background="@drawable/btn_minus"/>
-            <TextView
-                android:id="@+id/tv_count"
+            <EditText
+                android:id="@+id/et_count"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textSize="16dp"
+                android:background="@android:color/transparent"
                 android:textColor="@drawable/selector_num_change_color"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:inputType="number"/>
             <ImageView
                 android:id="@+id/iv_plus"
                 android:layout_width="22dp"

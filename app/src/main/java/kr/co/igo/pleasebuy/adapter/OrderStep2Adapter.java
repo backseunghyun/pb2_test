@@ -1,10 +1,15 @@
 package kr.co.igo.pleasebuy.adapter;
 
 import android.app.Activity;
+import android.content.Context;
+import android.text.Editable;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -22,6 +27,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 import cz.msebera.android.httpclient.Header;
 import kr.co.igo.pleasebuy.R;
 import kr.co.igo.pleasebuy.model.Product;
@@ -41,7 +47,7 @@ public class OrderStep2Adapter extends BaseAdapter {
     private ViewHolder holder;
     private TextView mView;
     private TextView mView2;
-
+    private InputMethodManager imm;
 
     public OrderStep2Adapter(Activity c, List<Product> list, TextView view, TextView view2) {
         this.activity = c;
@@ -49,6 +55,7 @@ public class OrderStep2Adapter extends BaseAdapter {
         this.mList = list;
         this.mView = view;
         this.mView2 = view2;
+        this.imm = (InputMethodManager) this.activity.getSystemService(Context.INPUT_METHOD_SERVICE);
     }
 
     @Override
@@ -87,9 +94,28 @@ public class OrderStep2Adapter extends BaseAdapter {
         }
         holder.tv_etc.setText(etc);
 
-        holder.tv_count.setText(m.getSelectedCount() + "");
+        holder.et_count.setText(m.getSelectedCount() + "");
+        holder.et_count.setTag(position);
+        holder.et_count.setOnKeyListener(new View.OnKeyListener(){
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    Product t = mList.get((Integer) v.getTag());
+                    if (((EditText)v).getText().toString().length() > 0) {
+                        t.setSelectedCount(Integer.parseInt(((EditText)v).getText().toString()));
+                    } else {
+                        t.setSelectedCount(1);
+                    }
+                    holder.setTotalPrice();
+                    notifyDataSetChanged();
+                    imm.hideSoftInputFromWindow(((EditText)v).getWindowToken(), 0);
+                    return true;
+                }
+                return false;
+            }
+        });
 
-        holder.tv_count.setSelected(m.getSelectedCount() != Integer.parseInt(m.getQuantity()));
+        holder.et_count.setSelected(m.getSelectedCount() != Integer.parseInt(m.getQuantity()));
         holder.tv_price.setSelected(m.getSelectedCount() != Integer.parseInt(m.getQuantity()));
 
         holder.vPosition = position;
@@ -103,7 +129,7 @@ public class OrderStep2Adapter extends BaseAdapter {
         @Bind(R.id.tv_name)         TextView tv_name;
         @Bind(R.id.tv_etc)          TextView tv_etc;
         @Bind(R.id.iv_minus)        ImageView iv_minus;
-        @Bind(R.id.tv_count)        TextView tv_count;
+        @Bind(R.id.et_count)        EditText et_count;
         @Bind(R.id.iv_plus)         ImageView iv_plus;
         @Bind(R.id.tv_price)        TextView tv_price;
 
@@ -134,12 +160,24 @@ public class OrderStep2Adapter extends BaseAdapter {
                     m.setSelectedCount(m.getSelectedCount() == 1 ? 1 : m.getSelectedCount()-1);
                     notifyDataSetChanged();
                     setTotalPrice();
+                    imm.hideSoftInputFromWindow(et_count.getWindowToken(), 0);
                     break;
                 case R.id.iv_plus:
                     m.setSelectedCount(m.getSelectedCount()+1);
                     notifyDataSetChanged();
                     setTotalPrice();
+                    imm.hideSoftInputFromWindow(et_count.getWindowToken(), 0);
                     break;
+            }
+        }
+
+        @OnTextChanged({R.id.et_count})
+        public void onTextChanged(Editable s) {
+            Product m = vList.get(vPosition);
+            if (s.toString().length() > 0) {
+                m.setSelectedCount(Integer.parseInt(s.toString()));
+            } else {
+                m.setSelectedCount(0);
             }
         }
 

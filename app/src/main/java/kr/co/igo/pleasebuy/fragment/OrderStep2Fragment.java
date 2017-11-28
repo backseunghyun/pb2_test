@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -82,6 +83,7 @@ public class OrderStep2Fragment extends BaseFragment {
 
         mAdapter = new OrderStep2Adapter(getActivity(), mList, tv_totalOfOrderPrice, tv_cntProductInCart);
         lv_list.setAdapter(mAdapter);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
         setInit();
         getList();
