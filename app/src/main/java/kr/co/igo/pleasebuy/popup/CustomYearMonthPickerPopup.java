@@ -149,7 +149,12 @@ public class CustomYearMonthPickerPopup extends Dialog {
         return this.resultDate;
     }
 
-    public String getResultMonth(String delimeter) {
+    public String getResultMonth() {
+        resultDate = month;
+        return this.resultDate;
+    }
+
+    public String getResultYearMonth(String delimeter) {
         resultDate = String.valueOf(year) + delimeter + month;
         return this.resultDate;
     }

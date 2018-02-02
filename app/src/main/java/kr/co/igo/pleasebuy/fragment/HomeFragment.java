@@ -185,6 +185,11 @@ public class HomeFragment extends BaseFragment {
                         JSONObject bbs = response.getJSONObject("bbs");
                         tv_noti.setText(bbs.optString("title"));
 
+                        if (getActivity() instanceof MainActivity) {
+                            int countProductInCart = response.optInt("cntOfProductInCart", 0);
+                            ((MainActivity)getActivity()).setCartCount(countProductInCart, countProductInCart);
+                        }
+
                         tv_totalPrice.setText(CommonUtils.getNumberThreeEachFormat(response.optInt("thisMonthlyOrderTotalPrice",0)));
 
                         JSONObject lastOrderInfo = response.getJSONObject("lastOrderInfo");
@@ -196,10 +201,7 @@ public class HomeFragment extends BaseFragment {
                             tv_preOrderPrice.setText(CommonUtils.getNumberThreeEachFormat(10000));
                         }
 
-                        if (getActivity() instanceof MainActivity) {
-                            int countProductInCart = response.optInt("cntOfProductInCart", 0);
-                            ((MainActivity)getActivity()).setCartCount(countProductInCart, countProductInCart);
-                        }
+
                     }
                 } catch (JSONException ignored) {
                 } finally {

@@ -37,7 +37,7 @@ public enum APIUrl {
     USER_NOTICE_LIST("/board/list"),// 공지사항 리스트
     USER_NOTICE_SELECT("/board/select"),// 공지사항 자세히
 
-    USER_CATEGORY_LIST("/user/category/list"), // 카테고리 리스트
+
 
     FAVORITE_LIST("/favorite/list"), // 자주 찾는 상품 리스트
     FAVORITE_INSERT("/favorite/insert"), // 자주 찾는 상품 추가
@@ -111,6 +111,9 @@ public enum APIUrl {
     ORDER_HISTORY("/order/history"),    // 주문히스토리
     ORDER_HISTORY_DETAIL("/order/history/detail"),    // 주문히스토리 상세
     ORDER_CANCEL_DATE("/order/cancel/date"),    // 주문 취소(날짜)
+
+    USER_CATEGORY_LIST("/category/store-group"), // 카테고리 리스트
+    MONTHLY_REPORT("/monthly-report"), // 월간 리포트
 
 
     ;

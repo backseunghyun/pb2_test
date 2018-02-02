@@ -84,7 +84,7 @@ public class OrderStep2Adapter extends BaseAdapter {
         }
 
         m = mList.get(position);
-
+        holder.vPosition = position;
         holder.tv_name.setText(m.getProductName());
         holder.tv_price.setText(CommonUtils.getNumberThreeEachFormatWithWon(Integer.parseInt(m.getPrice()) * m.getSelectedCount()));
 
@@ -118,7 +118,7 @@ public class OrderStep2Adapter extends BaseAdapter {
         holder.et_count.setSelected(m.getSelectedCount() != Integer.parseInt(m.getQuantity()));
         holder.tv_price.setSelected(m.getSelectedCount() != Integer.parseInt(m.getQuantity()));
 
-        holder.vPosition = position;
+
 
 
         return convertView;
@@ -158,14 +158,14 @@ public class OrderStep2Adapter extends BaseAdapter {
                     break;
                 case R.id.iv_minus:
                     m.setSelectedCount(m.getSelectedCount() == 1 ? 1 : m.getSelectedCount()-1);
-                    notifyDataSetChanged();
                     setTotalPrice();
+                    notifyDataSetChanged();
                     imm.hideSoftInputFromWindow(et_count.getWindowToken(), 0);
                     break;
                 case R.id.iv_plus:
                     m.setSelectedCount(m.getSelectedCount()+1);
-                    notifyDataSetChanged();
                     setTotalPrice();
+                    notifyDataSetChanged();
                     imm.hideSoftInputFromWindow(et_count.getWindowToken(), 0);
                     break;
             }

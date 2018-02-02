@@ -156,12 +156,14 @@ public class OrderHistoryFragment extends BaseFragment {
     }
 
     public void setInit(){
+        rb_order.setChecked(false);
+        rb_delivery.setChecked(true);
+
         long now = System.currentTimeMillis();
         cDate = new Date(now);
         tv_month.setText(sdf.format(cDate) + "월");
         yearMonth = sdf4.format(cDate);
 
-        rb_delivery.setChecked(true);
         rl_order_cancel.setVisibility(View.VISIBLE);
         getMonthlyOrderStatusList();
     }
@@ -169,8 +171,8 @@ public class OrderHistoryFragment extends BaseFragment {
     public void getMonthlyOrderStatusList(){
         RequestParams param = new RequestParams();
         param.put("yearMonth", yearMonth);
-        param.put("kind", rb_order.isChecked() ? "order" : "delivery")
-        ;
+        param.put("kind", rb_order.isChecked() ? "order" : "delivery");
+
         nAdapter.setType(rb_order.isChecked() ? "order" : "delivery");
 
         APIManager.getInstance().callAPI(APIUrl.ORDER_HISTORY, param, new RequestHandler(getActivity(), uuid) {
@@ -221,9 +223,6 @@ public class OrderHistoryFragment extends BaseFragment {
 
                         nAdapter.notifyDataSetChanged();
                         rv_date_list.scrollToPosition(nAdapter.getItemCount() - 1);
-
-                        getData(seletedDate);
-
 
                     } else {
                         nAdapter.notifyDataSetChanged();
@@ -360,12 +359,29 @@ public class OrderHistoryFragment extends BaseFragment {
     }
 
     private void showSelectMonth(){
-        final CustomYearMonthPickerPopup popup = new CustomYearMonthPickerPopup(getActivity(),  tv_reference_date.getText().toString().substring(0, 4), tv_reference_date.getText().toString().substring(5, 7));
+        String yyyy= "";
+        String MM = "";
+
+        if (tv_reference_date.getText().toString().equals("")){
+            SimpleDateFormat yy = new SimpleDateFormat("yyyy");
+
+            long now = System.currentTimeMillis();
+            cDate = new Date(now);
+
+            yyyy = yy.format(cDate);
+            MM = sdf.format(cDate);
+        } else {
+            yyyy = tv_reference_date.getText().toString().substring(0, 4);
+            MM = tv_reference_date.getText().toString().substring(5, 7);
+        }
+
+        final CustomYearMonthPickerPopup popup = new CustomYearMonthPickerPopup(getActivity(),  yyyy, MM);
         popup.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
                 if(popup.getResult().equals("ok")) {
-                    yearMonth = popup.getResultMonth("-");
+                    yearMonth = popup.getResultYearMonth("-");
+                    tv_month.setText(popup.getResultMonth() + "월");
                     getMonthlyOrderStatusList();
                 }
             }

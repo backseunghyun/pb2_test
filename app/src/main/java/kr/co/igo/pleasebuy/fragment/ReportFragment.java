@@ -14,11 +14,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.daimajia.numberprogressbar.NumberProgressBar;
+import com.loopj.android.http.RequestParams;
 import com.necistudio.vigerpdf.VigerPDF;
 import com.necistudio.vigerpdf.adapter.VigerAdapter;
 import com.necistudio.vigerpdf.manage.OnResultListener;
 import com.necistudio.vigerpdf.utils.ViewPagerZoomHorizontal;
 
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -31,12 +36,20 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cz.msebera.android.httpclient.Header;
 import kr.co.igo.pleasebuy.R;
 import kr.co.igo.pleasebuy.model.Favorite;
+import kr.co.igo.pleasebuy.model.MonthlyReport;
+import kr.co.igo.pleasebuy.model.Product;
 import kr.co.igo.pleasebuy.popup.CustomProgressDialog;
 import kr.co.igo.pleasebuy.popup.CustomYearMonthPickerPopup;
 import kr.co.igo.pleasebuy.trunk.BaseFragment;
+import kr.co.igo.pleasebuy.trunk.api.APIManager;
+import kr.co.igo.pleasebuy.trunk.api.APIUrl;
+import kr.co.igo.pleasebuy.trunk.api.RequestHandler;
 import kr.co.igo.pleasebuy.ui.MainActivity;
+import kr.co.igo.pleasebuy.util.ApplicationData;
+import kr.co.igo.pleasebuy.util.CommonUtils;
 import kr.co.igo.pleasebuy.util.FragmentName;
 
 /**
@@ -53,7 +66,7 @@ public class ReportFragment extends BaseFragment {
     private VigerAdapter adapter;
     private VigerPDF vigerPDF;
 
-    private List<String> mList = new ArrayList<String>();
+    private List<MonthlyReport> mList = new ArrayList<MonthlyReport>();
 
     private Date mDateMonth;
 
@@ -75,6 +88,7 @@ public class ReportFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_report, container, false);
         ButterKnife.bind(this, view);
         init();
+        getData();
 
         return view;
     }
@@ -89,7 +103,6 @@ public class ReportFragment extends BaseFragment {
         super.onResume();
         if(getActivity() instanceof MainActivity) {
             ((MainActivity)getActivity()).setHederTitle(FragmentName.REPORT.tag());
-            getData();
         }
     }
 
@@ -104,11 +117,11 @@ public class ReportFragment extends BaseFragment {
         switch (v.getId()){
             case R.id.rl_left:
                 moveMonth(-1);
-                getData();
+                loadPdf();
                 break;
             case R.id.rl_right:
                 moveMonth(1);
-                getData();
+                loadPdf();
                 break;
             case R.id.tv_mon:
                 showSelectMonth();
@@ -130,41 +143,59 @@ public class ReportFragment extends BaseFragment {
 
         itemData = new ArrayList<>();
 
-
-        mList.add("http://www.africau.edu/images/default/sample.pdf");
-        mList.add("http://che.org.il/wp-content/uploads/2016/12/pdf-sample.pdf");
-        mList.add("");
-        mList.add("");
-        mList.add("");
-        mList.add("");
-        mList.add("");
-        mList.add("http://che.org.il/wp-content/uploads/2016/12/pdf-sample.pdf");
-        mList.add("http://www.pdf995.com/samples/pdf.pdf");
-//        mList.add("http://bbaeggun100.vps.phps.kr:8080/pleasebuy2/static/report/1.pdf");
-//        mList.add("http://bbaeggun100.vps.phps.kr:8080/pleasebuy2/static/report/2.pdf");
-        mList.add("http://www.pdf995.com/samples/pdf.pdf");
-        mList.add("https://files.nc.gov/ncdhhs/documents/files/Sample-Form-1095B-2016-01-21.pdf");
-        mList.add("https://www.collegeofsanmateo.edu/library/docs/MLAWorksCited7.pdf");
     }
 
-    private void getData(){
-        int i = 0;
-        switch (tv_mon.getText().toString().substring(5, 7)){
-            case "01":  i =0;   break;
-            case "02":  i =1;   break;
-            case "03":  i =2;   break;
-            case "04":  i =3;   break;
-            case "05":  i =4;   break;
-            case "06":  i =5;   break;
-            case "07":  i =6;   break;
-            case "08":  i =7;   break;
-            case "09":  i =8;   break;
-            case "10":  i =9;   break;
-            case "11":  i =10;   break;
-            case "12":  i =11;   break;
+    private void getData() {
+        RequestParams param = new RequestParams();
+
+        APIManager.getInstance().callAPI(APIUrl.MONTHLY_REPORT, param, new RequestHandler(getActivity(), uuid) {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    if (response.getInt("code") == 0) {
+                        mList.clear();
+
+                        JSONArray jsonArray = response.getJSONArray("monthlyReportList");
+                        for(int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject obj = jsonArray.getJSONObject(i);
+                            if (obj != null) {
+                                MonthlyReport item = new MonthlyReport();
+                                item.setYearMonth(obj.optString("yearMonth"));
+                                item.setUrl(ApplicationData.getImgPrefix() + obj.optString("url"));
+
+                                mList.add(item);
+                            }
+                        }
+
+                        loadPdf();
+                    }
+                } catch (JSONException ignored) {
+                } finally {
+                }
+            }
+        });
+    }
+
+
+
+    private void loadPdf(){
+
+        String mon = tv_mon.getText().toString().replace(".", "-");
+        String url = "";
+
+        for(int i=0; i< mList.size(); i++) {
+            if (mList.get(i).getYearMonth().equals(mon)) {
+                url = mList.get(i).getUrl();
+                break;
+            }
         }
 
-        fromNetwork(mList.get(i));
+        if(url.equals("")) {
+            showError("등록된 레포트가 없습니다.");
+        } else {
+            fromNetwork(url);
+        }
     }
 
     private void fromNetwork(String endpoint) {
@@ -236,7 +267,7 @@ public class ReportFragment extends BaseFragment {
                 if(popup.getResult().equals("ok")) {
                     String fromDate = popup.getResultDate();
                     tv_mon.setText(fromDate.substring(0, 4) + "." + fromDate.substring(4, 6));
-                    getData();
+                    loadPdf();
                 }
             }
         });

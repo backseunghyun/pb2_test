@@ -82,8 +82,7 @@
                     android:background="@drawable/shape_circle_ff0000"
                     android:textSize="10dp"
                     android:textColor="@color/c_ffffff"
-                    android:gravity="center"
-                    android:text="3"/>
+                    android:gravity="center"/>
             </RelativeLayout>
 
             <RelativeLayout

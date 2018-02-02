@@ -58,6 +58,7 @@ import kr.co.igo.pleasebuy.ui.StatisticsDetailAllActivity;
 import kr.co.igo.pleasebuy.ui.StatisticsDetailCategoryActivity;
 import kr.co.igo.pleasebuy.util.ApplicationData;
 import kr.co.igo.pleasebuy.util.FragmentName;
+import kr.co.igo.pleasebuy.util.Preference;
 
 /**
  * Created by Back on 2016-09-29.
@@ -74,6 +75,7 @@ public class StatisticsFragment extends BaseFragment {
 
     private String fromDate;
     private String toDate;
+    private static Preference preference;
 
     public StatisticsFragment()  {
 
@@ -90,6 +92,7 @@ public class StatisticsFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_statistics, container, false);
         ButterKnife.bind(this, view);
+        preference = new Preference();
 
         setInit();
         setCategoryItem();
@@ -302,7 +305,7 @@ public class StatisticsFragment extends BaseFragment {
                         gl_category.removeAllViews();
                         mDataList.clear();
 
-                        JSONArray jsonArray = response.getJSONArray("categoryList");
+                        JSONArray jsonArray = response.getJSONArray("categoryStoreGroupList");
                         for(int i = 0; i < jsonArray.length(); i++) {
                             JSONObject obj = jsonArray.getJSONObject(i);
                             if (obj != null) {
@@ -313,7 +316,11 @@ public class StatisticsFragment extends BaseFragment {
                                 TextView tv_percent = (TextView) v.findViewById(R.id.tv_percent);
 
                                 String item = obj.optString("value");
-                                mDataList.add(item);
+                                int categoryId = obj.optInt("categoryId");
+
+
+
+//                                mDataList.add(item);
 
                                 tv_title.setText(item);
                                 tv_percent.setText(i + "%");
@@ -327,7 +334,46 @@ public class StatisticsFragment extends BaseFragment {
                                         selectedCategory((Integer) v.getTag());
                                     }
                                 });
+
+                                mDataList.add(item);
                                 gl_category.addView(v);
+
+//                                if (preference.getStringPreference(Preference.PREFS_KEY.LOGIN_ID).contains("ccb")){
+//                                    if( (7 <= categoryId  && categoryId <= 11)){
+//                                        mDataList.add(item);
+//                                        gl_category.addView(v);
+//                                    }
+//                                } else if (preference.getStringPreference(Preference.PREFS_KEY.LOGIN_ID).contains("pig")){
+//                                    if( 1 <= categoryId  && categoryId <= 5 ){
+//                                        mDataList.add(item);
+//                                        gl_category.addView(v);
+//                                    }
+//                                } else if (preference.getStringPreference(Preference.PREFS_KEY.LOGIN_ID).contains("jeju")){
+//                                    if(12 <= categoryId  && categoryId <= 16 ){
+//                                        mDataList.add(item);
+//                                        gl_category.addView(v);
+//                                    }
+//                                } else if (preference.getStringPreference(Preference.PREFS_KEY.LOGIN_ID).contains("wcafe")){
+//                                    if(17 <= categoryId  && categoryId <= 19 ){
+//                                        mDataList.add(item);
+//                                        gl_category.addView(v);
+//                                    }
+//                                } else if (preference.getStringPreference(Preference.PREFS_KEY.LOGIN_ID).contains("9cafe")){
+//                                    if(17 <= categoryId  && categoryId <= 19 ){
+//                                        mDataList.add(item);
+//                                        gl_category.addView(v);
+//                                    }
+//                                } else if (preference.getStringPreference(Preference.PREFS_KEY.LOGIN_ID).contains("hcafe")){
+//                                    if(20 <= categoryId  && categoryId <= 25 ){
+//                                        mDataList.add(item);
+//                                        gl_category.addView(v);
+//                                    }
+//                                }
+//                                else {
+//                                    mDataList.add(item);
+//                                    gl_category.addView(v);
+//                                }
+
                             }
                         }
 

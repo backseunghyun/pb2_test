@@ -312,7 +312,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //                            .setBreadCrumbTitle(index.value())
 //                            .addToBackStack(null)
 //                            .commit();
-
+//
                     showError("준비중입니다.");
                     break;
                 case HISTORY: // 주문 히스토리
@@ -335,11 +335,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             .commit();
                     break;
                 case REPORT: // 월간리포트
-//                    ft.replace(R.id.fl_container, reportFragment)
-//                            .setBreadCrumbTitle(index.value())
-//                            .addToBackStack(null)
-//                            .commit();
-                    showError("준비중입니다.");
+                    ft.replace(R.id.fl_container, reportFragment)
+                            .setBreadCrumbTitle(index.value())
+                            .addToBackStack(null)
+                            .commit();
+//                    showError("준비중입니다.");
                     break;
                 case SETTING: // 설정
                     ft.replace(R.id.fl_container, settingFragment)
